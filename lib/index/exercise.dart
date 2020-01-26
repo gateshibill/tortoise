@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:example/chart/line_chart/samples/line_chart_sample3.dart';
+//import 'package:example/chart/line_chart/samples/line_chart_sample3.dart';
 import 'package:flutter/material.dart';
 
 double PI = 3.14159265;
@@ -115,7 +115,7 @@ class _ExerciseState extends State<Exercise> with TickerProviderStateMixin {
                     "       ",
                     style: Theme.of(context).textTheme.subhead,
                   ),
-                  LineChartSample3(),
+                 // LineChartSample3(),
                   Text(
                     "       ",
                     style: Theme.of(context).textTheme.subhead,

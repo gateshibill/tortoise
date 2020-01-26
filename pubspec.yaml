@@ -16,7 +16,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  fl_chart:
+    #fl_chart:
     #path: ../
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -26,6 +26,10 @@ dependencies:
   shared_preferences: ^0.5.2
   cached_network_image: ^1.0.0
   dio: 3.0.7
+  fl_chart: ^0.5.0
+  flustars: ^0.2.6+1
+cached_network_image: ^1.0.0
+flutter_html_view: 0.5.2
 
 dev_dependencies:
   build_runner: any
@@ -48,9 +52,9 @@ flutter:
     - assets/
     - assets/images/
   fonts:
-  - family: Digital
-    fonts:
-    - asset: assets/digital-7.ttf
+    - family: Digital
+      fonts:
+        - asset: assets/digital-7.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:

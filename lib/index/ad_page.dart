@@ -20,7 +20,6 @@ class _AdPageState extends State<AdPage> {
       ),
       body: Center(
           child: Image.asset(
-           // 'assets/images/bg1.jpg',
             bg,
             fit: BoxFit.cover,
           ),

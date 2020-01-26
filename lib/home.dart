@@ -1,17 +1,11 @@
 import 'package:example/scatter_chart/scatter_chart_page.dart';
 import 'package:flutter/material.dart';
 
-import 'chart/bar_chart/bar_chart_page.dart';
-import 'chart/bar_chart/bar_chart_page2.dart';
-import 'chart/line_chart/line_chart_page.dart';
-import 'chart/line_chart/line_chart_page2.dart';
-import 'chart/line_chart/line_chart_page3.dart';
-import 'chart/line_chart/line_chart_page4.dart';
-import 'chart/pie_chart/pie_chart_page.dart';
+
 import 'index/ad_page.dart';
 import 'index/exercise.dart';
-import 'index/index.dart';
-import 'index/report.dart';
+import 'index/check.dart';
+import 'index/relax_page.dart';
 import 'index/spread_page.dart';
 
 //void main() => runApp(MyApp());
@@ -48,23 +42,13 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: PageView(
           children: <Widget>[
-            Index(),
+            Check(),
             Exercise(),
             SpreadPage(),
-            AdPage(bg: "assets/images/bg2.jpg"),
+            RelaxPage(bg: "assets/images/bg2.jpg"),
             AdPage(bg: 'assets/images/bg3.jpg'),
             AdPage(bg: 'assets/images/bg4.jpg'),
             AdPage(bg: 'assets/images/bg5.jpg'),
-            LineChartPage2(),
-          //  ReportPage(),
-           // LineChartPage(),
-          //  BarChartPage(),
-           // BarChartPage2(),
-           // PieChartPage(),
-           // LineChartPage3(),
-           // LineChartPage4(),
-           // ScatterChartPage(),
-
           ],
         ),
       ),
