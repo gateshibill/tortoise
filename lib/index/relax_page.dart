@@ -46,7 +46,7 @@ class _RelaxPageState extends State<RelaxPage> {
                     children: <Widget>[
                       Positioned.fill(
                       //  child: Text("凌波不过横塘路，但目送、芳尘去。锦瑟华年谁与度？")
-                    child: Text(topicList[Random().nextInt(topicList.length)].content)
+                    child: Text(multiList[Random().nextInt(multiList.length)].content)
                       ),
                       Align(
                         alignment: FractionalOffset.center,

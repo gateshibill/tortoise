@@ -17,8 +17,9 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   double rate;
   String resultTip;
   double lastTime = 0;
-  double time = 0;
-  String text="开始";
+  double spentTime = 0;
+  String commandText="开始";
+  int state=0;
 
   String get timerString {
     Duration duration =
@@ -121,14 +122,14 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                         style: Theme.of(context).textTheme.subhead,
                       ),
                       Text(
-                        time == 0 ? "　　　　　　　　开始　　　　　　　　" :"　　　　　　　　结束　　　　　　　　" ,
+                        state == 0 ? "　　　　　　　　开始　　　　　　　　" :"　　　　　　　　结束　　　　　　　　" ,
                         style: Theme.of(context).textTheme.subhead,
                       ),
                       Text(
                         "　　　　　　　　　　　　　　　　　　　",
                         style: Theme.of(context).textTheme.subhead,
                       ),
-                      controlButtons(),
+                   //   controlButtons(),
 
                       Text(
                         "　　　　　　　　　　　　　　　　　　　",
@@ -148,23 +149,6 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
     );
   }
 
-  Widget controlButtons() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-      //  FloatingActionButton(
-          //child:
-          AnimatedBuilder(
-              animation: animationController,
-              builder: (_, Widget child) {
-                return Icon(animationController.isAnimating
-                    ? Icons.pause
-                    : Icons.play_arrow);
-              }),
-      ],
-    );
-  }
-
   void swithButton() {
     setState(() {
       print("animationController:${animationController.isAnimating}");
@@ -172,16 +156,18 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
           animationController.value;
       if (animationController.isAnimating) {
         animationController.stop();
-        time = lastTime - now;
+        spentTime = lastTime - now;
+        state=0;
       } else {
         animationController.reverse(
             from: animationController.value == 0.0
                 ? 1.0
                 : animationController.value);
-        time = 0;
+        spentTime = 0;
+        state=1;
       }
       print(
-          "current:$lastTime|$now|$time|${animationController.value}");
+          "current:$lastTime|$now|$spentTime|${animationController.value}");
       lastTime = animationController.duration.inSeconds *
           animationController.value;
     });
@@ -192,23 +178,15 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          time == 0 ? "　　　　　　　　　　　　　" : getTime(time),
+          spentTime == 0 ? "　　　　　　　　　　　　　" : getScoreTips(spentTime),
           style: Theme.of(context).textTheme.headline,
         ),
         Text(
-          time == 0 ? "　　　　　　　　　　　　　" : getRate(time),
+          spentTime == 0 ? "　　　　　　　　　　　　　" : getRateTips(spentTime),
           style: Theme.of(context).textTheme.headline,
         ),
-//        Text(
-//          time == 0 ? "风又飘飘，雨又萧萧" : "",
-//          style: Theme.of(context).textTheme.subhead,
-//        ),
-//        Text(
-//    time == 0 ? "红了樱桃，绿了芭蕉" : "",
-//          style: Theme.of(context).textTheme.subhead,
-//        ),
         Text(
-          topicList[Random().nextInt(topicList.length)].content,
+          sentenceList[Random().nextInt(sentenceList.length)].content,
           style: Theme.of(context).textTheme.subhead,
         ),
         Text(
@@ -220,7 +198,7 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
   }
 }
 
-String getTime(double timeCount) {
+String getScoreTips(double timeCount) {
   double rate = 0;
   String tip = "";
   if (timeCount < 10) {
@@ -235,7 +213,7 @@ String getTime(double timeCount) {
   return tip;
 }
 
-String getRate(double timeCount) {
+String getRateTips(double timeCount) {
   double rate = 0;
   String tip = "";
   if (timeCount < 10) {
@@ -285,17 +263,6 @@ class TimerPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    // Paint paint = Paint()
-//      ..color = backgroundColor
-//      ..strokeWidth = 5.0
-//      ..strokeCap = StrokeCap.round
-//      ..style = PaintingStyle.stroke;
-//
-//    canvas.drawCircle(size.center(Offset.zero), size.width / 2.0, paint);
-//    paint.color = color;
-//    double progress = (1.0 - animation.value) * 2 * PI;
-//    canvas.drawArc(Offset.zero & size, PI * 1.2, -progress, false, paint);
-//    // TODO: implement paint
     Paint paint = Paint()
       ..color = backgroundColor
       ..strokeWidth = 5.0
@@ -307,6 +274,7 @@ class TimerPainter extends CustomPainter {
     double progress = (1.0 - animation.value) * 2 * PI;
     canvas.drawArc(
         new Offset(36, 36) & size * 0.8, PI * 1.5, progress, false, paint);
+    canvas.drawLine(new Offset(0, 0), new Offset(progress*50, 0), paint);
   }
 
   @override

@@ -44,9 +44,11 @@ class HttpClient {
         TopicModelList modelList = TopicModelList.fromJson(list);
         resultList = modelList.topicModelList;
         resultList.forEach((topic) {
-//          if (2 == topic.type) {
-//            LogMyUtil.v("$TAG group:${topic.detail}");
-//          }
+          if (1 == topic.type) {
+            sentenceList.add(topic);
+          }else{
+            multiList.add(topic);
+          }
         });
       } else {
         String msg = parsed["msg"];

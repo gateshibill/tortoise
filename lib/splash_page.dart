@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:example/home.dart';
+import 'package:example/index/index.dart';
 import 'package:flutter/material.dart';
 
 //import 'index/index_page.dart';
@@ -85,7 +85,7 @@ class _SplashPage extends State<SplashPage> {
       //跳转主页 且销毁当前页面
      // Navigator.of(context).pushAndRemoveUntil(newRoute, predicate);
       Navigator.of(context).pushAndRemoveUntil<dynamic >(
-          MaterialPageRoute<dynamic>(builder: (context) => new Home()),
+          MaterialPageRoute<dynamic>(builder: (context) => new Index()),
           (Route<dynamic> rout) => false);
       isStartHomePage = true;
     }

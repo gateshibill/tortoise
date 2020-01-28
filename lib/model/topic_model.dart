@@ -16,7 +16,7 @@ class TopicModel {
   String content;
   String poster; //海报
   String url;
-  int type; //0:html,1:text,2 group card
+  int type; //
   String audience;
   int hits;
   int applauds;
