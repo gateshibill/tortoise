@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:example/common/data.dart';
 import 'package:flutter/material.dart';
+
+import 'check.dart';
 //import 'package:date_format/date_format.dart'
 
 class HomePage extends StatefulWidget {
@@ -44,7 +46,7 @@ class _HomePageState extends State<HomePage> {
               //1.空站位
               width: width,
               height: 50,
-              color: Colors.black12,
+             // color: Colors.black12,
               child: Row(children: <Widget>[
                        Container(
                          width: 10,
@@ -71,10 +73,10 @@ class _HomePageState extends State<HomePage> {
               ])
             ),
             Container(
-              //1.空站位
+              //tips
               width: width,
               height: 100,
-              color: Colors.black12,
+             // color: Colors.black12,
               child:
               Text(
                   sentenceList[Random().nextInt(sentenceList.length)].content,
@@ -84,31 +86,51 @@ class _HomePageState extends State<HomePage> {
                 ),),
             ),
             Container(
-              //2.标题
+              //2.站位
               width: width,
               height: 100,
-              color: Colors.black12,
+            //  color: Colors.black12,
               child: Text(''),
             ),
             Container(
               //3.tips
               width: width,
-              height: 200,
-              color: Colors.black12,
+              height: 280,
+             // color: Colors.black12,
               child: Text(''),
             ),
             Container(
-              //4.中间站位
+              //4.按钮
+              width: 500,
+              height: 40,
+              alignment: Alignment.bottomLeft,
+              //color: Colors.black12,
+              child: RaisedButton(
+                  child: Text('BOLT测试'),
+                  color: Colors.blue,
+                  textColor: Colors.white,
+                  elevation: 20,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  onPressed: () {
+                    print("圆角按钮");
+                    Navigator.push(context, MaterialPageRoute(builder: (context) {
+                      return Check();
+                    }));
+                  }),
+            ),
+            Container(
+              //5.站位
               width: width,
-              height: 100,
-              color: Colors.black12,
-              child: Text(''),
+              height: 30,
+             // color: Colors.black12,
+              // child: Text('Container固定宽高'),
             ),
             Container(
               //5.分割线
               width: width,
               height: 2,
-              color: Colors.grey[200],
+             // color: Colors.grey[200],
               child: DecoratedBox(
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey[200], width: 1.0)),
@@ -119,15 +141,15 @@ class _HomePageState extends State<HomePage> {
             Container(
               //4.中间站位
               width: width,
-              height: 50,
-              color: Colors.black12,
+              height: 30,
+             // color: Colors.black12,
             ),
             menuTap(),
             Container(
-              //5.分割线
+              //5.底部站位
               width: width,
               height: 20,
-              color: Colors.black12,
+              //color: Colors.black12,
               // child: Text('Container固定宽高'),
             ),
           ],
