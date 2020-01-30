@@ -27,27 +27,14 @@ class _TrainPageState extends State<TrainPage>  with TickerProviderStateMixin {
   _TrainPageState({this.bg});
   AnimationController animationController;
 
-
-//  double rate;
-//  String resultTip;
-  double lastTime = 0;
-  double spentTime = 0;
-  String commandText="开始";
-  //int state=0;
-
   String bg;
   double width = 500;
   double height = 100;
-
-
 
   @override
   Widget build(BuildContext context) {
     print(bg);
     return Scaffold(
-//      appBar: AppBar(
-//        title: Text('bg'),
-//      ),
       body: Container(
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
@@ -105,10 +92,9 @@ class _TrainPageState extends State<TrainPage>  with TickerProviderStateMixin {
               //1.训练1
               width: width,
               height: 50,
-            //  color: Colors.black12,
-//              child:  Expanded(
+              alignment: Alignment.bottomLeft,
               child:  Align(
-              alignment: FractionalOffset.center,
+              alignment: FractionalOffset.bottomLeft,
               child: AspectRatio(
                 aspectRatio: 1.0,
                 child: Stack(
@@ -151,20 +137,6 @@ class _TrainPageState extends State<TrainPage>  with TickerProviderStateMixin {
               //  color: Colors.black12,
               child: Text(''),
             ),
-//            Container(
-//              //2.1.训练5
-//              width: width,
-//              height: 50,
-//              //  color: Colors.black12,
-//              child: Text(''),
-//            ),
-//            Container(
-//              //3.tips
-//              width: width,
-//              height: 100,
-//             // color: Colors.black12,
-//              child: Text(''),
-//            ),
             //屏息切换
             Container(//屏息切换
               //4.按钮
@@ -249,8 +221,6 @@ class _TrainPageState extends State<TrainPage>  with TickerProviderStateMixin {
               //5.底部站位
               width: width,
               height: 20,
-              //color: Colors.black12,
-              // child: Text('Container固定宽高'),
             ),
           ],
         ),
@@ -361,20 +331,17 @@ class _TrainPageState extends State<TrainPage>  with TickerProviderStateMixin {
           animationController.value;
       if (animationController.isAnimating) {
         animationController.stop();
-        spentTime = lastTime - now;
+     //   spentTime = lastTime - now;
         //state=0;
       } else {
         animationController.reverse(
             from: animationController.value == 0.0
                 ? 1.0
                 : animationController.value);
-        spentTime = 0;
+      //  spentTime = 0;
       //  state=1;
       }
-      print(
-          "current:$lastTime|$now|$spentTime|${animationController.value}");
-      lastTime = animationController.duration.inSeconds *
-          animationController.value;
+
       state = 1;
       Offset lastPoint= new Offset(0.0, 0.0);
       Offset currentPoint= new Offset(0.0, 0.0);
@@ -436,31 +403,15 @@ class TimerPainterLiner extends CustomPainter {
       ..strokeWidth = 5.0
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
-
-   // canvas.drawCircle(size.center(Offset.zero), size.width / 2.5, paint);
     paint.color = color;
     double progress = (1.0 - animation.value) * 2 * PI;
-//    canvas.drawArc(
-//        new Offset(36, 36) & size * 0.8, PI * 1.5, progress, false, paint);
-
-//    if(1==breath){
-//      Offset current= Offset(progress*50,10);
-//      LineModel model = new LineModel(start: lastOffset,end: current);
-//      lines.add(model);
-//      lastOffset = new Offset(progress*50,10);
-//    }else if(0==breath){
-//      Offset current= Offset(progress*50,0);
-//      LineModel model = new LineModel(start: lastOffset,end: current);
-//      lines.add(model);
-//      lastOffset = new Offset(progress*50,0);
-//    }
     if(0==state){
       print("unstart");
       return ;
     }
     lineModel.end= new Offset(progress*50,0);
     for(LineModel model in travelModel.list){
-      canvas.drawLine(model.start, model.end, paint);
+      canvas.drawLine(new Offset(0, 0), model.end, paint);
     }
 
   }

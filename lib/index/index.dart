@@ -1,5 +1,6 @@
 import 'package:example/index/home_page.dart';
 import 'package:example/index/train_page.dart';
+import 'package:example/index/travel_page.dart';
 import 'package:flutter/material.dart';
 
 import 'check.dart';
@@ -42,7 +43,9 @@ class _MyHomePageState extends State<MyHomePage> {
             HomePage(bg: 'assets/images/bg5.jpg'),
             Check(),
             TrainPage(bg: 'assets/images/bg1.jpg'),
+            TravelPage(),
             SpreadPage(),
+
            // RelaxPage(bg: "assets/images/bg2.jpg"),
             //AdPage(bg: 'assets/images/bg3.jpg'),
             //DrawLinePage(),

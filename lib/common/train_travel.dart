@@ -21,6 +21,7 @@ import 'config.dart';
         break;
       case 1://屏息
        lastPoint=new Offset(0, 0) ;
+       startDateTime= DateTime.now().second;
         break;
       case 2://吸气
         currentTime= DateTime.now().second;
