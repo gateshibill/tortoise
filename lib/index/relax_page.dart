@@ -21,12 +21,6 @@ class _RelaxPageState extends State<RelaxPage> {
       appBar: AppBar(
         title: Text('bg'),
       ),
-//      body: Center(
-//          child: Image.asset(
-//            bg,
-//            fit: BoxFit.cover,
-//          ),
-//        ),
       body: Container(
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(

@@ -1,14 +1,8 @@
-import 'package:example/index/Home.dart';
-import 'package:example/scatter_chart/scatter_chart_page.dart';
+import 'package:example/index/home_page.dart';
+import 'package:example/index/train_page.dart';
 import 'package:flutter/material.dart';
 
-
-import 'ad_page.dart';
-import 'animation_page.dart';
-import 'drawLine_page.dart';
-import 'exercise.dart';
 import 'check.dart';
-import 'relax_page.dart';
 import 'spread_page.dart';
 
 //void main() => runApp(MyApp());
@@ -47,14 +41,11 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             HomePage(bg: 'assets/images/bg5.jpg'),
             Check(),
-            Exercise(),
+            TrainPage(bg: 'assets/images/bg1.jpg'),
             SpreadPage(),
-            RelaxPage(bg: "assets/images/bg2.jpg"),
-            AdPage(bg: 'assets/images/bg3.jpg'),
-           // AdPage(bg: 'assets/images/bg4.jpg'),
-           // AdPage(bg: 'assets/images/bg5.jpg'),
-            //AnimationRoute(),
-            DrawLinePage(),
+           // RelaxPage(bg: "assets/images/bg2.jpg"),
+            //AdPage(bg: 'assets/images/bg3.jpg'),
+            //DrawLinePage(),
           ],
         ),
       ),

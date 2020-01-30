@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:example/common/data.dart';
 import 'package:flutter/material.dart';
+import '../common/config.dart';
 
-double PI = 3.14159265;
 
 class Check extends StatefulWidget {
   @override
@@ -274,7 +274,6 @@ class TimerPainter extends CustomPainter {
     double progress = (1.0 - animation.value) * 2 * PI;
     canvas.drawArc(
         new Offset(36, 36) & size * 0.8, PI * 1.5, progress, false, paint);
-    canvas.drawLine(new Offset(0, 0), new Offset(progress*50, 0), paint);
   }
 
   @override

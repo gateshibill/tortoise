@@ -3,8 +3,10 @@
 
 import 'package:flutter/material.dart';
 class LineModel {
-  var start;
-  var end;
+  Offset start;
+  Offset end;
+
+
   LineModel( {this.start,this.end});
 
    setStart(double x,double y){

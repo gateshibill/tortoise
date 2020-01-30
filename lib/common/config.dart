@@ -1,5 +1,7 @@
 
 
+const double PI = 3.14159265;
+
 const String BASE_SERVER_URL="http://www.haoshi360.com/suit_tiles";
 
 
