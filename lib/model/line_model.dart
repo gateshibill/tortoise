@@ -13,4 +13,7 @@ class LineModel {
     start=   new Offset(x, y);
   }
 
+  LineModel copy(){
+    return new LineModel(start:Offset(this.start.dx,this.start.dy),end:Offset(this.end.dx,this.end.dy));
+  }
 }
