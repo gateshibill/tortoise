@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 import '../common/config.dart';
 
 
-class Check extends StatefulWidget {
+class CheckPage extends StatefulWidget {
   @override
-  _CheckState createState() => _CheckState();
+  _CheckPageState createState() => _CheckPageState();
 }
 
-class _CheckState extends State<Check> with TickerProviderStateMixin {
+class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
   AnimationController animationController;
   double average;
   List<int> records = [];
@@ -77,7 +77,6 @@ class _CheckState extends State<Check> with TickerProviderStateMixin {
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
-
                             AnimatedBuilder(
                                 animation: animationController,
                                 builder: (_, Widget child) {

@@ -30,6 +30,13 @@
             </list>
           </value>
         </entry>
+        <entry key="audioplayers">
+          <value>
+            <list>
+              <option value="C:/flutter/.pub-cache/hosted/pub.flutter-io.cn/audioplayers-0.13.6/lib" />
+            </list>
+          </value>
+        </entry>
         <entry key="boolean_selector">
           <value>
             <list>
@@ -611,6 +618,7 @@
       <root url="file://C:/flutter/.pub-cache/hosted/pub.flutter-io.cn/analyzer_plugin-0.2.1/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.flutter-io.cn/args-1.5.2/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.flutter-io.cn/async-2.3.0/lib" />
+      <root url="file://C:/flutter/.pub-cache/hosted/pub.flutter-io.cn/audioplayers-0.13.6/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.flutter-io.cn/boolean_selector-1.0.5/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.flutter-io.cn/build-1.2.2/lib" />
       <root url="file://C:/flutter/.pub-cache/hosted/pub.flutter-io.cn/build_config-0.4.1+1/lib" />

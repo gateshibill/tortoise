@@ -5,7 +5,7 @@ import 'package:example/model/line_model.dart';
 import 'package:example/model/travel_model.dart';
 import 'package:flutter/material.dart';
 import '../common/config.dart';
-import 'check.dart';
+import 'check_page.dart';
 
 int breath=-1;
 //List<LineModel> lines=[];

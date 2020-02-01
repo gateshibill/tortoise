@@ -28,9 +28,11 @@ dependencies:
   dio: 3.0.7
   fl_chart: ^0.5.0
   flustars: ^0.2.6+1
+  audioplayers: ^0.13.0
 cached_network_image: ^1.0.0
 flutter_html_view: 0.5.2
 date_format: ^1.0.8
+
 
 dev_dependencies:
   build_runner: any
@@ -52,6 +54,7 @@ flutter:
   assets:
     - assets/
     - assets/images/
+    - assets/music/
   fonts:
     - family: Digital
       fonts:

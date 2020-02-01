@@ -1,22 +1,21 @@
 import 'dart:math';
-
+import 'package:audioplayers/audioplayers.dart';
 import 'package:example/common/data.dart';
 import 'package:flutter/material.dart';
-import './spread_widget.dart';
+
 
 class RelaxPage extends StatefulWidget {
-  RelaxPage({this.bg});
-  String bg;
   @override
-  _RelaxPageState createState() => _RelaxPageState(bg:this.bg);
+  _RelaxPageState createState() => _RelaxPageState();
 }
 
 class _RelaxPageState extends State<RelaxPage> {
-  _RelaxPageState({this.bg});
-  String bg;
+  String command = '播放';
+
+  AudioPlayer audioPlayer = AudioPlayer();
   @override
   Widget build(BuildContext context) {
-    print(bg);
+    //print(bg);
     return Scaffold(
       appBar: AppBar(
         title: Text('bg'),
@@ -25,7 +24,7 @@ class _RelaxPageState extends State<RelaxPage> {
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(bg),
+            image: AssetImage("assets/images/bg2.jpg"),
             fit: BoxFit.cover,
           ),
         ),
@@ -51,10 +50,42 @@ class _RelaxPageState extends State<RelaxPage> {
                 ),
               ),
             ),
+            CircleAvatar(
+              radius: 70.0,
+              // backgroundImage: AssetImage("assets/images/bg3.jpg"),
+              backgroundColor: Colors.blueGrey,
+              child: RaisedButton(
+                  child: Text(command,
+                      style: new TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.0,
+                      )),
+                  color: Colors.transparent,
+                  textColor: Colors.white,
+                  elevation: 100,
+                  shape: CircleBorder(),
+                  onPressed: () {
+                    startButton();
+                  }),
+            ),
           ],
         ),
       ),
     );
   }
+  @override
+  void initState() {
+    super.initState();
+    startButton();
+  }
 
+  void startButton() async{
+    print("startButton()");
+    int result = await audioPlayer.play("assets/music/naturespath.mp3");
+    if (result == 1) {
+      print('play success');
+    } else {
+      print('play failed');
+    }
+  }
 }

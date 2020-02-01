@@ -6,7 +6,7 @@ import 'package:example/model/line_model.dart';
 import 'package:example/model/travel_model.dart';
 import 'package:flutter/material.dart';
 import '../common/config.dart';
-import 'check.dart';
+import 'check_page.dart';
 
 int breath = -1;
 TravelModel currentTravelModel = new TravelModel();
@@ -47,12 +47,53 @@ class _TravelPageState extends State<TravelPage> with TickerProviderStateMixin {
           children: <Widget>[
             Container(
               width: 200,
-              height: 200,
+              height: 20,
             ),
+            Container(
+                //1.空站位
+                width: width,
+                height: 50,
+                // color: Colors.black12,
+                child: Row(children: <Widget>[
+                  Container(
+                    width: 10,
+                    height: 50,
+                  ),
+                  Text("晚上好 12:12",
+                      style: new TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.0,
+                      )),
+                  Container(
+                    width: 200,
+                    height: 50,
+                  ),
+                  new CircleAvatar(
+                    radius: 15.0,
+                    backgroundImage: AssetImage("assets/images/bg3.jpg"),
+                  )
+                ])),
+            Container(
+              //tips
+              width: width,
+              height: 100,
+              // color: Colors.black12,
+              child: Text(
+                sentenceList[Random().nextInt(sentenceList.length)].content,
+                style: new TextStyle(
+                  color: Colors.white,
+                  fontSize: 15.0,
+                ),
+              ),
+            ),
+//            Container(
+//              width: 200,
+//              height: 50,
+//            ),
             Container(
               //1.训练1
               width: width,
-              height: 50,
+              height: 70,
               alignment: Alignment.bottomLeft,
               child: Align(
                 alignment: FractionalOffset.bottomLeft,
@@ -68,63 +109,65 @@ class _TravelPageState extends State<TravelPage> with TickerProviderStateMixin {
                               painter: TimerPainterLiner(
                                   animation: animationController,
                                   backgroundColor: Colors.white,
-                                  color: Theme.of(context).accentColor),
+                                  color: Theme.of(context).accentColor,
+                                  endCallback: endButton),
                             );
                           },
                         ),
                       ),
+                      Align(
+                        alignment: FractionalOffset.bottomLeft,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget>[
+                            AnimatedBuilder(
+                                animation: animationController,
+                                builder: (_, Widget child) {
+                                  return Text(
+                                    timerString,
+                                    style: Theme.of(context).textTheme.display1,
+                                  );
+                                })
+                          ],
+                        ),
+                      )
                     ],
                   ),
                 ),
               ),
             ),
             //屏息切换
-            Container(
-              //屏息切换
-              //4.按钮
-              width: 500,
-              height: 40,
-              alignment: Alignment.bottomLeft,
-              //color: Colors.black12,
+            CircleAvatar(
+              radius: 70.0,
+              // backgroundImage: AssetImage("assets/images/bg3.jpg"),
+              backgroundColor: Colors.blueGrey,
               child: RaisedButton(
-                  child: Text(command),
-                  color: Colors.blue,
+                  child: Text(command,
+                      style: new TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.0,
+                      )),
+                  color: Colors.transparent,
                   textColor: Colors.white,
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
+                  elevation: 100,
+                  shape: CircleBorder(),
                   onPressed: () {
                     startButton();
                   }),
             ),
-            //呼吸切换
-            Container(
-              //4.按钮
-              width: 500,
-              height: 40,
-              alignment: Alignment.bottomLeft,
-              //color: Colors.black12,
-              child: RaisedButton(
-                  child: Text('自由呼吸'),
-                  color: Colors.blue,
-                  textColor: Colors.white,
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  onPressed: () {
-                    breathButton();
-                  }),
-            ),
+
             //呼吸切换
             Container(
               //4.结束
-              width: 500,
-              height: 40,
-              alignment: Alignment.bottomLeft,
+              padding: const EdgeInsets.only(top: 30.0),
+              width: 100,
+              height: 70,
+              // alignment: Alignment.bottomLeft,
               //color: Colors.black12,
               child: RaisedButton(
                   child: Text('结束'),
-                  color: Colors.blue,
+                  color: Colors.brown,
                   textColor: Colors.white,
                   elevation: 20,
                   shape: RoundedRectangleBorder(
@@ -133,23 +176,23 @@ class _TravelPageState extends State<TravelPage> with TickerProviderStateMixin {
                     endButton();
                   }),
             ),
-            Container(
-              //4.结束
-              width: 500,
-              height: 40,
-              alignment: Alignment.bottomLeft,
-              //color: Colors.black12,
-              child: RaisedButton(
-                  child: Text('清理'),
-                  color: Colors.blue,
-                  textColor: Colors.white,
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  onPressed: () {
-                    clearButton();
-                  }),
-            ),
+//            Container(
+//              //4.结束
+//              width: 500,
+//              height: 40,
+//              alignment: Alignment.bottomLeft,
+//              //color: Colors.black12,
+//              child: RaisedButton(
+//                  child: Text('清理'),
+//                  color: Colors.blue,
+//                  textColor: Colors.white,
+//                  elevation: 20,
+//                  shape: RoundedRectangleBorder(
+//                      borderRadius: BorderRadius.circular(15)),
+//                  onPressed: () {
+//                    clearButton();
+//                  }),
+//            ),
             Container(
               //4.中间站位
               width: width,
@@ -164,97 +207,49 @@ class _TravelPageState extends State<TravelPage> with TickerProviderStateMixin {
               // color: Colors.grey[200],
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                    border: Border.all(color: Colors.grey[200], width: 1.0)),
+                    border: Border.all(color: Colors.grey, width: 2.0)),
               ),
             ),
             Container(
               //4.中间站位
               width: width,
-              height: 30,
-              // color: Colors.black12,
-            ),
-            //历史记录
-//            Container(
-//              //1.训练1
-//              width: width,
-//              height: 50,
-//              alignment: Alignment.bottomLeft,
-//              child: Align(
-//                alignment: FractionalOffset.bottomLeft,
-//                child: AspectRatio(
-//                  aspectRatio: 1.0,
-//                  child: Stack(
-//                    children: <Widget>[
-//                      Positioned.fill(
-//                        child: AnimatedBuilder(
-//                          animation: animationController,
-//                          builder: (BuildContext context, Widget child) {
-//                            return CustomPaint(
-//                              painter: PainterLiner(
-//                                  animation: null,
-//                                  backgroundColor: Colors.white,
-//                                  color: Theme.of(context).accentColor,
-//                                  travelModel:
-//                                      travelList[travelList.length - 1]),
-//                            );
-//                          },
-//                        ),
-//                      ),
-//                    ],
-//                  ),
-//                ),
-//              ),
-//            ),
-            Container(
-              //历史2
-              width: width,
               height: 50,
-              //alignment: Alignment.bottomLeft,
-              child:  StreamBuilder(
-                builder: (context, snapshot) {
-                  return ListView.builder(
-                    //scrollDirection: Axis.vertical,
-                    itemBuilder: (BuildContext context, int index) {
-                      return getItem(context,travelList.length-index-1);
-                    },
-                    itemCount: travelList.length,
-                  );
-                }),
+              // color: Colors.black12,
             ),
             Container(
               //历史1
               width: width,
               height: 50,
               //alignment: Alignment.bottomLeft,
-              child: getItem(null,travelList.length-1),
+              child: getItem(null, travelList.length - 1),
             ),
             Container(
               //历史2
               width: width,
               height: 50,
               //alignment: Alignment.bottomLeft,
-              child: getItem(null,travelList.length-2),
+              child: getItem(null, travelList.length - 2),
             ),
             Container(
               //历史3
               width: width,
               height: 50,
               //alignment: Alignment.bottomLeft,
-              child: getItem(null,travelList.length-3),
+              child: getItem(null, travelList.length - 3),
             ),
             Container(
               //历史4
               width: width,
               height: 50,
               //alignment: Alignment.bottomLeft,
-              child: getItem(null,travelList.length-4),
+              child: getItem(null, travelList.length - 4),
             ),
             Container(
               //历史5
               width: width,
               height: 50,
               //alignment: Alignment.bottomLeft,
-              child: getItem(null,travelList.length-5),
+              child: getItem(null, travelList.length - 5),
             ),
           ],
         ),
@@ -269,32 +264,38 @@ class _TravelPageState extends State<TravelPage> with TickerProviderStateMixin {
         AnimationController(vsync: this, duration: Duration(seconds: 60));
   }
 
+  String get timerString {
+    Duration duration =
+        animationController.duration * animationController.value;
+    return '${duration.inMinutes}:${(60-(duration.inSeconds % 60)).toString().padLeft(2, '0')}';
+  }
+
   Widget history() {
     print("history() travelList.length=${travelList.length}");
-    int length=travelList.length;
+    int length = travelList.length;
     return ListView.builder(
-    //  scrollDirection: Axis.horizontal,
+      //  scrollDirection: Axis.horizontal,
       itemBuilder: (BuildContext context, int index) {
-        return getItem(context,length-index-1);
+        return getItem(context, length - index - 1);
       },
       itemCount: travelList.length,
     );
   }
 
-  Widget getItem(BuildContext context,int index){
+  Widget getItem(BuildContext context, int index) {
     print("getItem() index=${index}");
-    if(index<0){
+    if (index < 0) {
       return new Text("d");
     }
-    TravelModel model=travelList[index];
-    if(null==model){
+    TravelModel model = travelList[index];
+    if (null == model) {
       return new Text("dd");
     }
     return getHistoryTravel(model);
   }
 
   Widget getHistoryTravel(TravelModel model) {
-    if(null==model){
+    if (null == model) {
       return new Text("dd");
     }
     return new Container(
@@ -308,12 +309,11 @@ class _TravelPageState extends State<TravelPage> with TickerProviderStateMixin {
                 animation: animationController,
                 builder: (BuildContext context, Widget child) {
                   return CustomPaint(
-                    painter: PainterLiner(
-                        animation: null,
-                        backgroundColor: Colors.white,
-                        color: Theme.of(context).accentColor,
-                        travelModel:model)
-                  );
+                      painter: PainterLiner(
+                          animation: null,
+                          backgroundColor: Colors.white,
+                          color: Theme.of(context).accentColor,
+                          travelModel: model));
                 },
               ),
             ),
@@ -389,7 +389,7 @@ class _TravelPageState extends State<TravelPage> with TickerProviderStateMixin {
         currentLineModel.start = currentLineModel.end;
       }
       lastDateTime = new DateTime.now().millisecondsSinceEpoch;
-     // travelList.add(currentTravelModel.copy());
+      // travelList.add(currentTravelModel.copy());
     });
   }
 
@@ -425,8 +425,10 @@ class TimerPainterLiner extends CustomPainter {
   final Animation<double> animation;
   final Color backgroundColor;
   final Color color;
+  var endCallback;
 
-  TimerPainterLiner({this.animation, this.backgroundColor, this.color})
+  TimerPainterLiner(
+      {this.animation, this.backgroundColor, this.color, this.endCallback})
       : super(repaint: animation);
 
   @override
@@ -437,7 +439,7 @@ class TimerPainterLiner extends CustomPainter {
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
     paint.color = color;
-    double progress = (1.0 - animation.value) * 2 * PI;
+    // double progress = (1.0 - animation.value) * 2 * PI;
     if (0 == state) {
       print("unstart");
       return;
@@ -466,6 +468,12 @@ class TimerPainterLiner extends CustomPainter {
 
     for (LineModel model in currentTravelModel.list) {
       canvas.drawLine(model.start, model.end, paint);
+    }
+    if ((2 == state || 3 == state) && 50 < diff) {
+      endCallback();
+    }
+    if (1 == state && 299 < distance) {
+      endCallback();
     }
   }
 
@@ -509,6 +517,6 @@ class PainterLiner extends CustomPainter {
 //    return animation.value != old.animation.value ||
 //        color != old.color ||
 //        backgroundColor != old.backgroundColor;
-  return true;
+    return true;
   }
 }

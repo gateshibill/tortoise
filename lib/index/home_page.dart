@@ -2,7 +2,7 @@ import 'dart:math';
 import 'package:example/common/data.dart';
 import 'package:flutter/material.dart';
 
-import 'check.dart';
+import 'check_page.dart';
 //import 'package:date_format/date_format.dart'
 
 class HomePage extends StatefulWidget {
@@ -115,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () {
                     print("圆角按钮");
                     Navigator.push(context, MaterialPageRoute(builder: (context) {
-                      return Check();
+                      return CheckPage();
                     }));
                   }),
             ),

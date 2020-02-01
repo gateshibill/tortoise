@@ -14,7 +14,6 @@ class TravelModel {
 
   TravelModel copy(){
     TravelModel model=new TravelModel();
-    //model.list.addAll(this.list);
     list.forEach((f){
       model.list.add(f.copy());
     });
