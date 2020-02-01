@@ -46,8 +46,10 @@ class HttpClient {
         resultList.forEach((topic) {
           if (1 == topic.type) {
             sentenceList.add(topic);
-          }else{
+          }else if(0 == topic.type){
             multiList.add(topic);
+          }else if(2 == topic.type){
+            relaxMusicList.add(topic);
           }
         });
       } else {

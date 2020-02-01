@@ -1,4 +1,4 @@
-#Sat Feb 01 18:47:41 CST 2020
+#Sat Feb 01 23:19:56 CST 2020
 base.0=E\:\\project\\tortoise\\build\\app\\intermediates\\transforms\\dexMerger\\debug\\0
 path.0=classes.dex
 renamed.0=classes.dex

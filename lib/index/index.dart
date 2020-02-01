@@ -1,7 +1,6 @@
 import 'package:example/index/home_page.dart';
 import 'package:example/index/relax_page.dart';
-import 'package:example/index/train_page.dart';
-import 'package:example/index/travel_page.dart';
+import 'package:example/index/exercise_page.dart';
 import 'package:flutter/material.dart';
 
 import 'check_page.dart';
@@ -43,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             HomePage(bg: 'assets/images/bg5.jpg'),
             CheckPage(),
-            TravelPage(),
+            ExercisePage(),
             RelaxPage(),
             //TrainPage(bg: 'assets/images/bg1.jpg'),
             SpreadPage(),

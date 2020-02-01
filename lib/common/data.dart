@@ -8,6 +8,7 @@ String latestVersion;
 List<TopicModel> topicList=[];
 List<TopicModel> sentenceList=[];
 List<TopicModel> multiList=[];
+List<TopicModel> relaxMusicList=[];
 
 List <TravelModel> travelList=[];
 class Msg {

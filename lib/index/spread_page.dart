@@ -15,12 +15,12 @@ class _SpreadPageState extends State<SpreadPage> {
       ),
       body: Center(
         child: SpreadWidget(
-          radius: 100,
+          radius: 120,
           maxRadius: 350,
-          child: Image.asset(
-            'assets/game3.jpg',
-            fit: BoxFit.cover,
-          ),
+//          child: Image.asset(
+//            'assets/game3.jpg',
+//            fit: BoxFit.cover,
+//          ),
         ),
       ),
     );
