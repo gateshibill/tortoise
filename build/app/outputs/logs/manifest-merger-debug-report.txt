@@ -4,10 +4,12 @@ ADDED from E:\project\tortoise\android\app\src\main\AndroidManifest.xml:1:1-47:1
 INJECTED from E:\project\tortoise\android\app\src\main\AndroidManifest.xml:1:1-47:12
 INJECTED from E:\project\tortoise\android\app\src\main\AndroidManifest.xml:1:1-47:12
 INJECTED from E:\project\tortoise\android\app\src\main\AndroidManifest.xml:1:1-47:12
+MERGED from [:flutter_ijkplayer] E:\project\tortoise\build\flutter_ijkplayer\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:2:1-10:12
 MERGED from [:shared_preferences] E:\project\tortoise\build\shared_preferences\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:2:1-7:12
 MERGED from [:sqflite] E:\project\tortoise\build\sqflite\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:2:1-7:12
 MERGED from [:audioplayers] E:\project\tortoise\build\audioplayers\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:2:1-9:12
 MERGED from [:path_provider] E:\project\tortoise\build\path_provider\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:2:1-7:12
+MERGED from [:sensors] E:\project\tortoise\build\sensors\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:2:1-7:12
 INJECTED from E:\project\tortoise\android\app\src\main\AndroidManifest.xml:1:1-47:12
 INJECTED from E:\project\tortoise\android\app\src\main\AndroidManifest.xml:1:1-47:12
 INJECTED from E:\project\tortoise\android\app\src\main\AndroidManifest.xml:1:1-47:12
@@ -35,10 +37,14 @@ ADDED from E:\project\tortoise\android\app\src\main\AndroidManifest.xml:11:5-71
 		ADDED from E:\project\tortoise\android\app\src\main\AndroidManifest.xml:11:22-68
 uses-permission#android.permission.READ_EXTERNAL_STORAGE
 ADDED from E:\project\tortoise\android\app\src\main\AndroidManifest.xml:12:5-80
+MERGED from [:flutter_ijkplayer] E:\project\tortoise\build\flutter_ijkplayer\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:7:5-80
+MERGED from [:flutter_ijkplayer] E:\project\tortoise\build\flutter_ijkplayer\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:7:5-80
 	android:name
 		ADDED from E:\project\tortoise\android\app\src\main\AndroidManifest.xml:12:22-77
 uses-permission#android.permission.WRITE_EXTERNAL_STORAGE
 ADDED from E:\project\tortoise\android\app\src\main\AndroidManifest.xml:13:5-81
+MERGED from [:flutter_ijkplayer] E:\project\tortoise\build\flutter_ijkplayer\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:8:5-81
+MERGED from [:flutter_ijkplayer] E:\project\tortoise\build\flutter_ijkplayer\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:8:5-81
 	android:name
 		ADDED from E:\project\tortoise\android\app\src\main\AndroidManifest.xml:13:22-78
 uses-permission#android.permission.ACCESS_NETWORK_STATE
@@ -95,6 +101,8 @@ uses-sdk
 INJECTED from E:\project\tortoise\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from E:\project\tortoise\android\app\src\main\AndroidManifest.xml
 INJECTED from E:\project\tortoise\android\app\src\main\AndroidManifest.xml
+MERGED from [:flutter_ijkplayer] E:\project\tortoise\build\flutter_ijkplayer\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
+MERGED from [:flutter_ijkplayer] E:\project\tortoise\build\flutter_ijkplayer\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
 MERGED from [:shared_preferences] E:\project\tortoise\build\shared_preferences\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
 MERGED from [:shared_preferences] E:\project\tortoise\build\shared_preferences\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
 MERGED from [:sqflite] E:\project\tortoise\build\sqflite\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
@@ -103,6 +111,8 @@ MERGED from [:audioplayers] E:\project\tortoise\build\audioplayers\intermediates
 MERGED from [:audioplayers] E:\project\tortoise\build\audioplayers\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:7:5-44
 MERGED from [:path_provider] E:\project\tortoise\build\path_provider\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
 MERGED from [:path_provider] E:\project\tortoise\build\path_provider\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
+MERGED from [:sensors] E:\project\tortoise\build\sensors\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
+MERGED from [:sensors] E:\project\tortoise\build\sensors\intermediates\merged_manifests\debug\processDebugManifest\merged\AndroidManifest.xml:5:5-44
 INJECTED from E:\project\tortoise\android\app\src\main\AndroidManifest.xml
 INJECTED from E:\project\tortoise\android\app\src\main\AndroidManifest.xml
 	android:targetSdkVersion

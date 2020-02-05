@@ -43,10 +43,13 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
         ),
         child: Column(
           children: <Widget>[
-            Container(
-              width: 200,
-              height: 20,
+            Text(
+              " 呼吸练习",
             ),
+//            Container(
+//              width: 200,
+//              height: 20,
+//            ),
             Container(
                 //1.空站位
                 width: width,

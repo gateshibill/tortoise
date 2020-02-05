@@ -4,7 +4,6 @@ import 'package:example/common/data.dart';
 import 'package:flutter/material.dart';
 import '../common/config.dart';
 
-
 class CheckPage extends StatefulWidget {
   @override
   _CheckPageState createState() => _CheckPageState();
@@ -18,8 +17,8 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
   String resultTip;
   double lastTime = 0;
   double spentTime = 0;
-  String commandText="开始";
-  int state=0;
+  String commandText = "开始";
+  int state = 0;
 
   String get timerString {
     Duration duration =
@@ -38,9 +37,9 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      appBar: AppBar(
-        title: Text('BOLT测试'),
-      ),
+//      appBar: AppBar(
+//        title: Text('BOLT测试'),
+//      ),
       body: Container(
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
@@ -51,6 +50,9 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
         ),
         child: Column(
           children: <Widget>[
+            Text(
+              " BOLT测试",
+            ),
             Expanded(
               child: Align(
                 alignment: FractionalOffset.center,
@@ -84,7 +86,10 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
                                     timerString,
                                     style: Theme.of(context).textTheme.display3,
                                   );
-                                })
+                                }),
+//                            Text(
+//                              " BOLT测试",
+//                            ),
                           ],
                         ),
                       )
@@ -94,14 +99,13 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
               ),
             ),
             Container(
-              margin: EdgeInsets.all(8.0),
-              child:
-              new Container(
-                child: new GestureDetector(
+                margin: EdgeInsets.all(8.0),
+                child: new Container(
+                    child: new GestureDetector(
                   onTap: () {
                     swithButton();
                   },
-                  child:Column(
+                  child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       Text(
@@ -121,14 +125,16 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
                         style: Theme.of(context).textTheme.subhead,
                       ),
                       Text(
-                        state == 0 ? "　　　　　　　　开始　　　　　　　　" :"　　　　　　　　结束　　　　　　　　" ,
+                        state == 0
+                            ? "　　　　　　　　开始　　　　　　　　"
+                            : "　　　　　　　　结束　　　　　　　　",
                         style: Theme.of(context).textTheme.subhead,
                       ),
                       Text(
                         "　　　　　　　　　　　　　　　　　　　",
                         style: Theme.of(context).textTheme.subhead,
                       ),
-                   //   controlButtons(),
+                      //   controlButtons(),
 
                       Text(
                         "　　　　　　　　　　　　　　　　　　　",
@@ -141,7 +147,7 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
                       result()
                     ],
                   ),
-            )))
+                )))
           ],
         ),
       ),
@@ -151,24 +157,23 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
   void swithButton() {
     setState(() {
       print("animationController:${animationController.isAnimating}");
-      double now = animationController.duration.inSeconds *
-          animationController.value;
+      double now =
+          animationController.duration.inSeconds * animationController.value;
       if (animationController.isAnimating) {
         animationController.stop();
         spentTime = lastTime - now;
-        state=0;
+        state = 0;
       } else {
         animationController.reverse(
             from: animationController.value == 0.0
                 ? 1.0
                 : animationController.value);
         spentTime = 0;
-        state=1;
+        state = 1;
       }
-      print(
-          "current:$lastTime|$now|$spentTime|${animationController.value}");
-      lastTime = animationController.duration.inSeconds *
-          animationController.value;
+      print("current:$lastTime|$now|$spentTime|${animationController.value}");
+      lastTime =
+          animationController.duration.inSeconds * animationController.value;
     });
   }
 

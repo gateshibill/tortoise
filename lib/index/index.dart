@@ -3,6 +3,7 @@ import 'package:example/index/relax_page.dart';
 import 'package:example/index/exercise_page.dart';
 import 'package:flutter/material.dart';
 
+import 'acceler_page.dart';
 import 'check_page.dart';
 import 'spread_page.dart';
 
@@ -40,7 +41,8 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: PageView(
           children: <Widget>[
-            HomePage(bg: 'assets/images/bg5.jpg'),
+            HomePage(),
+            AccelerPage(),
             CheckPage(),
             ExercisePage(),
             RelaxPage(),

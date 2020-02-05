@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:example/common/data.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 
 class RelaxPage extends StatefulWidget {
   @override
@@ -14,7 +15,7 @@ class _RelaxPageState extends State<RelaxPage> {
   bool isPlay = false;
 
   AudioPlayer audioPlayer = AudioPlayer();
-
+  IjkMediaController mediaController = IjkMediaController();
   @override
   Widget build(BuildContext context) {
     //print(bg);
@@ -32,6 +33,9 @@ class _RelaxPageState extends State<RelaxPage> {
         ),
         child: Column(
           children: <Widget>[
+            Text(
+              "5分钟放松",
+            ),
             Container(
               //1.空站位
                 width: width,
@@ -56,19 +60,6 @@ class _RelaxPageState extends State<RelaxPage> {
                     backgroundImage: AssetImage("assets/images/bg3.jpg"),
                   )
                 ])),
-//            Container(
-//              //tips
-//              width: width,
-//              height: 100,
-//              // color: Colors.black12,
-//              child: Text(
-//                sentenceList[Random().nextInt(sentenceList.length)].content,
-//                style: new TextStyle(
-//                  color: Colors.white,
-//                  fontSize: 15.0,
-//                ),
-//              ),
-//            ),
             Expanded(
               child: Align(
                 alignment: FractionalOffset.center,
@@ -128,47 +119,30 @@ class _RelaxPageState extends State<RelaxPage> {
   void dispose() {
     // 释放资源
     print('结束');
-    audioPlayer.release();
+    mediaController.dispose();
     super.dispose();
   }
 
   void startButton() async {
-
     String url =
         "http://m7.music.126.net/20200201192943/fadd7e3393498349630c30373b6942fe/ymusic/3b40/64da/93f0/4caaf39e3d865da3e205328e5bf3e131.mp3";
     if (null != relaxMusicList && relaxMusicList.length > 0) {
       url = relaxMusicList[Random().nextInt(relaxMusicList.length)].url;
     }
-    print("startButton()|$url");
+    //print("startButton()|$url");
     int result = 0;
     if (!isPlay) {
       isPlay = false;
       command = "暂停";
-      result = await audioPlayer.play(url);
+      await mediaController.setAssetDataSource("assets/music/naturespath.mp3", autoPlay: true);
+      await mediaController.play();
     } else {
       isPlay = true;
       command = "播放";
-      result = await audioPlayer.pause();
+      mediaController.pause();
     }
 
-    if (result == 1) {
-      print('play success');
-    } else {
-      print('play failed');
-    }
+    print('mediaController.ijkStatus=${mediaController.ijkStatus}');
 
-    audioPlayer.onAudioPositionChanged.listen((p) async {
-      print(p.inSeconds);
-    });
-  }
-
-  pause() async {
-    int result = await audioPlayer.pause();
-    if (result == 1) {
-      // success
-      print('pause success');
-    } else {
-      print('pause failed');
-    }
   }
 }
