@@ -87,22 +87,17 @@ class _SpreadWidgetState extends State<SpreadWidget>
             _animationController.addStatusListener((status) {
               print("animationControl() status=${status}");
       if (status == AnimationStatus.completed) {
-      //  children.removeAt(0);
-        //controllers.removeAt(0);
-     //   _animationController.dispose();
-        //if(isExpand) {
-         // animationControl(_animationController);
+        Future.delayed(Duration(milliseconds: 1000), () {
+          //关闭loading
           _animationController.reverse();
           isExpand=false;
-       // }else{
-         // animationControl(_animationController);
-        //  _animationController.forward();
-       //   isExpand=true;
-      //  }
+        });
       }
       if (status == AnimationStatus.dismissed) {
+        Future.delayed(Duration(milliseconds: 1000), () {
         _animationController.forward();
         isExpand=true;
+        });
       }
     });
   }

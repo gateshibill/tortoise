@@ -42,12 +42,12 @@ class _MyHomePageState extends State<MyHomePage> {
         child: PageView(
           children: <Widget>[
             HomePage(),
-            AccelerPage(),
             CheckPage(),
             ExercisePage(),
             RelaxPage(),
-            //TrainPage(bg: 'assets/images/bg1.jpg'),
-            SpreadPage(),
+            //SpreadPage(),
+            AccelerPage(),
+
 
            // RelaxPage(bg: "assets/images/bg2.jpg"),
             //AdPage(bg: 'assets/images/bg3.jpg'),

@@ -374,7 +374,7 @@ class TimerPainterLiner extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
       ..color = backgroundColor
-      ..strokeWidth = 2.0
+      ..strokeWidth = 1.0
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
     paint.color = color;
@@ -385,7 +385,7 @@ class TimerPainterLiner extends CustomPainter {
 
     print("travelModel.list= ${currentTravelModel.list.length}");
     currentTime = new DateTime.now().millisecondsSinceEpoch;
-    double distance = (currentTime - startDateTime) / 1000 * 10;
+    double distance = (currentTime - startDateTime) / 1000 * 20;
     double diff = (currentTime - lastDateTime) / 1000 * 5;
 
     print("diff= ${diff}|${state}");
@@ -414,7 +414,7 @@ void acceleromete() {
 //    print(
 //        "userAccelerometerEvents=${event.x.toStringAsFixed(2)}|${event.y.toStringAsFixed(2)}|${event.z.toStringAsFixed(2)}|");
     double dz=event.z*1000;
-    double max=20;
+    double max=18;
     double min=7;
     if(dz>max){
       y=max;
@@ -444,7 +444,7 @@ class PainterLiner extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
       ..color = backgroundColor
-      ..strokeWidth = 5.0
+      ..strokeWidth = 1.0
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
     paint.color = color;

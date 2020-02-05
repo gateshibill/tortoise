@@ -12,6 +12,11 @@ class HttpClient {
   static final String token = "client_token";
 
   static Future<bool> init() async {
+    TopicModel model = new TopicModel();
+    model.content= "凌波不过横塘路，但目送芳尘去,锦瑟华年谁与度?";
+    sentenceList.add(model);
+    multiList.add(model);
+
     getTopics().then((onValue){
       if(onValue.length>0){
         topicList=onValue;

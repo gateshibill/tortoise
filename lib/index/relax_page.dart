@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:example/common/data.dart';
+import 'package:example/index/spread_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 
@@ -60,7 +61,8 @@ class _RelaxPageState extends State<RelaxPage> {
                     backgroundImage: AssetImage("assets/images/bg3.jpg"),
                   )
                 ])),
-            Expanded(
+            Container(
+              height: 100,
               child: Align(
                 alignment: FractionalOffset.center,
                 child: AspectRatio(
@@ -81,6 +83,22 @@ class _RelaxPageState extends State<RelaxPage> {
                 ),
               ),
             ),
+            Container(
+              width: 400,
+              height: 400,
+              child: SpreadWidget(
+                radius: 120,
+                maxRadius: 350,
+//          child: Image.asset(
+//            'assets/game3.jpg',
+//            fit: BoxFit.cover,
+//          ),
+              ),
+            ),
+            Container(
+              width: 200,
+              height: 50,
+            ),
             CircleAvatar(
               radius: 40.0,
               // backgroundImage: AssetImage("assets/images/bg3.jpg"),
@@ -99,10 +117,11 @@ class _RelaxPageState extends State<RelaxPage> {
                     startButton();
                   }),
             ),
-            Container(
-              width: 200,
-              height: 300,
-            ),
+        Container(
+          width: 200,
+          height: 50,
+        )
+
           ],
         ),
       ),
