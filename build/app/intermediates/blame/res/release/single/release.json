@@ -1,9 +1,5 @@
 [
     {
-        "merged": "E:\\project\\tortoise\\build\\app\\intermediates\\res\\merged\\release\\mipmap-hdpi_ic_launcher.png.flat",
-        "source": "E:\\project\\tortoise\\android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
-    },
-    {
         "merged": "E:\\project\\tortoise\\build\\app\\intermediates\\res\\merged\\release\\mipmap-hdpi_bt_logo.png.flat",
         "source": "E:\\project\\tortoise\\android\\app\\src\\main\\res\\mipmap-hdpi\\bt_logo.png"
     },

@@ -6,6 +6,8 @@ class BreathModel {
 
   DateTime dateTime;
   int type;//0为屛吸，1为吸，2为呼
+  double x;
+  double y;
 
   BreathModel( {this.dateTime,this.type});
 

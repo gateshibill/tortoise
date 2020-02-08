@@ -4,7 +4,6 @@ mipmap b_logo
 mipmap bl
 mipmap breathe_logo
 mipmap bt_logo
-mipmap ic_launcher
 mipmap ic_launcher1
 mipmap ic_launcher2
 mipmap tortoise

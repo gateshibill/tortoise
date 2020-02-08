@@ -16,13 +16,13 @@ int currentTime;
 double lastDy;
 String command = '开始屏息';
 
-class ExercisePage extends StatefulWidget {
+class TrainPage extends StatefulWidget {
   @override
-  _ExercisePageState createState() => _ExercisePageState();
+  _TrainPageState createState() => _TrainPageState();
 }
 
-class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMixin {
-  _ExercisePageState();
+class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
+  _TrainPageState();
 
   AnimationController animationController;
   String bg = "assets/images/bg10.jpg";
@@ -87,10 +87,6 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
                 ),
               ),
             ),
-//            Container(
-//              width: 200,
-//              height: 50,
-//            ),
             Container(
               //1.训练1
               width: width,
@@ -111,6 +107,7 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
                                   animation: animationController,
                                   backgroundColor: Colors.white,
                                   color: Theme.of(context).accentColor,
+                                  switchCallback:startButton ,
                                   endCallback: endButton),
                             );
                           },
@@ -177,23 +174,6 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
                     endButton();
                   }),
             ),
-//            Container(
-//              //4.结束
-//              width: 500,
-//              height: 40,
-//              alignment: Alignment.bottomLeft,
-//              //color: Colors.black12,
-//              child: RaisedButton(
-//                  child: Text('清理'),
-//                  color: Colors.blue,
-//                  textColor: Colors.white,
-//                  elevation: 20,
-//                  shape: RoundedRectangleBorder(
-//                      borderRadius: BorderRadius.circular(15)),
-//                  onPressed: () {
-//                    clearButton();
-//                  }),
-//            ),
             Container(
               //4.中间站位
               width: width,
@@ -288,7 +268,7 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
     if (index < 0) {
       return new Text("");
     }
-    TravelModel model = travelList[index];
+    TravelModel model = travelList0[index];
     if (null == model) {
       return new Text("dd");
     }
@@ -379,18 +359,15 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
     setState(() {
       breath = 1 == breath ? 0 : 1;
       if (1 == breath) {
-        // state = 2;
         LineModel model = currentLineModel.copy();
         currentTravelModel.addLineModel(model);
         currentLineModel.start = currentLineModel.end;
       } else {
-        // state = 3;
         LineModel model = currentLineModel.copy();
         currentTravelModel.addLineModel(model);
         currentLineModel.start = currentLineModel.end;
       }
       lastDateTime = new DateTime.now().millisecondsSinceEpoch;
-      // travelList.add(currentTravelModel.copy());
     });
   }
 
@@ -403,7 +380,6 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
       //LineModel model = TrainTravel.createLiner(state);
       currentTravelModel.addLineModel(currentLineModel.copy());
       travelList0.add(currentTravelModel.copy());
-      //lastDateTime = new DateTime.now().millisecondsSinceEpoch;
     });
   }
 
@@ -427,9 +403,10 @@ class TimerPainterLiner extends CustomPainter {
   final Color backgroundColor;
   final Color color;
   var endCallback;
+  var switchCallback;
 
   TimerPainterLiner(
-      {this.animation, this.backgroundColor, this.color, this.endCallback})
+      {this.animation, this.backgroundColor, this.color,this.switchCallback, this.endCallback})
       : super(repaint: animation);
 
   @override
@@ -447,8 +424,20 @@ class TimerPainterLiner extends CustomPainter {
     }
     print("travelModel.list= ${currentTravelModel.list.length}");
     currentTime = new DateTime.now().millisecondsSinceEpoch;
-    double distance = (currentTime - startDateTime) / 1000 * 5;
+    double time =(currentTime - startDateTime) / 1000;
+    double distance = time * 5;
     double diff = (currentTime - lastDateTime) / 1000 * 5;
+
+    if(time>20){
+      int splus=(time-20).toInt();
+      int m=splus~/3;
+      int n=m%2;
+      if(0==n&&2!=state){//吸气
+        switchCallback();
+      }else if(1==n&&2==state){//呼气
+        switchCallback();
+      }
+    }
 
     print("diff= ${diff}|${state}");
     switch (state) {

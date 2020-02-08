@@ -16,11 +16,10 @@ public final class R {
     public static final int bl=0x7f020001;
     public static final int breathe_logo=0x7f020002;
     public static final int bt_logo=0x7f020003;
-    public static final int ic_launcher=0x7f020004;
-    public static final int ic_launcher1=0x7f020005;
-    public static final int ic_launcher2=0x7f020006;
-    public static final int tortoise=0x7f020007;
-    public static final int tortoise1=0x7f020008;
+    public static final int ic_launcher1=0x7f020004;
+    public static final int ic_launcher2=0x7f020005;
+    public static final int tortoise=0x7f020006;
+    public static final int tortoise1=0x7f020007;
   }
   public static final class style {
     public static final int LaunchTheme=0x7f030000;

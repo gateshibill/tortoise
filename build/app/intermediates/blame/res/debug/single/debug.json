@@ -4,20 +4,16 @@
         "source": "E:\\project\\tortoise\\android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher2.png"
     },
     {
-        "merged": "E:\\project\\tortoise\\build\\app\\intermediates\\res\\merged\\debug\\mipmap-hdpi_ic_launcher.png.flat",
-        "source": "E:\\project\\tortoise\\android\\app\\src\\main\\res\\mipmap-hdpi\\ic_launcher.png"
-    },
-    {
         "merged": "E:\\project\\tortoise\\build\\app\\intermediates\\res\\merged\\debug\\mipmap-xhdpi_ic_launcher1.png.flat",
         "source": "E:\\project\\tortoise\\android\\app\\src\\main\\res\\mipmap-xhdpi\\ic_launcher1.png"
     },
     {
-        "merged": "E:\\project\\tortoise\\build\\app\\intermediates\\res\\merged\\debug\\drawable_launch_background.xml.flat",
-        "source": "E:\\project\\tortoise\\android\\app\\src\\main\\res\\drawable\\launch_background.xml"
-    },
-    {
         "merged": "E:\\project\\tortoise\\build\\app\\intermediates\\res\\merged\\debug\\mipmap-hdpi_bl.png.flat",
         "source": "E:\\project\\tortoise\\android\\app\\src\\main\\res\\mipmap-hdpi\\bl.png"
+    },
+    {
+        "merged": "E:\\project\\tortoise\\build\\app\\intermediates\\res\\merged\\debug\\drawable_launch_background.xml.flat",
+        "source": "E:\\project\\tortoise\\android\\app\\src\\main\\res\\drawable\\launch_background.xml"
     },
     {
         "merged": "E:\\project\\tortoise\\build\\app\\intermediates\\res\\merged\\debug\\mipmap-xxhdpi_ic_launcher1.png.flat",

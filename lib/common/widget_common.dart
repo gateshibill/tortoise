@@ -6,6 +6,7 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'config.dart';
+import 'data.dart';
 
 Widget myAnimation(AnimationController animationController) {
   return AnimatedBuilder(
@@ -100,6 +101,21 @@ class TimerPainterLiner extends CustomPainter {
     return animation.value != old.animation.value ||
         color != old.color ||
         backgroundColor != old.backgroundColor;
+  }
+}
+
+void play() async {
+
+  int result = 0;
+  if (!isPlay) {
+    isPlay = false;
+    command = "暂停";
+    await mediaController.setAssetDataSource("assets/music/naturespath.mp3", autoPlay: true);
+    await mediaController.play();
+  } else {
+    isPlay = true;
+    command = "播放";
+    mediaController.pause();
   }
 }
 

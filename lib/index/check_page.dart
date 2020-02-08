@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:example/common/data.dart';
+import 'package:example/common/widget_common.dart';
 import 'package:flutter/material.dart';
 import '../common/config.dart';
 
@@ -31,6 +32,18 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
     super.initState();
     animationController =
         AnimationController(vsync: this, duration: Duration(seconds: 60));
+    setState(() {});
+  }
+
+  @override
+  void dispose() {
+    // 释放资源
+    spentTime = 0;
+    state = 0;
+    commandText = "开始";
+    animationController.dispose();
+    mediaController.dispose();
+    super.dispose();
   }
 
   @override
@@ -44,7 +57,7 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/bg4.jpg"),
+            image: AssetImage("assets/images/bg5.jpg"),
             fit: BoxFit.cover,
           ),
         ),
@@ -98,53 +111,43 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
                 ),
               ),
             ),
+            RaisedButton(
+                child: Text(commandText),
+                color: Colors.brown,
+                textColor: Colors.white,
+                elevation: 20,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)),
+                onPressed: () {
+                  checkButton();
+                }),
             Container(
                 margin: EdgeInsets.all(8.0),
                 child: new Container(
                     child: new GestureDetector(
                   onTap: () {
-                    swithButton();
+                    checkButton();
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Text(
-                        "　　　　　　　　　　　　　　　　　　　",
-                        style: Theme.of(context).textTheme.subhead,
+                      Container(
+                        height: 100,
                       ),
-                      Text(
-                        "　　　　　　　　　　　　　　　　　　　",
-                        style: Theme.of(context).textTheme.subhead,
+                      result(),
+                      Container(
+                        height: 50,
                       ),
-                      Text(
-                        "　　　　　　　　　　　　　　　　　　　",
-                        style: Theme.of(context).textTheme.subhead,
+                      Container(
+                          height: 50,
+                          child: Text(
+                            sentenceList[Random().nextInt(sentenceList.length)]
+                                .content,
+                            style: Theme.of(context).textTheme.subhead,
+                          )),
+                      Container(
+                        height: 50,
                       ),
-                      Text(
-                        "　　　　　　　　　　　　　　　　",
-                        style: Theme.of(context).textTheme.subhead,
-                      ),
-                      Text(
-                        state == 0
-                            ? "　　　　　　　　开始　　　　　　　　"
-                            : "　　　　　　　　结束　　　　　　　　",
-                        style: Theme.of(context).textTheme.subhead,
-                      ),
-                      Text(
-                        "　　　　　　　　　　　　　　　　　　　",
-                        style: Theme.of(context).textTheme.subhead,
-                      ),
-                      //   controlButtons(),
-
-                      Text(
-                        "　　　　　　　　　　　　　　　　　　　",
-                        style: Theme.of(context).textTheme.subhead,
-                      ),
-                      Text(
-                        "　　　　　　　　　　　　　　　　　　　",
-                        style: Theme.of(context).textTheme.subhead,
-                      ),
-                      result()
                     ],
                   ),
                 )))
@@ -154,14 +157,16 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
     );
   }
 
-  void swithButton() {
+  void checkButton() {
     setState(() {
+      play();
       print("animationController:${animationController.isAnimating}");
       double now =
           animationController.duration.inSeconds * animationController.value;
       if (animationController.isAnimating) {
         animationController.stop();
         spentTime = lastTime - now;
+        commandText="开始";
         state = 0;
       } else {
         animationController.reverse(
@@ -169,6 +174,7 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
                 ? 1.0
                 : animationController.value);
         spentTime = 0;
+        commandText="结束";
         state = 1;
       }
       print("current:$lastTime|$now|$spentTime|${animationController.value}");
@@ -183,16 +189,22 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
       children: <Widget>[
         Text(
           spentTime == 0 ? "　　　　　　　　　　　　　" : getScoreTips(spentTime),
-          style: Theme.of(context).textTheme.headline,
+          style: new TextStyle(
+            color: Colors.blueAccent,
+            fontSize: 22.0,
+          ),
         ),
         Text(
           spentTime == 0 ? "　　　　　　　　　　　　　" : getRateTips(spentTime),
-          style: Theme.of(context).textTheme.headline,
+          style: new TextStyle(
+            color: Colors.blueAccent,
+            fontSize: 22.0,
+          ),
         ),
-        Text(
-          sentenceList[Random().nextInt(sentenceList.length)].content,
-          style: Theme.of(context).textTheme.subhead,
-        ),
+//        Text(
+//          sentenceList[Random().nextInt(sentenceList.length)].content,
+//          style: Theme.of(context).textTheme.subhead,
+//        ),
         Text(
           "",
           style: Theme.of(context).textTheme.subhead,

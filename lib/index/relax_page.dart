@@ -14,8 +14,6 @@ class _RelaxPageState extends State<RelaxPage> {
   double width = 500;
   String command = '播放';
   bool isPlay = false;
-
-  AudioPlayer audioPlayer = AudioPlayer();
   IjkMediaController mediaController = IjkMediaController();
   @override
   Widget build(BuildContext context) {
@@ -89,10 +87,6 @@ class _RelaxPageState extends State<RelaxPage> {
               child: SpreadWidget(
                 radius: 120,
                 maxRadius: 350,
-//          child: Image.asset(
-//            'assets/game3.jpg',
-//            fit: BoxFit.cover,
-//          ),
               ),
             ),
             Container(

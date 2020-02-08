@@ -1,6 +1,9 @@
 import 'dart:math';
 import 'package:example/common/data.dart';
 import 'package:example/index/check_page.dart';
+import 'package:example/index/exercise_page.dart';
+import 'package:example/index/relax_page.dart';
+import 'package:example/index/spread_widget.dart';
 import 'package:example/model/breath_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sensors/sensors.dart';
@@ -36,7 +39,7 @@ class _HomePageState extends State<HomePage> {
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/bg5.jpg'),
+            image: AssetImage('assets/images/bg7.jpg'),
             fit: BoxFit.cover,
           ),
         ),
@@ -78,7 +81,7 @@ class _HomePageState extends State<HomePage> {
             Container(
               //tips
               width: width,
-              height: 100,
+              height: 80,
               // color: Colors.black12,
               child: Text(
                 sentenceList[Random().nextInt(sentenceList.length)].content,
@@ -89,65 +92,61 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
             Container(
-              //2.站位
-              width: width,
-              height: 100,
-              //  color: Colors.black12,
-              child: Text(''),
-            ),
-            Container(
               //3.tips
               width: width,
-              height: 200,
+              height: 420,
               // color: Colors.black12,
-              child: Text(''),
+              child: SpreadWidget(
+                radius: 0,
+                maxRadius: 350,
+              ),
             ),
-            Container(
-              //4.按钮
-              width: 500,
-              height: 40,
-              alignment: Alignment.bottomLeft,
-              //color: Colors.black12,
-              child: RaisedButton(
-                  child: Text('BOLT测试'),
-                  color: Colors.blue,
-                  textColor: Colors.white,
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  onPressed: () {
-                    print("圆角按钮");
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return CheckPage();
-                    }));
-                  }),
-            ),
-            Container(
-              //4.按钮
-              width: 500,
-              height: 40,
-              alignment: Alignment.bottomLeft,
-              //color: Colors.black12,
-              child: RaisedButton(
-                  child: Text(command),
-                  color: Colors.blue,
-                  textColor: Colors.white,
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  onPressed: () {
-                    setState(() {
-                      if (breath) {
-                        breath = false;
-                        command = "呼气";
-                      } else {
-                        breath = true;
-                        command = "吸气";
-                      }
-                    });
-                  }),
-            ),
+//            Container(
+//              //4.按钮
+//              width: 500,
+//              height: 40,
+//              alignment: Alignment.bottomLeft,
+//              //color: Colors.black12,
+//              child: RaisedButton(
+//                  child: Text('BOLT测试'),
+//                  color: Colors.blue,
+//                  textColor: Colors.white,
+//                  elevation: 20,
+//                  shape: RoundedRectangleBorder(
+//                      borderRadius: BorderRadius.circular(15)),
+//                  onPressed: () {
+//                    print("圆角按钮");
+//                    Navigator.push(context,
+//                        MaterialPageRoute(builder: (context) {
+//                      return CheckPage();
+//                    }));
+//                  }),
+//            ),
+//            Container(
+//              //4.按钮
+//              width: 500,
+//              height: 40,
+//              alignment: Alignment.bottomLeft,
+//              //color: Colors.black12,
+//              child: RaisedButton(
+//                  child: Text(command),
+//                  color: Colors.blue,
+//                  textColor: Colors.white,
+//                  elevation: 20,
+//                  shape: RoundedRectangleBorder(
+//                      borderRadius: BorderRadius.circular(15)),
+//                  onPressed: () {
+//                    setState(() {
+//                      if (breath) {
+//                        breath = false;
+//                        command = "呼气";
+//                      } else {
+//                        breath = true;
+//                        command = "吸气";
+//                      }
+//                    });
+//                  }),
+//            ),
             Container(
               //5.站位
               width: width,
@@ -215,7 +214,7 @@ class _HomePageState extends State<HomePage> {
 //      if (0 != i % 2) {
 //      } else {
       print("--------------now-----------=${new DateTime.now()}|${command}");
-       print("userAccelerometerEvents=$event");
+      print("userAccelerometerEvents=$event");
 //      print(
 //          "userAccelerometerEvents=${event.x.toStringAsFixed(2)}|${event.y.toStringAsFixed(2)}|${event.z.toStringAsFixed(2)}|");
       double dz = event.z;
@@ -242,26 +241,64 @@ class _HomePageState extends State<HomePage> {
           height: 100,
         ),
         Container(
+            width: 100,
+            height: 100,
+            child: GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return new CheckPage();
+                }));
+              },
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/bg4.jpg"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: Text(
+                      "BOLT测评",
+                      style: new TextStyle(
+                        color: Colors.red,
+                        fontSize: 15.0,
+                      ),
+                    ),
+                  )),
+            )),
+        Container(
+          width: 20,
+          height: 100,
+        ),
+        Container(
           width: 100,
           height: 100,
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Container(
-                padding: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("assets/images/bg4.jpg"),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: Text(
-                  "3分钟练习",
-                  style: new TextStyle(
-                    color: Colors.red,
-                    fontSize: 15.0,
-                  ),
-                ),
-              )),
+          child: GestureDetector(
+              onTap: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return new ExercisePage();
+                }));
+              },
+              child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: AssetImage("assets/images/bg10.jpg"),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                    child: Text(
+                      "呼吸训练",
+                      style: new TextStyle(
+                        color: Colors.red,
+                        fontSize: 15.0,
+                      ),
+                    ),
+                  ))),
         ),
         Container(
           width: 20,
@@ -270,50 +307,30 @@ class _HomePageState extends State<HomePage> {
         Container(
           width: 100,
           height: 100,
-          child: ClipRRect(
+          child:  GestureDetector(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) {
+                return new RelaxPage();
+              }));
+            },
+            child:ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: Container(
                 padding: EdgeInsets.all(8.0),
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage("assets/images/bg3.jpg"),
+                    image: AssetImage('assets/images/bg11.jpg'),
                     fit: BoxFit.cover,
                   ),
                 ),
                 child: Text(
-                  "5分钟放松",
+                  "放松入睡",
                   style: new TextStyle(
                     color: Colors.red,
                     fontSize: 15.0,
                   ),
                 ),
-              )),
-        ),
-        Container(
-          width: 20,
-          height: 100,
-        ),
-        Container(
-          width: 100,
-          height: 100,
-          child: ClipRRect(
-              borderRadius: BorderRadius.circular(10),
-              child: Container(
-                padding: EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/images/bg4.jpg'),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                child: Text(
-                  "10分钟入睡",
-                  style: new TextStyle(
-                    color: Colors.red,
-                    fontSize: 15.0,
-                  ),
-                ),
-              )),
+              )),)
         ),
       ]),
     );

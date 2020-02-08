@@ -1,37 +1,84 @@
 import 'dart:math';
 import 'package:example/common/data.dart';
+import 'package:example/model/breath_model.dart';
 import 'package:example/model/line_model.dart';
 import 'package:example/model/travel_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sensors/sensors.dart';
 import '../common/config.dart';
-import 'check_page.dart';
 
 int breath = -1;
-TravelModel currentTravelModel = new TravelModel();
-LineModel currentLineModel;
+
 int state = 0;
-int startDateTime=new DateTime.now().millisecondsSinceEpoch;
-int lastDateTime=new DateTime.now().millisecondsSinceEpoch;
+int type = 0;
+int startDateTime = new DateTime.now().millisecondsSinceEpoch;
+int lastDateTime = new DateTime.now().millisecondsSinceEpoch;
 int currentTime;
 double lastDy;
 String command = '开始';
 
-double y=0;
-Offset lastPoint = new Offset(0, 0);
+double dx = 0;
+double dy = 0;
+double dz = 0;
+
+double ds = 0;
+double dt = 0;
+
+double drpos = 0; //正点
+double drsplus = 0; //负点
+double drmax = 0;
+double drmin = 0;
+int isbreath = 0;
+BreathModel inhaleBreathModel;
+BreathModel exhaleBreathModel;
+BreathModel lastBreathModel;
+
+Offset lastPoint_x = new Offset(0, 0);
+Offset lastPoint_y = new Offset(0, 0);
+Offset lastPoint_z = new Offset(0, 0);
+Offset lastPoint_s = new Offset(0, 0);
+Offset lastPoint_t = new Offset(0, 0);
+Offset lastPoint_r = null;
+
+LineModel currentLineModel_x =
+    new LineModel(start: lastPoint_x, end: lastPoint_x);
+LineModel currentLineModel_y =
+    new LineModel(start: lastPoint_y, end: lastPoint_y);
+LineModel currentLineModel_z =
+    new LineModel(start: lastPoint_z, end: lastPoint_z);
+LineModel currentLineModel_s =
+    new LineModel(start: lastPoint_z, end: lastPoint_z);
+LineModel currentLineModel_t =
+    new LineModel(start: lastPoint_z, end: lastPoint_z);
+LineModel currentLineModel_r =
+    new LineModel(start: lastPoint_z, end: lastPoint_z);
+TravelModel currentTravelModel_x = new TravelModel();
+TravelModel currentTravelModel_y = new TravelModel();
+TravelModel currentTravelModel_z = new TravelModel();
+TravelModel currentTravelModel_s = new TravelModel();
+TravelModel currentTravelModel_t = new TravelModel();
+TravelModel currentTravelModel_r = new TravelModel();
 
 class AccelerPage extends StatefulWidget {
   @override
   _AccelerPageState createState() => _AccelerPageState();
 }
 
-class _AccelerPageState extends State<AccelerPage> with TickerProviderStateMixin {
+class _AccelerPageState extends State<AccelerPage>
+    with TickerProviderStateMixin {
   _AccelerPageState();
 
-  AnimationController animationController;
-  String bg = "assets/images/bg5.jpg";
+  AnimationController animationController_x;
+  AnimationController animationController_y;
+  AnimationController animationController_z;
+  AnimationController animationController_s;
+  AnimationController animationController_t;
+  AnimationController animationController_r;
+
+  String bg = "assets/images/bg11.jpg";
   double width = 500;
   double height = 100;
+  final int time = 60;
 
   @override
   Widget build(BuildContext context) {
@@ -48,16 +95,16 @@ class _AccelerPageState extends State<AccelerPage> with TickerProviderStateMixin
         child: Column(
           children: <Widget>[
             Text(
-              " 重力感应测试",
+              "BOLT练习 感应记录",
             ),
-//            Container(
-//              width: 200,
-//              height: 20,
-//            ),
+            Container(
+              width: 200,
+              height: 20,
+            ),
             Container(
                 //1.空站位
                 width: width,
-                height: 50,
+                height: 0,
                 // color: Colors.black12,
                 child: Row(children: <Widget>[
                   Container(
@@ -78,23 +125,91 @@ class _AccelerPageState extends State<AccelerPage> with TickerProviderStateMixin
                     backgroundImage: AssetImage("assets/images/bg3.jpg"),
                   )
                 ])),
+//            Container(
+//              //tips
+//              width: width,
+//              height: 100,
+//              // color: Colors.black12,
+//              child: Text(
+//                sentenceList[Random().nextInt(sentenceList.length)].content,
+//                style: new TextStyle(
+//                  color: Colors.white,
+//                  fontSize: 15.0,
+//                ),
+//              ),
+//            ),
+            //x方向
             Container(
-              //tips
+              //1.训练1
               width: width,
-              height: 100,
-              // color: Colors.black12,
-              child: Text(
-                sentenceList[Random().nextInt(sentenceList.length)].content,
-                style: new TextStyle(
-                  color: Colors.white,
-                  fontSize: 15.0,
+              height: 50,
+              alignment: Alignment.bottomLeft,
+              child: Align(
+                alignment: FractionalOffset.bottomLeft,
+                child: AspectRatio(
+                  aspectRatio: 1.0,
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned.fill(
+                        child: AnimatedBuilder(
+                          animation: animationController_x,
+                          builder: (BuildContext context, Widget child) {
+                            return CustomPaint(
+                              painter: TimerPainterLiner(
+                                  animation: animationController_x,
+                                  backgroundColor: Colors.white,
+                                  color: Theme.of(context).accentColor,
+                                  endCallback: endButton,
+                                  point: dx,
+                                  lastPoint: lastPoint_x,
+                                  lineModel: currentLineModel_x,
+                                  travelModel: currentTravelModel_x,
+                                  type: 1),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
-//            Container(
-//              width: 200,
-//              height: 50,
-//            ),
+            // y方向
+            Container(
+              //1.训练1
+              width: width,
+              height: 50,
+              alignment: Alignment.bottomLeft,
+              child: Align(
+                alignment: FractionalOffset.bottomLeft,
+                child: AspectRatio(
+                  aspectRatio: 1.0,
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned.fill(
+                        child: AnimatedBuilder(
+                          animation: animationController_y,
+                          builder: (BuildContext context, Widget child) {
+                            return CustomPaint(
+                                painter: TimerPainterLiner(
+                                    animation: animationController_y,
+                                    backgroundColor: Colors.white,
+                                    color: Theme.of(context).accentColor,
+                                    endCallback: endButton,
+                                    point: dy,
+                                    lastPoint: lastPoint_y,
+                                    lineModel: currentLineModel_y,
+                                    travelModel: currentTravelModel_y,
+                                    type: 2));
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            //Z方向
             Container(
               //1.训练1
               width: width,
@@ -108,14 +223,91 @@ class _AccelerPageState extends State<AccelerPage> with TickerProviderStateMixin
                     children: <Widget>[
                       Positioned.fill(
                         child: AnimatedBuilder(
-                          animation: animationController,
+                          animation: animationController_z,
                           builder: (BuildContext context, Widget child) {
                             return CustomPaint(
                               painter: TimerPainterLiner(
-                                  animation: animationController,
+                                  animation: animationController_z,
                                   backgroundColor: Colors.white,
                                   color: Theme.of(context).accentColor,
-                                  endCallback: endButton),
+                                  endCallback: endButton,
+                                  point: dz,
+                                  lastPoint: lastPoint_z,
+                                  lineModel: currentLineModel_z,
+                                  travelModel: currentTravelModel_z,
+                                  type: 3),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            //S
+            Container(
+              //ds
+              width: width,
+              height: 70,
+              alignment: Alignment.bottomLeft,
+              child: Align(
+                alignment: FractionalOffset.bottomLeft,
+                child: AspectRatio(
+                  aspectRatio: 1.0,
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned.fill(
+                        child: AnimatedBuilder(
+                          animation: animationController_s,
+                          builder: (BuildContext context, Widget child) {
+                            return CustomPaint(
+                              painter: TimerPainterLiner(
+                                  animation: animationController_s,
+                                  backgroundColor: Colors.white,
+                                  color: Theme.of(context).accentColor,
+                                  endCallback: endButton,
+                                  point: ds,
+                                  lastPoint: lastPoint_s,
+                                  lineModel: currentLineModel_s,
+                                  travelModel: currentTravelModel_s,
+                                  type: 4),
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            //结果线
+            Container(
+              //dt
+              width: width,
+              height: 70,
+              alignment: Alignment.bottomLeft,
+              child: Align(
+                alignment: FractionalOffset.bottomLeft,
+                child: AspectRatio(
+                  aspectRatio: 1.0,
+                  child: Stack(
+                    children: <Widget>[
+                      Positioned.fill(
+                        child: AnimatedBuilder(
+                          animation: animationController_r,
+                          builder: (BuildContext context, Widget child) {
+                            return CustomPaint(
+                              painter: TimerPainterLiner(
+                                  animation: animationController_r,
+                                  backgroundColor: Colors.white,
+                                  color: Theme.of(context).accentColor,
+                                  endCallback: endButton,
+                                  point: drpos,
+                                  lastPoint: lastPoint_r,
+                                  lineModel: currentLineModel_r,
+                                  travelModel: currentTravelModel_r,
+                                  type: 6),
                             );
                           },
                         ),
@@ -127,11 +319,11 @@ class _AccelerPageState extends State<AccelerPage> with TickerProviderStateMixin
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: <Widget>[
                             AnimatedBuilder(
-                                animation: animationController,
+                                animation: animationController_z,
                                 builder: (_, Widget child) {
                                   return Text(
                                     timerString,
-                                    style: Theme.of(context).textTheme.display1,
+                                    style: Theme.of(context).textTheme.subtitle,
                                   );
                                 })
                           ],
@@ -144,14 +336,14 @@ class _AccelerPageState extends State<AccelerPage> with TickerProviderStateMixin
             ),
             //屏息切换
             CircleAvatar(
-              radius: 60.0,
+              radius: 32.0,
               // backgroundImage: AssetImage("assets/images/bg3.jpg"),
               backgroundColor: Colors.blueGrey,
               child: RaisedButton(
                   child: Text(command,
                       style: new TextStyle(
                         color: Colors.white,
-                        fontSize: 20.0,
+                        fontSize: 15.0,
                       )),
                   color: Colors.transparent,
                   textColor: Colors.white,
@@ -161,30 +353,10 @@ class _AccelerPageState extends State<AccelerPage> with TickerProviderStateMixin
                     startButton();
                   }),
             ),
-
-            //呼吸切换
-            Container(
-              //4.结束
-              padding: const EdgeInsets.only(top: 10.0),
-              width: 100,
-              height: 50,
-              // alignment: Alignment.bottomLeft,
-              //color: Colors.black12,
-              child: RaisedButton(
-                  child: Text('结束'),
-                  color: Colors.brown,
-                  textColor: Colors.white,
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  onPressed: () {
-                    endButton();
-                  }),
-            ),
             Container(
               //4.中间站位
               width: width,
-              height: 20,
+              height: 10,
               // color: Colors.black12,
             ),
             //分割线
@@ -198,10 +370,24 @@ class _AccelerPageState extends State<AccelerPage> with TickerProviderStateMixin
                     border: Border.all(color: Colors.grey, width: 2.0)),
               ),
             ),
+            //占位用
             Container(
               //4.中间站位
               width: width,
-              height: 50,
+              height: 10,
+              // color: Colors.black12,
+            ),
+            //呼吸记录
+            Container(
+                height: 40,
+                child: Text(
+                  resultString,
+                  style: Theme.of(context).textTheme.caption,
+                )),
+            Container(
+              //4.中间站位
+              width: width,
+              height: 10,
               // color: Colors.black12,
             ),
             Container(
@@ -214,28 +400,28 @@ class _AccelerPageState extends State<AccelerPage> with TickerProviderStateMixin
             Container(
               //历史2
               width: width,
-              height: 50,
+              height: 60,
               //alignment: Alignment.bottomLeft,
               child: getItem(null, travelList.length - 2),
             ),
             Container(
               //历史3
               width: width,
-              height: 50,
+              height: 60,
               //alignment: Alignment.bottomLeft,
               child: getItem(null, travelList.length - 3),
             ),
             Container(
               //历史4
               width: width,
-              height: 50,
+              height: 60,
               //alignment: Alignment.bottomLeft,
               child: getItem(null, travelList.length - 4),
             ),
             Container(
               //历史5
               width: width,
-              height: 50,
+              height: 60,
               //alignment: Alignment.bottomLeft,
               child: getItem(null, travelList.length - 5),
             ),
@@ -248,15 +434,30 @@ class _AccelerPageState extends State<AccelerPage> with TickerProviderStateMixin
   @override
   void initState() {
     super.initState();
-    animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 60));
+    animationController_x =
+        AnimationController(vsync: this, duration: Duration(seconds: time));
+    animationController_y =
+        AnimationController(vsync: this, duration: Duration(seconds: time));
+    animationController_z =
+        AnimationController(vsync: this, duration: Duration(seconds: time));
+    animationController_s =
+        AnimationController(vsync: this, duration: Duration(seconds: time));
+    animationController_t =
+        AnimationController(vsync: this, duration: Duration(seconds: time));
+
+    animationController_r =
+        AnimationController(vsync: this, duration: Duration(seconds: time));
     acceleromete();
   }
 
   String get timerString {
     Duration duration =
-        animationController.duration * animationController.value;
-    return '${duration.inMinutes}:${(60-(duration.inSeconds % 60)).toString().padLeft(2, '0')}';
+        animationController_z.duration * animationController_z.value;
+    return '${duration.inMinutes}:${(60 - (duration.inSeconds % 60)).toString().padLeft(2, '0')}';
+  }
+
+  String get resultString {
+    return '屏息30秒，平均呼吸时间5秒';
   }
 
   Widget history() {
@@ -295,7 +496,7 @@ class _AccelerPageState extends State<AccelerPage> with TickerProviderStateMixin
           children: <Widget>[
             Positioned.fill(
               child: AnimatedBuilder(
-                animation: animationController,
+                animation: animationController_z,
                 builder: (BuildContext context, Widget child) {
                   return CustomPaint(
                       painter: PainterLiner(
@@ -314,49 +515,99 @@ class _AccelerPageState extends State<AccelerPage> with TickerProviderStateMixin
 
   void startButton() {
     print("startButton()");
-    state=1;
-    lastPoint = new Offset(0, 0);
-    currentTravelModel.list.clear();
-    animationController.reset();
-
-    startDateTime=new DateTime.now().millisecondsSinceEpoch;
     setState(() {
-      print("animationController:${animationController.isAnimating}");
-      double now =
-          animationController.duration.inSeconds * animationController.value;
-      if (animationController.isAnimating) {
-        // animationController.stop();
-        //   spentTime = lastTime - now;
-        //state=0;
+      if (command == "结束") {
+        endButton();
+        return;
       } else {
-        animationController.reverse(
-            from: animationController.value == 0.0
-                ? 1.0
-                : animationController.value);
-      };
+        command = "结束";
+        state = 1;
+        lastPoint_x = new Offset(0, 0);
+        lastPoint_y = new Offset(0, 0);
+        lastPoint_z = new Offset(0, 0);
+        lastPoint_s = new Offset(0, 0);
+        lastPoint_t = new Offset(0, 0);
+
+        currentTravelModel_x.list.clear();
+        animationController_x.reset();
+        currentTravelModel_y.list.clear();
+        animationController_y.reset();
+        currentTravelModel_z.list.clear();
+        animationController_z.reset();
+        currentTravelModel_s.list.clear();
+        animationController_s.reset();
+        currentTravelModel_t.list.clear();
+        animationController_t.reset();
+        currentTravelModel_r.list.clear();
+        animationController_r.reset();
+
+        startDateTime = new DateTime.now().millisecondsSinceEpoch;
+
+        lastPoint_r = null;
+
+        print("animationController:${animationController_z.isAnimating}");
+        double now = animationController_z.duration.inSeconds *
+            animationController_z.value;
+
+        if (animationController_z.isAnimating) {
+        } else {
+          animationController_z.reverse(
+              from: animationController_z.value == 0.0
+                  ? 1.0
+                  : animationController_z.value);
+
+          animationController_x.reverse(
+              from: animationController_x.value == 0.0
+                  ? 1.0
+                  : animationController_x.value);
+
+          animationController_y.reverse(
+              from: animationController_y.value == 0.0
+                  ? 1.0
+                  : animationController_y.value);
+
+          animationController_s.reverse(
+              from: animationController_s.value == 0.0
+                  ? 1.0
+                  : animationController_s.value);
+
+          animationController_t.reverse(
+              from: animationController_t.value == 0.0
+                  ? 1.0
+                  : animationController_t.value);
+
+          animationController_r.reverse(
+              from: animationController_r.value == 0.0
+                  ? 1.0
+                  : animationController_r.value);
+        }
+      }
     });
   }
 
   void endButton() {
     print("endButton()");
     setState(() {
+      command = "开始";
       state = 0;
-      command = '屏息';
-      animationController.reset();
-      //LineModel model = TrainTravel.createLiner(state);
-      currentTravelModel.addLineModel(currentLineModel.copy());
-      travelList.add(currentTravelModel.copy());
-      //lastDateTime = new DateTime.now().millisecondsSinceEpoch;
-      currentTravelModel.list.clear();
+
+      //travelList.add(currentTravelModel_t.copy());
+      travelList.add(currentTravelModel_s.copy());
+      travelList.add(currentTravelModel_z.copy());
+      travelList.add(currentTravelModel_y.copy());
+      travelList.add(currentTravelModel_x.copy());
+
+      travelList.add(currentTravelModel_r.copy());
     });
   }
-
 
   @override
   void dispose() {
     // 释放资源
-    animationController.dispose();
+    endButton();
+    animationController_z.dispose();
     super.dispose();
+
   }
 }
 
@@ -365,9 +616,22 @@ class TimerPainterLiner extends CustomPainter {
   final Color backgroundColor;
   final Color color;
   var endCallback;
+  double point;
+  Offset lastPoint;
+  LineModel lineModel;
+  TravelModel travelModel;
+  int type;
 
   TimerPainterLiner(
-      {this.animation, this.backgroundColor, this.color, this.endCallback})
+      {this.animation,
+      this.backgroundColor,
+      this.color,
+      this.endCallback,
+      this.point,
+      this.lastPoint,
+      this.lineModel,
+      this.travelModel,
+      this.type})
       : super(repaint: animation);
 
   @override
@@ -379,25 +643,73 @@ class TimerPainterLiner extends CustomPainter {
       ..style = PaintingStyle.stroke;
     paint.color = color;
 
-    if(0==state){
+    if (0 == state) {
       return;
     }
 
-    print("travelModel.list= ${currentTravelModel.list.length}");
+    print("travelModel.list= ${currentTravelModel_z.list.length}");
     currentTime = new DateTime.now().millisecondsSinceEpoch;
-    double distance = (currentTime - startDateTime) / 1000 * 20;
-    double diff = (currentTime - lastDateTime) / 1000 * 5;
+    double distance = (currentTime - startDateTime) / 1000 * 6;
+    //double diff = (currentTime - lastDateTime) / 1000 * 5;
 
-    print("diff= ${diff}|${state}");
-    Offset currentPoint= new Offset(distance, y);
-    currentLineModel = new LineModel(start:lastPoint, end:currentPoint);
-    currentTravelModel.addLineModel(currentLineModel);
-
-    for (LineModel model in currentTravelModel.list) {
-      canvas.drawLine(model.start, model.end, paint);
+    //print("diff= ${diff}|${state}");
+    Offset currentPoint = new Offset(distance, point);
+    switch (type) {
+      case 1:
+        currentLineModel_x =
+            new LineModel(start: lastPoint_x, end: currentPoint);
+        currentTravelModel_x.addLineModel(lineModel);
+        for (LineModel model in travelModel.list) {
+          canvas.drawLine(model.start, model.end, paint);
+        }
+        lastPoint_x = currentPoint;
+        break;
+      case 2:
+        currentLineModel_y =
+            new LineModel(start: lastPoint_y, end: currentPoint);
+        currentTravelModel_y.addLineModel(lineModel);
+        for (LineModel model in travelModel.list) {
+          canvas.drawLine(model.start, model.end, paint);
+        }
+        lastPoint_y = currentPoint;
+        break;
+      case 3:
+        currentLineModel_z =
+            new LineModel(start: lastPoint_z, end: currentPoint);
+        currentTravelModel_z.addLineModel(lineModel);
+        for (LineModel model in travelModel.list) {
+          canvas.drawLine(model.start, model.end, paint);
+        }
+        lastPoint_z = currentPoint;
+        break;
+      case 4:
+        currentLineModel_s =
+            new LineModel(start: lastPoint_s, end: currentPoint);
+        currentTravelModel_s.addLineModel(lineModel);
+        for (LineModel model in travelModel.list) {
+          canvas.drawLine(model.start, model.end, paint);
+        }
+        lastPoint_s = currentPoint;
+        break;
+      case 5:
+        currentLineModel_t =
+            new LineModel(start: lastPoint_t, end: currentPoint);
+        currentTravelModel_t.addLineModel(lineModel);
+        for (LineModel model in travelModel.list) {
+          canvas.drawLine(model.start, model.end, paint);
+        }
+        lastPoint_t = currentPoint;
+        break;
+      case 6:
+//        currentLineModel_t =
+//        new LineModel(start: lastPoint_t, end: currentPoint);
+//        currentTravelModel_t.addLineModel(lineModel);
+        for (LineModel model in travelModel.list) {
+          canvas.drawLine(model.start, model.end, paint);
+        }
+        //lastPoint_t = currentPoint;
+        break;
     }
-
-    lastPoint= currentPoint;
   }
 
   @override
@@ -409,26 +721,113 @@ class TimerPainterLiner extends CustomPainter {
 }
 
 void acceleromete() {
+  int i = 0;
   userAccelerometerEvents.listen((UserAccelerometerEvent event) {
-    //print("--------------now-----------=${new DateTime.now()}|${command}");
-//    print(
-//        "userAccelerometerEvents=${event.x.toStringAsFixed(2)}|${event.y.toStringAsFixed(2)}|${event.z.toStringAsFixed(2)}|");
-    double dz=event.z*1000;
-    double max=18;
-    double min=7;
-    if(dz>max){
-      y=max;
-    }else if (dz<-max){
-      y=-max;
-    }else if(dz>-min&&dz<min){
-      y=0;
+    double max = 18;
+    double min = 2;
+    int p = 600;
+    dx = event.x * p;
+    if (dx > max) {
+      dx = max;
+    } else if (dx < -max) {
+      dx = -max;
+    } else if (dx > -min && dx < min) {
+      dx = 0;
     }
-    else{
-      y=dz;
+
+    dy = event.y * p;
+    if (dy > max) {
+      dy = max;
+    } else if (dy < -max) {
+      dy = -max;
+    } else if (dy > -min && dy < min) {
+      dy = 0;
     }
+
+    dz = event.z * p;
+    if (dz > max) {
+      dz = max;
+    } else if (dz < -max) {
+      dz = -max;
+    } else if (dz > -min && dz < min) {
+      dz = 0;
+    }
+
+    ds = dx + dz;
+    if (dx < min && dz < min || dx > -min && dz > -min) {
+      dt = ds;
+    } else {
+      dt = 0;
+    }
+
+    double breakPoint = 6;
+    int scale = 6;
+    //if (0 == i++ % 2) {
+      if (0 == isbreath || 1 == isbreath) {
+        //取吸点
+        if (ds < -breakPoint) {
+          //取正最高点，直到遇到负时停止，
+          drpos = ds;
+          isbreath = 1;
+        } else if (ds >= breakPoint && 1 == isbreath) {
+          isbreath = 2; //取呼点
+        }
+      } else {
+        if (ds > breakPoint) {
+          drsplus = ds;
+          isbreath = 3;
+        } else if (3 == isbreath) {
+          //说明找到分界点了
+          isbreath = 0;
+          currentTime = new DateTime.now().millisecondsSinceEpoch;
+          double distance = (currentTime - startDateTime) / 1000 * 6;
+          Offset currentPoint = new Offset(distance, -16);
+          BreathModel currentBreathModel =
+              new BreathModel(dateTime: new DateTime.now(), type: 1);
+          currentBreathModel.x = distance;
+          double interval = 3.0 * scale;
+          if (null != lastBreathModel) {
+            interval = (new DateTime.now().millisecondsSinceEpoch -
+                    lastBreathModel.dateTime.millisecondsSinceEpoch) /
+                1000 *
+                scale;
+            if (interval <= 6 * scale) {
+              //默认3秒吸气时间
+              interval = interval / 2;
+            } else {
+              interval = 3.0 * scale;
+            }
+          }
+          //前面那个点需要完善
+          double currentPoint_x = distance - interval;
+          if (null != lastPoint_r) {
+            double lastPoint_x = lastBreathModel.x + interval;
+
+            Offset afterPoint = new Offset(lastPoint_x, 0);
+            LineModel beforeLineModel =
+                new LineModel(start: lastPoint_r, end: afterPoint);
+            currentTravelModel_r.addLineModel(beforeLineModel.copy());
+
+            if (currentPoint_x > lastPoint_x) {
+              //屏息线
+              LineModel levelLineModel = new LineModel(
+                  start: new Offset(lastPoint_x, 0),
+                  end: new Offset(currentPoint_x, 0));
+              currentTravelModel_r.addLineModel(levelLineModel);
+            }
+          }
+
+          Offset beforePoint = new Offset(currentPoint_x, -0);
+          currentLineModel_r =
+              new LineModel(start: beforePoint, end: currentPoint);
+          currentTravelModel_r.addLineModel(currentLineModel_r.copy());
+          lastPoint_r = currentPoint;
+          lastBreathModel = currentBreathModel;
+        }
+      }
+ //   }
   });
 }
-
 
 class PainterLiner extends CustomPainter {
   final Animation<double> animation;
