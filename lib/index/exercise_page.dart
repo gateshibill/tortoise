@@ -25,7 +25,7 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
   _ExercisePageState();
 
   AnimationController animationController;
-  String bg = "assets/images/bg10.jpg";
+  String bg = "assets/images/bg18.jpg";
   double width = 500;
   double height = 100;
 
@@ -71,7 +71,7 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
                   ),
                   new CircleAvatar(
                     radius: 15.0,
-                    backgroundImage: AssetImage("assets/images/bg3.jpg"),
+                    backgroundImage: AssetImage("assets/images/bg12.jpg"),
                   )
                 ])),
             Container(
@@ -166,7 +166,7 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
               height: 70,
               // alignment: Alignment.bottomLeft,
               //color: Colors.black12,
-              child: RaisedButton(
+              child: 0==state?Container():RaisedButton(
                   child: Text('结束'),
                   color: Colors.brown,
                   textColor: Colors.white,
@@ -402,7 +402,7 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
       animationController.reset();
       //LineModel model = TrainTravel.createLiner(state);
       currentTravelModel.addLineModel(currentLineModel.copy());
-      travelList0.add(currentTravelModel.copy());
+      travelList.add(currentTravelModel.copy());
       //lastDateTime = new DateTime.now().millisecondsSinceEpoch;
     });
   }

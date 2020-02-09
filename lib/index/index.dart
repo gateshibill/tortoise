@@ -47,6 +47,8 @@ class _MyHomePageState extends State<MyHomePage> {
             TrainPage(),
             AccelerPage(),
              RelaxPage(),
+           ExercisePage()
+
 
            // RelaxPage(bg: "assets/images/bg2.jpg"),
             //AdPage(bg: 'assets/images/bg3.jpg'),

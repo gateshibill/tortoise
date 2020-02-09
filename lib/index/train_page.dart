@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:example/common/data.dart';
 import 'package:example/model/line_model.dart';
@@ -14,7 +15,7 @@ int startDateTime;
 int lastDateTime;
 int currentTime;
 double lastDy;
-String command = '开始屏息';
+String command = '开始';
 
 class TrainPage extends StatefulWidget {
   @override
@@ -25,7 +26,7 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
   _TrainPageState();
 
   AnimationController animationController;
-  String bg = "assets/images/bg10.jpg";
+  String bg = "assets/images/bg13.jpg";
   double width = 500;
   double height = 100;
 
@@ -44,7 +45,7 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
         child: Column(
           children: <Widget>[
             Text(
-              " 呼吸练习",
+              " 呼吸训练",
             ),
 //            Container(
 //              width: 200,
@@ -89,9 +90,9 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
             ),
             Container(
               //1.训练1
-              width: width,
-              height: 70,
-              alignment: Alignment.bottomLeft,
+              width: 350,
+              height: 60,
+              alignment: Alignment.center,
               child: Align(
                 alignment: FractionalOffset.bottomLeft,
                 child: AspectRatio(
@@ -107,7 +108,7 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
                                   animation: animationController,
                                   backgroundColor: Colors.white,
                                   color: Theme.of(context).accentColor,
-                                  switchCallback:startButton ,
+                                  switchCallback: startButton,
                                   endCallback: endButton),
                             );
                           },
@@ -123,7 +124,7 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
                                 animation: animationController,
                                 builder: (_, Widget child) {
                                   return Text(
-                                    timerString,
+                                    0==state?"":timerString,
                                     style: Theme.of(context).textTheme.display1,
                                   );
                                 })
@@ -163,7 +164,7 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
               height: 70,
               // alignment: Alignment.bottomLeft,
               //color: Colors.black12,
-              child: RaisedButton(
+              child: 0==state?Container():RaisedButton(
                   child: Text('结束'),
                   color: Colors.brown,
                   textColor: Colors.white,
@@ -201,7 +202,7 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
               //历史1
               width: width,
               height: 50,
-              //alignment: Alignment.bottomLeft,
+              alignment: Alignment.centerLeft,
               child: getItem(null, travelList0.length - 1),
             ),
             Container(
@@ -242,13 +243,13 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
   void initState() {
     super.initState();
     animationController =
-        AnimationController(vsync: this, duration: Duration(seconds: 60));
+        AnimationController(vsync: this, duration: Duration(seconds: 90));
   }
 
   String get timerString {
     Duration duration =
         animationController.duration * animationController.value;
-    return '${duration.inMinutes}:${(60-(duration.inSeconds % 60)).toString().padLeft(2, '0')}';
+    return '${(90-duration.inSeconds).toString().padLeft(2, '0')}';
   }
 
   Widget history() {
@@ -264,7 +265,7 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
   }
 
   Widget getItem(BuildContext context, int index) {
-    print("getItem() index=${index}");
+    //  print("getItem() index=${index}");
     if (index < 0) {
       return new Text("");
     }
@@ -307,79 +308,79 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
   void startButton() {
     print("startButton()");
     //state=1;
-    setState(() {
-      print("animationController:${animationController.isAnimating}");
-      double now =
-          animationController.duration.inSeconds * animationController.value;
-      if (animationController.isAnimating) {
-        // animationController.stop();
-        //   spentTime = lastTime - now;
-        //state=0;
-      } else {
-        animationController.reverse(
-            from: animationController.value == 0.0
-                ? 1.0
-                : animationController.value);
-      }
+    // setState(() {
+    print("animationController:${animationController.isAnimating}");
+    double now =
+        animationController.duration.inSeconds * animationController.value;
+    if (animationController.isAnimating) {
+      // animationController.stop();
+      //   spentTime = lastTime - now;
+      //state=0;
+      print("animationController:isAnimating");
+    } else {
+      animationController.reverse(
+          from: animationController.value == 0.0
+              ? 1.0
+              : animationController.value);
+    }
 
-      switch (state) {
-        case 0:
-          state = 1;
-          command = '吸气';
-          Offset lastPoint = new Offset(0.0, 0.0);
-          Offset currentPoint = new Offset(0.0, 0.0);
-          currentLineModel = new LineModel(start: lastPoint, end: currentPoint);
-          currentTravelModel.list.clear();
-          currentTravelModel.addLineModel(currentLineModel);
-          startDateTime = new DateTime.now().millisecondsSinceEpoch;
-          lastDateTime = new DateTime.now().millisecondsSinceEpoch;
-          break;
-        case 1:
-          state = 2;
-          command = '呼气';
-          breathButton();
-          break;
-        case 2:
-          state = 3;
-          command = '吸气';
-          breathButton();
-          break;
-        case 3:
-          state = 2;
-          command = '呼气';
-          breathButton();
-          break;
-        case 4:
-          break;
-      }
-    });
+    switch (state) {
+      case 0:
+        state = 1;
+        command = '吸气';
+        Offset lastPoint = new Offset(0.0, 0.0);
+        Offset currentPoint = new Offset(0.0, 0.0);
+        currentLineModel = new LineModel(start: lastPoint, end: currentPoint);
+        currentTravelModel.list.clear();
+        currentTravelModel.addLineModel(currentLineModel);
+        startDateTime = new DateTime.now().millisecondsSinceEpoch;
+        lastDateTime = new DateTime.now().millisecondsSinceEpoch;
+        break;
+      case 1:
+        state = 2;
+        command = '呼气';
+        breathButton();
+        break;
+      case 2:
+        state = 3;
+        command = '吸气';
+        breathButton();
+        break;
+      case 3:
+        state = 2;
+        command = '呼气';
+        breathButton();
+        break;
+      case 4:
+        break;
+    }
+    // });
   }
 
   void breathButton() {
     setState(() {
       breath = 1 == breath ? 0 : 1;
-      if (1 == breath) {
-        LineModel model = currentLineModel.copy();
-        currentTravelModel.addLineModel(model);
-        currentLineModel.start = currentLineModel.end;
-      } else {
-        LineModel model = currentLineModel.copy();
-        currentTravelModel.addLineModel(model);
-        currentLineModel.start = currentLineModel.end;
-      }
+
+      LineModel model = currentLineModel.copy();
+      currentTravelModel.addLineModel(model);
+      currentLineModel.start = currentLineModel.end;
       lastDateTime = new DateTime.now().millisecondsSinceEpoch;
     });
   }
 
   void endButton() {
     print("endButton()");
+    if (0 == state) {
+      return;
+    }
     setState(() {
       state = 0;
-      command = '屏息';
+      command = '开始';
       animationController.reset();
       //LineModel model = TrainTravel.createLiner(state);
       currentTravelModel.addLineModel(currentLineModel.copy());
       travelList0.add(currentTravelModel.copy());
+      print("endButton() setState");
     });
   }
 
@@ -406,7 +407,11 @@ class TimerPainterLiner extends CustomPainter {
   var switchCallback;
 
   TimerPainterLiner(
-      {this.animation, this.backgroundColor, this.color,this.switchCallback, this.endCallback})
+      {this.animation,
+      this.backgroundColor,
+      this.color,
+      this.switchCallback,
+      this.endCallback})
       : super(repaint: animation);
 
   @override
@@ -422,24 +427,13 @@ class TimerPainterLiner extends CustomPainter {
       print("unstart");
       return;
     }
-    print("travelModel.list= ${currentTravelModel.list.length}");
+    //print("travelModel.list= ${currentTravelModel.list.length}");
     currentTime = new DateTime.now().millisecondsSinceEpoch;
-    double time =(currentTime - startDateTime) / 1000;
+    double time = (currentTime - startDateTime) / 1000;
     double distance = time * 5;
     double diff = (currentTime - lastDateTime) / 1000 * 5;
 
-    if(time>20){
-      int splus=(time-20).toInt();
-      int m=splus~/3;
-      int n=m%2;
-      if(0==n&&2!=state){//吸气
-        switchCallback();
-      }else if(1==n&&2==state){//呼气
-        switchCallback();
-      }
-    }
-
-    print("diff= ${diff}|${state}");
+     print("diff= ${diff}|${state}");
     switch (state) {
       case 1:
         currentLineModel.end = new Offset(distance, 0);
@@ -459,11 +453,43 @@ class TimerPainterLiner extends CustomPainter {
     for (LineModel model in currentTravelModel.list) {
       canvas.drawLine(model.start, model.end, paint);
     }
-    if ((2 == state || 3 == state) && 50 < diff) {
-      endCallback();
+    if ((2 == state || 3 == state) && 20 < diff) {
+     // Timer timer = new Timer(new Duration(seconds: 0), () {
+        endCallback();
+     // });
+    //  print("2 == state || 3 == state) && 50 < diff");
+      return;
     }
-    if (1 == state && 299 < distance) {
-      endCallback();
+    print("before 310 < distance=${distance}");
+    if (360 < distance) {
+      print("360 distance");
+      new Timer(new Duration(seconds: 0), () {
+        endCallback();
+      });
+    } else if(311 < distance){
+      print("300 distance");
+      new Timer(new Duration(seconds: 0), () {
+      state=1;
+      command = '放松';
+      });
+    }
+    else {
+      if (time > 19) {
+        int splus = (time - 19).toInt();
+        int m = splus ~/ 3;
+        int n = m % 2;
+        if (0 == n && 2 != state) {
+          //吸气
+          Timer timer = new Timer(new Duration(seconds: 0), () {
+            switchCallback();
+          });
+        } else if (1 == n && 2 == state) {
+          //呼气
+          Timer timer = new Timer(new Duration(seconds: 0), () {
+            switchCallback();
+          });
+        }
+      }
     }
   }
 

@@ -26,7 +26,7 @@ class _RelaxPageState extends State<RelaxPage> {
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/bg2.jpg"),
+            image: AssetImage("assets/images/bg14.jpg"),
             fit: BoxFit.cover,
           ),
         ),
@@ -144,18 +144,17 @@ class _RelaxPageState extends State<RelaxPage> {
     }
     //print("startButton()|$url");
     int result = 0;
-    if (!isPlay) {
-      isPlay = false;
-      command = "暂停";
-      await mediaController.setAssetDataSource("assets/music/naturespath.mp3", autoPlay: true);
-      await mediaController.play();
-    } else {
-      isPlay = true;
-      command = "播放";
-      mediaController.pause();
-    }
-
-    print('mediaController.ijkStatus=${mediaController.ijkStatus}');
-
+    setState(() {
+      if (!isPlay) {
+        isPlay = true;
+        command = "暂停";
+         mediaController.setAssetDataSource("assets/music/naturespath.mp3", autoPlay: true);
+        mediaController.play();
+      } else {
+        isPlay = false;
+        command = "播放";
+        mediaController.pause();
+      }
+    });
   }
 }

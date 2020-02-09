@@ -57,7 +57,7 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
         padding: EdgeInsets.all(8.0),
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/images/bg5.jpg"),
+            image: AssetImage("assets/images/bg12.jpg"),
             fit: BoxFit.cover,
           ),
         ),
@@ -67,7 +67,7 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
               " BOLT测试",
             ),
             Expanded(
-              child: Align(
+              child: 0==state?Container():Align(
                 alignment: FractionalOffset.center,
                 child: AspectRatio(
                   aspectRatio: 1.0,
@@ -168,6 +168,7 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
         spentTime = lastTime - now;
         commandText="开始";
         state = 0;
+        animationController.reset();
       } else {
         animationController.reverse(
             from: animationController.value == 0.0
@@ -190,14 +191,14 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
         Text(
           spentTime == 0 ? "　　　　　　　　　　　　　" : getScoreTips(spentTime),
           style: new TextStyle(
-            color: Colors.blueAccent,
+            color: Colors.redAccent,
             fontSize: 22.0,
           ),
         ),
         Text(
           spentTime == 0 ? "　　　　　　　　　　　　　" : getRateTips(spentTime),
           style: new TextStyle(
-            color: Colors.blueAccent,
+            color: Colors.redAccent,
             fontSize: 22.0,
           ),
         ),

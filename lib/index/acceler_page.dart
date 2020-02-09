@@ -75,7 +75,7 @@ class _AccelerPageState extends State<AccelerPage>
   AnimationController animationController_t;
   AnimationController animationController_r;
 
-  String bg = "assets/images/bg11.jpg";
+  String bg = "assets/images/bg10.jpg";
   double width = 500;
   double height = 100;
   final int time = 60;
@@ -95,7 +95,7 @@ class _AccelerPageState extends State<AccelerPage>
         child: Column(
           children: <Widget>[
             Text(
-              "BOLT练习 感应记录",
+              "呼吸测试",
             ),
             Container(
               width: 200,
@@ -334,17 +334,18 @@ class _AccelerPageState extends State<AccelerPage>
                 ),
               ),
             ),
-            //屏息切换
+            //屏息切换按钮
             CircleAvatar(
-              radius: 32.0,
+              radius: 60.0,
               // backgroundImage: AssetImage("assets/images/bg3.jpg"),
               backgroundColor: Colors.blueGrey,
               child: RaisedButton(
                   child: Text(command,
+                    //style: Theme.of(context).textTheme.display1,
                       style: new TextStyle(
                         color: Colors.white,
-                        fontSize: 15.0,
-                      )),
+                        fontSize: 20.0)
+                      ),
                   color: Colors.transparent,
                   textColor: Colors.white,
                   elevation: 100,
@@ -356,7 +357,7 @@ class _AccelerPageState extends State<AccelerPage>
             Container(
               //4.中间站位
               width: width,
-              height: 10,
+              height: 30,
               // color: Colors.black12,
             ),
             //分割线
@@ -382,7 +383,7 @@ class _AccelerPageState extends State<AccelerPage>
                 height: 40,
                 child: Text(
                   resultString,
-                  style: Theme.of(context).textTheme.caption,
+                  style: Theme.of(context).textTheme.subtitle,
                 )),
             Container(
               //4.中间站位
@@ -410,20 +411,6 @@ class _AccelerPageState extends State<AccelerPage>
               height: 60,
               //alignment: Alignment.bottomLeft,
               child: getItem(null, travelList.length - 3),
-            ),
-            Container(
-              //历史4
-              width: width,
-              height: 60,
-              //alignment: Alignment.bottomLeft,
-              child: getItem(null, travelList.length - 4),
-            ),
-            Container(
-              //历史5
-              width: width,
-              height: 60,
-              //alignment: Alignment.bottomLeft,
-              child: getItem(null, travelList.length - 5),
             ),
           ],
         ),

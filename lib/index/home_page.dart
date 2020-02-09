@@ -213,8 +213,8 @@ class _HomePageState extends State<HomePage> {
 //      i++;
 //      if (0 != i % 2) {
 //      } else {
-      print("--------------now-----------=${new DateTime.now()}|${command}");
-      print("userAccelerometerEvents=$event");
+      //print("--------------now-----------=${new DateTime.now()}|${command}");
+    //  print("userAccelerometerEvents=$event");
 //      print(
 //          "userAccelerometerEvents=${event.x.toStringAsFixed(2)}|${event.y.toStringAsFixed(2)}|${event.z.toStringAsFixed(2)}|");
       double dz = event.z;

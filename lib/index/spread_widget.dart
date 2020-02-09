@@ -85,7 +85,7 @@ class _SpreadWidgetState extends State<SpreadWidget>
 
   void animationControl(AnimationController _animationController) {
             _animationController.addStatusListener((status) {
-              print("animationControl() status=${status}");
+             // print("animationControl() status=${status}");
       if (status == AnimationStatus.completed) {
         Future.delayed(Duration(milliseconds: 1000), () {
           //关闭loading
@@ -103,7 +103,7 @@ class _SpreadWidgetState extends State<SpreadWidget>
   }
 
   void getAnimate(Animation<double> _animation) {
-    print("getAnimate=${widget.radius}");
+   // print("getAnimate=${widget.radius}");
     if(children.length==0) {
       return children.add(AnimatedSpread(
         animation: _animation,
@@ -155,7 +155,7 @@ class AnimatedSpread extends AnimatedWidget {
     final Animation<double> animation = listenable;
     double width=_radiusTween.evaluate(animation);
     double height= _radiusTween.evaluate(animation);
-    print("width:$width|height:$height");
+   // print("width:$width|height:$height");
     return Container(
       width: _radiusTween.evaluate(animation),
       height: _radiusTween.evaluate(animation),
