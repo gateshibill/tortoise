@@ -120,11 +120,11 @@ class _SpreadWidgetState extends State<SpreadWidget>
 
   @override
   void dispose() {
+    super.dispose();
     controllers.forEach((c) {
       c.dispose();
       c = null;
     });
-    super.dispose();
   }
 
   @override
