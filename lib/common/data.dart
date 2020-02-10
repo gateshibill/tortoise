@@ -11,9 +11,9 @@ List<TopicModel> sentenceList=[];
 List<TopicModel> multiList=[];
 List<TopicModel> relaxMusicList=[];
 
-List <TravelModel> travelList0=[];
+List <TravelModel> checkBreathTravelList=[];
 
-List <TravelModel> travelList=[];
+List <TravelModel> exerciseTravelList=[];
 
 String command = '播放';
 bool isPlay = false;

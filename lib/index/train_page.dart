@@ -18,6 +18,10 @@ double lastDy;
 String command = '开始';
 
 class TrainPage extends StatefulWidget {
+  bool isback=false;
+  TrainPage([isback=false]){
+    this.isback=isback;
+  }
   @override
   _TrainPageState createState() => _TrainPageState();
 }
@@ -193,7 +197,7 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
               // color: Colors.black12,
             ),
             //分割线
-            travelList0.length>0?Container(
+            checkBreathTravelList.length>0?Container(
               //5.分割线
               width: width,
               height: 2,
@@ -214,35 +218,35 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
               width: width,
               height: 50,
               alignment: Alignment.centerLeft,
-              child: getItem(null, travelList0.length - 1),
+              child: getItem(null, checkBreathTravelList.length - 1),
             ),
             Container(
               //历史2
               width: width,
               height: 50,
               //alignment: Alignment.bottomLeft,
-              child: getItem(null, travelList0.length - 2),
+              child: getItem(null, checkBreathTravelList.length - 2),
             ),
             Container(
               //历史3
               width: width,
               height: 50,
               //alignment: Alignment.bottomLeft,
-              child: getItem(null, travelList0.length - 3),
+              child: getItem(null, checkBreathTravelList.length - 3),
             ),
             Container(
               //历史4
               width: width,
               height: 50,
               //alignment: Alignment.bottomLeft,
-              child: getItem(null, travelList0.length - 4),
+              child: getItem(null, checkBreathTravelList.length - 4),
             ),
             Container(
               //历史5
               width: width,
               height: 50,
               //alignment: Alignment.bottomLeft,
-              child: getItem(null, travelList0.length - 5),
+              child: getItem(null, checkBreathTravelList.length - 5),
             ),
             Container(
                 height: 50,
@@ -282,14 +286,14 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
   }
 
   Widget history() {
-    print("history() travelList.length=${travelList.length}");
-    int length = travelList.length;
+    print("history() travelList.length=${exerciseTravelList.length}");
+    int length = exerciseTravelList.length;
     return ListView.builder(
       //  scrollDirection: Axis.horizontal,
       itemBuilder: (BuildContext context, int index) {
         return getItem(context, length - index - 1);
       },
-      itemCount: travelList.length,
+      itemCount: exerciseTravelList.length,
     );
   }
 
@@ -298,7 +302,7 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
     if (index < 0) {
       return new Text("");
     }
-    TravelModel model = travelList0[index];
+    TravelModel model = checkBreathTravelList[index];
     if (null == model) {
       return new Text("dd");
     }
@@ -408,7 +412,7 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
       animationController.reset();
       //LineModel model = TrainTravel.createLiner(state);
       currentTravelModel.addLineModel(currentLineModel.copy());
-      travelList0.add(currentTravelModel.copy());
+      checkBreathTravelList.add(currentTravelModel.copy());
       print("endButton() setState");
     });
   }
@@ -416,7 +420,7 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
   void clearButton() {
     setState(() {
       animationController.reset();
-      travelList0.clear();
+      checkBreathTravelList.clear();
     });
   }
 

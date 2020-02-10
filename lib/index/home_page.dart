@@ -235,7 +235,7 @@ class _HomePageState extends State<HomePage> {
           child: GestureDetector(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return new ExercisePage();
+                  return new ExercisePage(true);
                 }));
               },
               child: ClipRRect(
@@ -267,7 +267,7 @@ class _HomePageState extends State<HomePage> {
             child: GestureDetector(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return new RelaxPage();
+                  return new RelaxPage(true);
                 }));
               },
               child: ClipRRect(

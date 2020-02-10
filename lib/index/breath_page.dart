@@ -16,6 +16,7 @@ int lastDateTime = new DateTime.now().millisecondsSinceEpoch;
 int currentTime;
 double lastDy;
 String command = '开始';
+int breathTime =0;//呼吸次数
 
 double dx = 0;
 double dy = 0;
@@ -59,14 +60,18 @@ TravelModel currentTravelModel_s = new TravelModel();
 TravelModel currentTravelModel_t = new TravelModel();
 TravelModel currentTravelModel_r = new TravelModel();
 
-class AccelerPage extends StatefulWidget {
+class BreathPage extends StatefulWidget {
+  bool isback=false;
+  BreathPage([isback=false]){
+    this.isback=isback;
+  }
   @override
-  _AccelerPageState createState() => _AccelerPageState();
+  _BreathPageState createState() => _BreathPageState();
 }
 
-class _AccelerPageState extends State<AccelerPage>
+class _BreathPageState extends State<BreathPage>
     with TickerProviderStateMixin {
-  _AccelerPageState();
+  _BreathPageState();
 
   AnimationController animationController_x;
   AnimationController animationController_y;
@@ -79,6 +84,7 @@ class _AccelerPageState extends State<AccelerPage>
   double width = 500;
   double height = 100;
   final int time = 60;
+  String resultString="";
 
   @override
   Widget build(BuildContext context) {
@@ -125,19 +131,13 @@ class _AccelerPageState extends State<AccelerPage>
                     backgroundImage: AssetImage("assets/images/bg3.jpg"),
                   )
                 ])),
-//            Container(
-//              //tips
-//              width: width,
-//              height: 100,
-//              // color: Colors.black12,
-//              child: Text(
-//                sentenceList[Random().nextInt(sentenceList.length)].content,
-//                style: new TextStyle(
-//                  color: Colors.white,
-//                  fontSize: 15.0,
-//                ),
-//              ),
-//            ),
+            Container(
+              //tips
+              width: width,
+              height: 100,
+              // color: Colors.black12,
+              child: indicator(),
+            ),
             //x方向
             Container(
               //1.训练1
@@ -406,28 +406,38 @@ class _AccelerPageState extends State<AccelerPage>
               width: width,
               height: 50,
               //alignment: Alignment.bottomLeft,
-              child: getItem(null, travelList.length - 1),
+              child: getItem(null, exerciseTravelList.length - 1),
             ),
             Container(
               //历史2
               width: width,
               height: 60,
               //alignment: Alignment.bottomLeft,
-              child: getItem(null, travelList.length - 2),
+              child: getItem(null, exerciseTravelList.length - 2),
             ),
             Container(
               //历史3
               width: width,
               height: 60,
               //alignment: Alignment.bottomLeft,
-              child: getItem(null, travelList.length - 3),
+              child: getItem(null, exerciseTravelList.length - 3),
             ),
           ],
         ),
       ),
     );
   }
-
+  Widget indicator() {
+    return new Text(checkBreathTip, //
+      maxLines: 6, //最大行数
+      overflow: TextOverflow.ellipsis, //超出显示省略号
+      style: new TextStyle(
+        color: Colors.cyan,
+        fontSize: 22.0,
+        //  background: Paint()..color = Colors.white,
+      ),
+    );
+  }
   @override
   void initState() {
     super.initState();
@@ -453,19 +463,16 @@ class _AccelerPageState extends State<AccelerPage>
     return '${duration.inMinutes}:${(60 - (duration.inSeconds % 60)).toString().padLeft(2, '0')}';
   }
 
-  String get resultString {
-    return '屏息30秒，平均呼吸时间5秒';
-  }
 
   Widget history() {
-    print("history() travelList.length=${travelList.length}");
-    int length = travelList.length;
+    print("history() travelList.length=${exerciseTravelList.length}");
+    int length = exerciseTravelList.length;
     return ListView.builder(
       //  scrollDirection: Axis.horizontal,
       itemBuilder: (BuildContext context, int index) {
         return getItem(context, length - index - 1);
       },
-      itemCount: travelList.length,
+      itemCount: exerciseTravelList.length,
     );
   }
 
@@ -474,7 +481,7 @@ class _AccelerPageState extends State<AccelerPage>
     if (index < 0) {
       return new Text("");
     }
-    TravelModel model = travelList[index];
+    TravelModel model = exerciseTravelList[index];
     if (null == model) {
       return new Text("dd");
     }
@@ -518,6 +525,7 @@ class _AccelerPageState extends State<AccelerPage>
         return;
       } else {
         command = "结束";
+        breathTime=0;
         state = 1;
         lastPoint_x = new Offset(0, 0);
         lastPoint_y = new Offset(0, 0);
@@ -587,16 +595,30 @@ class _AccelerPageState extends State<AccelerPage>
     setState(() {
       command = "开始";
       state = 0;
+      currentTravelModel_s.breathTime=breathTime;
+      exerciseTravelList.add(currentTravelModel_s.copy());
+      exerciseTravelList.add(currentTravelModel_z.copy());
+      exerciseTravelList.add(currentTravelModel_y.copy());
+      exerciseTravelList.add(currentTravelModel_x.copy());
 
-      //travelList.add(currentTravelModel_t.copy());
-      travelList.add(currentTravelModel_s.copy());
-      travelList.add(currentTravelModel_z.copy());
-      travelList.add(currentTravelModel_y.copy());
-      travelList.add(currentTravelModel_x.copy());
-
-      travelList.add(currentTravelModel_r.copy());
+      exerciseTravelList.add(currentTravelModel_r.copy());
+      result(currentTravelModel_r.copy());
     });
   }
+
+void result(TravelModel model){
+    String result="一分钟呼吸次数$breathTime次";
+    if(model.breathTime>15){
+      result+="呼吸偏快";
+    }else if(model.breathTime>6){
+      result+="呼吸慢";
+    }else{
+      result+="呼吸良好！";
+    }
+    setState(() {
+      resultString=result;
+    });
+}
 
   @override
   void dispose() {
@@ -697,7 +719,7 @@ class TimerPainterLiner extends CustomPainter {
         }
         lastPoint_t = currentPoint;
         break;
-      case 6:
+      case 6://呼吸线
 //        currentLineModel_t =
 //        new LineModel(start: lastPoint_t, end: currentPoint);
 //        currentTravelModel_t.addLineModel(lineModel);
@@ -718,6 +740,9 @@ class TimerPainterLiner extends CustomPainter {
 }
 
 void acceleromete() {
+  if(0==state){
+    return;
+  }
   int i = 0;
   userAccelerometerEvents.listen((UserAccelerometerEvent event) {
     double max = 18;
@@ -820,6 +845,8 @@ void acceleromete() {
           currentTravelModel_r.addLineModel(currentLineModel_r.copy());
           lastPoint_r = currentPoint;
           lastBreathModel = currentBreathModel;
+
+          ++breathTime;
         }
       }
  //   }

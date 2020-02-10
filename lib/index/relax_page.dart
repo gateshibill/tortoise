@@ -6,6 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 
 class RelaxPage extends StatefulWidget {
+  bool isback=false;
+  RelaxPage([isback=false]){
+    this.isback=isback;
+  }
   @override
   _RelaxPageState createState() => _RelaxPageState();
 }
@@ -121,11 +125,21 @@ class _RelaxPageState extends State<RelaxPage> {
 //                    startButton();
 //                  }),
 //            ),
-        Container(
-          width: 200,
-          height: 50,
-        )
-
+            !widget.isback?              Container(
+              height: 50,
+            ):Container(
+                child: RaisedButton( //按钮
+                  child: Text('返回首页'),
+                  color: Colors.brown,
+                  textColor: Colors.white,
+                  elevation: 20,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  onPressed: () { //相应按钮点击事件
+                    // 通过MaterialPageRoute跳转逻辑 的具体执行
+                    Navigator.pop(context);
+                  },
+                )),
           ],
         ),
       ),

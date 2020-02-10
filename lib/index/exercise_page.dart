@@ -17,6 +17,10 @@ double lastDy;
 String command = '开始屏息';
 
 class ExercisePage extends StatefulWidget {
+  bool isback=false;
+  ExercisePage([isback=false]){
+    this.isback=isback;
+  }
   @override
   _ExercisePageState createState() => _ExercisePageState();
 }
@@ -96,7 +100,7 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
             Container(
               //1.训练1
               width: width,
-              height: 170,
+              height: 130,
               alignment: Alignment.bottomLeft,
               child: Align(
                 alignment: FractionalOffset.bottomLeft,
@@ -151,24 +155,6 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
                 onPressed: () {
                   startButton();
                 }),
-//            CircleAvatar(
-//              radius: 70.0,
-//              // backgroundImage: AssetImage("assets/images/bg3.jpg"),
-//              backgroundColor: Colors.blueGrey,
-//              child: RaisedButton(
-//                  child: Text(command,
-//                      style: new TextStyle(
-//                        color: Colors.white,
-//                        fontSize: 20.0,
-//                      )),
-//                  color: Colors.transparent,
-//                  textColor: Colors.white,
-//                  elevation: 100,
-//                  shape: CircleBorder(),
-//                  onPressed: () {
-//                    startButton();
-//                  }),
-//            ),
 
             //呼吸切换
             Container(
@@ -226,7 +212,7 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
             Container(
               //4.中间站位
               width: width,
-              height: 50,
+              height: 30,
               // color: Colors.black12,
             ),
             Container(
@@ -234,35 +220,35 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
               width: width,
               height: 50,
               //alignment: Alignment.bottomLeft,
-              child: getItem(null, travelList0.length - 1),
+              child: getItem(null, checkBreathTravelList.length - 1),
             ),
             Container(
               //历史2
               width: width,
               height: 50,
               //alignment: Alignment.bottomLeft,
-              child: getItem(null, travelList0.length - 2),
+              child: getItem(null, checkBreathTravelList.length - 2),
             ),
             Container(
               //历史3
               width: width,
               height: 50,
               //alignment: Alignment.bottomLeft,
-              child: getItem(null, travelList0.length - 3),
+              child: getItem(null, checkBreathTravelList.length - 3),
             ),
             Container(
               //历史4
               width: width,
               height: 50,
               //alignment: Alignment.bottomLeft,
-              child: getItem(null, travelList0.length - 4),
+              child: getItem(null, checkBreathTravelList.length - 4),
             ),
             Container(
               //历史5
               width: width,
               height: 50,
               //alignment: Alignment.bottomLeft,
-              child: getItem(null, travelList0.length - 5),
+              child: getItem(null, checkBreathTravelList.length - 5),
             ),
             Container(
                 height: 50,
@@ -271,6 +257,21 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
                   Random().nextInt(sentenceList.length)]
                       .content,
                   style: Theme.of(context).textTheme.subhead,
+                )),
+            !widget.isback?              Container(
+              height: 50,
+            ):Container(
+                child: RaisedButton( //按钮
+                  child: Text('返回首页'),
+                  color: Colors.brown,
+                  textColor: Colors.white,
+                  elevation: 20,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  onPressed: () { //相应按钮点击事件
+                    // 通过MaterialPageRoute跳转逻辑 的具体执行
+                    Navigator.pop(context);
+                  },
                 )),
           ],
         ),
@@ -303,14 +304,14 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
   }
 
   Widget history() {
-    print("history() travelList.length=${travelList.length}");
-    int length = travelList.length;
+    print("history() travelList.length=${exerciseTravelList.length}");
+    int length = exerciseTravelList.length;
     return ListView.builder(
       //  scrollDirection: Axis.horizontal,
       itemBuilder: (BuildContext context, int index) {
         return getItem(context, length - index - 1);
       },
-      itemCount: travelList.length,
+      itemCount: exerciseTravelList.length,
     );
   }
 
@@ -319,7 +320,7 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
     if (index < 0) {
       return new Text("");
     }
-    TravelModel model = travelList[index];
+    TravelModel model = exerciseTravelList[index];
     if (null == model) {
       return new Text("dd");
     }
@@ -433,7 +434,7 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
       animationController.reset();
       //LineModel model = TrainTravel.createLiner(state);
       currentTravelModel.addLineModel(currentLineModel.copy());
-      travelList.add(currentTravelModel.copy());
+      exerciseTravelList.add(currentTravelModel.copy());
       //lastDateTime = new DateTime.now().millisecondsSinceEpoch;
     });
   }
@@ -441,7 +442,7 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
   void clearButton() {
     setState(() {
       animationController.reset();
-      travelList0.clear();
+      checkBreathTravelList.clear();
     });
   }
 

@@ -4,7 +4,7 @@ import 'package:example/index/exercise_page.dart';
 import 'package:example/index/train_page.dart';
 import 'package:flutter/material.dart';
 
-import 'acceler_page.dart';
+import 'breath_page.dart';
 import 'check_page.dart';
 import 'spread_page.dart';
 
@@ -45,7 +45,7 @@ class _MyHomePageState extends State<MyHomePage> {
             HomePage(),
             CheckPage(),
             TrainPage(),
-            AccelerPage(),
+            BreathPage(),
              RelaxPage(),
            ExercisePage()
 
