@@ -80,18 +80,19 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
               width: width,
               height: 100,
               // color: Colors.black12,
-              child: Text(
-                sentenceList[Random().nextInt(sentenceList.length)].content,
-                style: new TextStyle(
-                  color: Colors.white,
-                  fontSize: 15.0,
-                ),
-              ),
+              child: indicator(),
+//              Text(
+//                sentenceList[Random().nextInt(sentenceList.length)].content,
+//                style: new TextStyle(
+//                  color: Colors.white,
+//                  fontSize: 15.0,
+//                ),
+           //   ),
             ),
             Container(
               //1.训练1
               width: 350,
-              height: 60,
+              height: 160,
               alignment: Alignment.center,
               child: Align(
                 alignment: FractionalOffset.bottomLeft,
@@ -137,31 +138,41 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
               ),
             ),
             //屏息切换
-            CircleAvatar(
-              radius: 70.0,
-              // backgroundImage: AssetImage("assets/images/bg3.jpg"),
-              backgroundColor: Colors.blueGrey,
-              child: RaisedButton(
-                  child: Text(command,
-                      style: new TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                      )),
-                  color: Colors.transparent,
-                  textColor: Colors.white,
-                  elevation: 100,
-                  shape: CircleBorder(),
-                  onPressed: () {
-                    startButton();
-                  }),
-            ),
+            RaisedButton(
+                child: Text(command),
+                color: Colors.brown,
+                textColor: Colors.white,
+                elevation: 20,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)),
+                onPressed: () {
+                  startButton();
+                }),
+//            CircleAvatar(
+//              radius: 70.0,
+//              // backgroundImage: AssetImage("assets/images/bg3.jpg"),
+//              backgroundColor: Colors.blueGrey,
+//              child: RaisedButton(
+//                  child: Text(command,
+//                      style: new TextStyle(
+//                        color: Colors.white,
+//                        fontSize: 20.0,
+//                      )),
+//                  color: Colors.transparent,
+//                  textColor: Colors.white,
+//                  elevation: 100,
+//                  shape: CircleBorder(),
+//                  onPressed: () {
+//                    startButton();
+//                  }),
+//            ),
 
             //呼吸切换
             Container(
               //4.结束
               padding: const EdgeInsets.only(top: 30.0),
               width: 100,
-              height: 70,
+              height: 10,
               // alignment: Alignment.bottomLeft,
               //color: Colors.black12,
               child: 0==state?Container():RaisedButton(
@@ -182,7 +193,7 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
               // color: Colors.black12,
             ),
             //分割线
-            Container(
+            travelList0.length>0?Container(
               //5.分割线
               width: width,
               height: 2,
@@ -191,7 +202,7 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
                 decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey, width: 2.0)),
               ),
-            ),
+            ):Container(),
             Container(
               //4.中间站位
               width: width,
@@ -233,12 +244,30 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
               //alignment: Alignment.bottomLeft,
               child: getItem(null, travelList0.length - 5),
             ),
+            Container(
+                height: 50,
+                child: Text(
+                  sentenceList[
+                  Random().nextInt(sentenceList.length)]
+                      .content,
+                  style: Theme.of(context).textTheme.subhead,
+                )),
           ],
         ),
       ),
     );
   }
-
+  Widget indicator(){
+    return new    Text(trainTip,//
+      maxLines: 6,//最大行数
+      overflow: TextOverflow.ellipsis,//超出显示省略号
+      style: new TextStyle(
+        color: Colors.grey,
+        fontSize: 22.0,
+        //  background: Paint()..color = Colors.white,
+      ),
+    );
+  }
   @override
   void initState() {
     super.initState();

@@ -335,25 +335,35 @@ class _AccelerPageState extends State<AccelerPage>
               ),
             ),
             //屏息切换按钮
-            CircleAvatar(
-              radius: 60.0,
-              // backgroundImage: AssetImage("assets/images/bg3.jpg"),
-              backgroundColor: Colors.blueGrey,
-              child: RaisedButton(
-                  child: Text(command,
-                    //style: Theme.of(context).textTheme.display1,
-                      style: new TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0)
-                      ),
-                  color: Colors.transparent,
-                  textColor: Colors.white,
-                  elevation: 100,
-                  shape: CircleBorder(),
-                  onPressed: () {
-                    startButton();
-                  }),
-            ),
+            RaisedButton(
+                child: Text(command),
+                color: Colors.brown,
+                textColor: Colors.white,
+                elevation: 20,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)),
+                onPressed: () {
+                  startButton();
+                }),
+//            CircleAvatar(
+//              radius: 60.0,
+//              // backgroundImage: AssetImage("assets/images/bg3.jpg"),
+//              backgroundColor: Colors.blueGrey,
+//              child: RaisedButton(
+//                  child: Text(command,
+//                    //style: Theme.of(context).textTheme.display1,
+//                      style: new TextStyle(
+//                        color: Colors.white,
+//                        fontSize: 20.0)
+//                      ),
+//                  color: Colors.transparent,
+//                  textColor: Colors.white,
+//                  elevation: 100,
+//                  shape: CircleBorder(),
+//                  onPressed: () {
+//                    startButton();
+//                  }),
+//            ),
             Container(
               //4.中间站位
               width: width,

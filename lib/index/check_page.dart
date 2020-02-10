@@ -3,9 +3,14 @@ import 'dart:math';
 import 'package:example/common/data.dart';
 import 'package:example/common/widget_common.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../common/config.dart';
 
 class CheckPage extends StatefulWidget {
+  bool isback=false;
+  CheckPage([isback=false]){
+    this.isback=isback;
+  }
   @override
   _CheckPageState createState() => _CheckPageState();
 }
@@ -20,11 +25,14 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
   double spentTime = 0;
   String commandText = "开始";
   int state = 0;
+  static bool isShowTip = false;
 
   String get timerString {
     Duration duration =
         animationController.duration * animationController.value;
-    return '${duration.inMinutes}:${(duration.inSeconds % 60).toString().padLeft(2, '0')}';
+    return '${duration.inMinutes}:${(duration.inSeconds % 60)
+        .toString()
+        .padLeft(2, '0')}';
   }
 
   @override
@@ -53,35 +61,72 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
 //      appBar: AppBar(
 //        title: Text('BOLT测试'),
 //      ),
-      body: Container(
-        padding: EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: AssetImage("assets/images/bg12.jpg"),
-            fit: BoxFit.cover,
-          ),
-        ),
-        child: Column(
-          children: <Widget>[
-            Text(
+      body: GestureDetector(
+          onTap: () {
+            setState(() {
+              isShowTip = true;
+            });
+          },
+          child: Container(
+            padding: EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/bg12.jpg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Column(
+              children: <Widget>[
+              Text(
               " BOLT测试",
             ),
+            Container(
+              //1.空站位
+                width: 500,
+                height: 50,
+                // color: Colors.black12,
+                child: Row(children: <Widget>[
+                  Container(
+                    width: 10,
+                    height: 50,
+                  ),
+                  Text("晚上好 12:12",
+                      style: new TextStyle(
+                        color: Colors.white,
+                        fontSize: 20.0,
+                      )),
+                  Container(
+                    width: 200,
+                    height: 50,
+                  ),
+                  new CircleAvatar(
+                    radius: 15.0,
+                    backgroundImage: AssetImage("assets/images/bg12.jpg"),
+                  )
+                ])
+            ),
             Expanded(
-              child: 0==state?Container():Align(
+              child: Align(
                 alignment: FractionalOffset.center,
-                child: AspectRatio(
+                child: 0 == state
+                    ? indicator()
+                    : AspectRatio(
                   aspectRatio: 1.0,
                   child: Stack(
                     children: <Widget>[
                       Positioned.fill(
                         child: AnimatedBuilder(
                           animation: animationController,
-                          builder: (BuildContext context, Widget child) {
+                          builder:
+                              (BuildContext context, Widget child) {
                             return CustomPaint(
                               painter: TimerPainter(
                                   animation: animationController,
                                   backgroundColor: Colors.white,
-                                  color: Theme.of(context).accentColor),
+                                  color:
+                                  Theme
+                                      .of(context)
+                                      .accentColor),
                             );
                           },
                         ),
@@ -89,15 +134,20 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
                       Align(
                         alignment: FractionalOffset.center,
                         child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment:
+                          MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment:
+                          CrossAxisAlignment.center,
                           children: <Widget>[
                             AnimatedBuilder(
                                 animation: animationController,
                                 builder: (_, Widget child) {
                                   return Text(
                                     timerString,
-                                    style: Theme.of(context).textTheme.display3,
+                                    style: Theme
+                                        .of(context)
+                                        .textTheme
+                                        .display3,
                                   );
                                 }),
 //                            Text(
@@ -125,34 +175,65 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
                 margin: EdgeInsets.all(8.0),
                 child: new Container(
                     child: new GestureDetector(
-                  onTap: () {
-                    checkButton();
-                  },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Container(
-                        height: 100,
+                      onTap: () {
+                        checkButton();
+                      },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Container(
+                            height: 100,
+                          ),
+                          result(),
+                          Container(
+                            height: 50,
+                          ),
+                          Container(
+                              height: 50,
+                              child: Text(
+                                sentenceList[
+                                Random().nextInt(sentenceList.length)]
+                                    .content,
+                                style: Theme
+                                    .of(context)
+                                    .textTheme
+                                    .subhead,
+                              )),
+                        ],
                       ),
-                      result(),
-                      Container(
-                        height: 50,
-                      ),
-                      Container(
-                          height: 50,
-                          child: Text(
-                            sentenceList[Random().nextInt(sentenceList.length)]
-                                .content,
-                            style: Theme.of(context).textTheme.subhead,
-                          )),
-                      Container(
-                        height: 50,
-                      ),
-                    ],
-                  ),
-                )))
-          ],
-        ),
+                    ))),
+            !widget.isback?              Container(
+              height: 50,
+            ):Container(
+              child: RaisedButton( //按钮
+                child: Text('返回首页'),
+                color: Colors.brown,
+                textColor: Colors.white,
+                elevation: 20,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)),
+                onPressed: () { //相应按钮点击事件
+                  // 通过MaterialPageRoute跳转逻辑 的具体执行
+                  Navigator.pop(context);
+                },
+              )),
+              ],
+            ),
+          )),
+      floatingActionButtonLocation: CustomFloatingActionButtonLocation(
+          FloatingActionButtonLocation.centerDocked, 300, -450),
+      floatingActionButton: guide(isShowTip),
+    );
+  }
+
+  Widget indicator() {
+    return new Text(boltTip, //
+      maxLines: 6, //最大行数
+      overflow: TextOverflow.ellipsis, //超出显示省略号
+      style: new TextStyle(
+        color: Colors.deepPurple,
+        fontSize: 22.0,
+        //  background: Paint()..color = Colors.white,
       ),
     );
   }
@@ -166,7 +247,7 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
       if (animationController.isAnimating) {
         animationController.stop();
         spentTime = lastTime - now;
-        commandText="开始";
+        commandText = "开始";
         state = 0;
         animationController.reset();
       } else {
@@ -175,7 +256,7 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
                 ? 1.0
                 : animationController.value);
         spentTime = 0;
-        commandText="结束";
+        commandText = "结束";
         state = 1;
       }
       print("current:$lastTime|$now|$spentTime|${animationController.value}");
@@ -189,17 +270,21 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
         Text(
-          spentTime == 0 ? "　　　　　　　　　　　　　" : getScoreTips(spentTime),
+          spentTime == 0 ? "" : getScoreTips(spentTime),
           style: new TextStyle(
             color: Colors.redAccent,
             fontSize: 22.0,
+            background: Paint()
+              ..color = Colors.white,
           ),
         ),
         Text(
-          spentTime == 0 ? "　　　　　　　　　　　　　" : getRateTips(spentTime),
+          spentTime == 0 ? "" : getRateTips(spentTime),
           style: new TextStyle(
             color: Colors.redAccent,
             fontSize: 22.0,
+            background: Paint()
+              ..color = Colors.white,
           ),
         ),
 //        Text(
@@ -208,7 +293,10 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
 //        ),
         Text(
           "",
-          style: Theme.of(context).textTheme.subhead,
+          style: Theme
+              .of(context)
+              .textTheme
+              .subhead,
         ),
       ],
     );
@@ -258,7 +346,9 @@ double getAverage(List<int> records) {
 }
 
 String formatNum(double num, int postion) {
-  if ((num.toString().length - num.toString().lastIndexOf(".") - 1) < postion) {
+  if ((num
+      .toString()
+      .length - num.toString().lastIndexOf(".") - 1) < postion) {
     //小数点后有几位小数
     return (num.toStringAsFixed(postion)
         .substring(0, num.toString().lastIndexOf(".") + postion + 1)

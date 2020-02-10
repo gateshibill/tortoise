@@ -59,28 +59,28 @@ class _RelaxPageState extends State<RelaxPage> {
                     backgroundImage: AssetImage("assets/images/bg3.jpg"),
                   )
                 ])),
-            Container(
-              height: 100,
-              child: Align(
-                alignment: FractionalOffset.center,
-                child: AspectRatio(
-                  aspectRatio: 1.0,
-                  child: Stack(
-                    children: <Widget>[
-                      Positioned.fill(
-                          //  child: Text("凌波不过横塘路，但目送、芳尘去。锦瑟华年谁与度？")
-                          child: Text(
-                              multiList[Random().nextInt(multiList.length)]
-                                  .content)),
-                      Align(
-                        alignment: FractionalOffset.center,
-                        child: Text(""),
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            ),
+//            Container(
+//              height: 100,
+//              child: Align(
+//                alignment: FractionalOffset.center,
+//                child: AspectRatio(
+//                  aspectRatio: 1.0,
+//                  child: Stack(
+//                    children: <Widget>[
+//                      Positioned.fill(
+//                          //  child: Text("凌波不过横塘路，但目送、芳尘去。锦瑟华年谁与度？")
+//                          child: Text(
+//                              multiList[Random().nextInt(multiList.length)]
+//                                  .content)),
+//                      Align(
+//                        alignment: FractionalOffset.center,
+//                        child: Text(""),
+//                      )
+//                    ],
+//                  ),
+//                ),
+//              ),
+//            ),
             Container(
               width: 400,
               height: 400,
@@ -93,24 +93,34 @@ class _RelaxPageState extends State<RelaxPage> {
               width: 200,
               height: 50,
             ),
-            CircleAvatar(
-              radius: 40.0,
-              // backgroundImage: AssetImage("assets/images/bg3.jpg"),
-              backgroundColor: Colors.blueGrey,
-              child: RaisedButton(
-                  child: Text(command,
-                      style: new TextStyle(
-                        color: Colors.white,
-                        fontSize: 20.0,
-                      )),
-                  color: Colors.transparent,
-                  textColor: Colors.white,
-                  elevation: 100,
-                  shape: CircleBorder(),
-                  onPressed: () {
-                    startButton();
-                  }),
-            ),
+            RaisedButton(
+                child: Text(command),
+                color: Colors.brown,
+                textColor: Colors.white,
+                elevation: 20,
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15)),
+                onPressed: () {
+                  startButton();
+                }),
+//            CircleAvatar(
+//              radius: 40.0,
+//              // backgroundImage: AssetImage("assets/images/bg3.jpg"),
+//              backgroundColor: Colors.blueGrey,
+//              child: RaisedButton(
+//                  child: Text(command,
+//                      style: new TextStyle(
+//                        color: Colors.white,
+//                        fontSize: 20.0,
+//                      )),
+//                  color: Colors.transparent,
+//                  textColor: Colors.white,
+//                  elevation: 100,
+//                  shape: CircleBorder(),
+//                  onPressed: () {
+//                    startButton();
+//                  }),
+//            ),
         Container(
           width: 200,
           height: 50,

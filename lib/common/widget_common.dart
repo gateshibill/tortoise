@@ -5,6 +5,7 @@ import 'package:example/model/line_model.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_icons/flutter_icons.dart';
 import 'config.dart';
 import 'data.dart';
 
@@ -119,3 +120,46 @@ void play() async {
   }
 }
 
+class CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
+  FloatingActionButtonLocation location;
+  double offsetX;    // X方向的偏移量
+  double offsetY;    // Y方向的偏移量
+  CustomFloatingActionButtonLocation(this.location, this.offsetX, this.offsetY);
+
+  @override
+  Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
+    Offset offset = location.getOffset(scaffoldGeometry);
+    return Offset(offset.dx + offsetX, offset.dy + offsetY);
+  }
+}
+
+Widget guide(bool isShowTip) {
+  return new Offstage(
+      offstage: isShowTip,
+      child: Row(
+        children: <Widget>[
+          Container(
+            width:30,
+            height: 20,
+            child:Text("滑动"),
+          ),
+          Container(
+            width: 10,
+            height: 20,
+           // child:Text("滑动"),
+          ),
+          Container(
+            width: 20,
+            height: 20,
+            child: Icon(FontAwesome.hand_o_right),
+
+          ),
+//          Container(
+//            //1.空站位
+//              width: 20,
+//              height: 10,
+//              // color: Colors.black12,
+//              child: Icon(FontAwesome.hand_o_left)),
+        ],
+      ));
+}

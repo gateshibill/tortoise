@@ -23,6 +23,7 @@ Future startSplash() async {
 //    child: BlocProvider(child: APPStartup(), bloc: CounterBloc()),
 //  ));
   SystemChrome.setEnabledSystemUIOverlays([]);
+
   runApp(APPStartup());
 }
 
