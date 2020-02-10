@@ -31,7 +31,7 @@ class _SplashPage extends State<SplashPage> {
               Align(
                 alignment: Alignment.center,
                 child: Image.asset(
-                  "assets/images/bg1.jpg",
+                  "assets/images/breath.jpg",
                   fit: BoxFit.cover,
                   height: MediaQuery.of(context).size.height,
                   width: MediaQuery.of(context).size.width,
