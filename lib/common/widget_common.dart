@@ -107,7 +107,6 @@ class TimerPainterLiner extends CustomPainter {
 
 void play() async {
   print("play()|$isPlay");
-
   if (!isPlay) {
     isPlay = true;
     command = "暂停";

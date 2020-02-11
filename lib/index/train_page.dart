@@ -397,12 +397,13 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
         guideTip = '放松...';
         break;
     }
-    print("----------------------------放松=$command");
-    if (command.startsWith("放松")||guideTip.startsWith("屏息")) {
-      print(
-          "----------------------------放松-------------------------------------------");
+    if (command.startsWith("放松")) {
       setState(() {
         guideTip = '放松...';
+      });
+    }
+    if (guideTip.startsWith("屏息")) {
+      setState(() {
       });
     }
   }
