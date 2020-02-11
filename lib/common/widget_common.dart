@@ -106,24 +106,31 @@ class TimerPainterLiner extends CustomPainter {
 }
 
 void play() async {
+  print("play()|$isPlay");
 
-  int result = 0;
   if (!isPlay) {
-    isPlay = false;
-    command = "暂停";
-    await mediaController.setAssetDataSource("assets/music/naturespath.mp3", autoPlay: true);
-    await mediaController.play();
-  } else {
     isPlay = true;
+    command = "暂停";
+    await mediaController.setAssetDataSource("assets/music/naturespath.mp3",
+        autoPlay: true);
+   // await mediaController.play();
+  } else {
+    isPlay = false;
     command = "播放";
-    mediaController.pause();
+    mediaController.reset();
   }
+}
+
+void playAudio(String url) async {
+  audioController.setAssetDataSource(url, autoPlay: true);
+  await audioController.play();
+  audioController.reset();
 }
 
 class CustomFloatingActionButtonLocation extends FloatingActionButtonLocation {
   FloatingActionButtonLocation location;
-  double offsetX;    // X方向的偏移量
-  double offsetY;    // Y方向的偏移量
+  double offsetX; // X方向的偏移量
+  double offsetY; // Y方向的偏移量
   CustomFloatingActionButtonLocation(this.location, this.offsetX, this.offsetY);
 
   @override
@@ -139,20 +146,19 @@ Widget guide(bool isShowTip) {
       child: Row(
         children: <Widget>[
           Container(
-            width:30,
+            width: 30,
             height: 20,
-            child:Text("滑动"),
+            child: Text("滑动"),
           ),
           Container(
             width: 10,
             height: 20,
-           // child:Text("滑动"),
+            // child:Text("滑动"),
           ),
           Container(
             width: 20,
             height: 20,
             child: Icon(FontAwesome.hand_o_right),
-
           ),
 //          Container(
 //            //1.空站位

@@ -57,7 +57,8 @@ flutter:
   assets:
     - assets/
     - assets/images/
-    - assets/music/naturespath.mp3
+    - assets/music/
+    - assets/audio/
   fonts:
     - family: Digital
       fonts:

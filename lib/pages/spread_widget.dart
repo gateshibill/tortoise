@@ -48,20 +48,21 @@ class _SpreadWidgetState extends State<SpreadWidget>
     int i = 0;
     while (widget.cycles == null ? true : i < widget.cycles) {
       if (mounted) {
-        setState(() {
-          AnimationController _animationController;
-          Animation<double> _animation;
+        try {
+          setState(() {
+            AnimationController _animationController;
+            Animation<double> _animation;
 
-          _animationController =
-              AnimationController(vsync: this, duration: widget.duration);
-          _animation = CurvedAnimation(
-              parent: _animationController, curve: Curves.linear);
+            _animationController =
+                AnimationController(vsync: this, duration: widget.duration);
+            _animation = CurvedAnimation(
+                parent: _animationController, curve: Curves.linear);
 
-          animationControl(_animationController);
-          controllers.add(_animationController);
-          _animationController.forward();
-          widget.child != null
-              ?
+            animationControl(_animationController);
+            controllers.add(_animationController);
+            _animationController.forward();
+            widget.child != null
+                ?
 //          children.insert(
 //                  children.length - 1,
 //                  AnimatedSpread(
@@ -70,12 +71,15 @@ class _SpreadWidgetState extends State<SpreadWidget>
 //                    maxRadius: widget.maxRadius,
 //                    color: widget.spreadColor,
 //                  ))
-          getAnimate(_animation)
-              :
-          getAnimate(_animation)
-          ;
-        });
-      }
+            getAnimate(_animation)
+                :
+            getAnimate(_animation)
+            ;
+          }) ;}catch(e){
+
+          }
+       //   );
+        }
       if (widget.cycles != null) i++;
       await  Future<dynamic>.delayed(
           Duration(milliseconds: widget.duration.inMilliseconds ~/ 3)
@@ -120,11 +124,15 @@ class _SpreadWidgetState extends State<SpreadWidget>
 
   @override
   void dispose() {
-    super.dispose();
-    controllers.forEach((c) {
-      c.dispose();
-      c = null;
-    });
+    try {
+      super.dispose();
+      controllers.forEach((c) {
+        c.dispose();
+        c = null;
+      });
+    }catch(e){
+      print(e);
+    }
   }
 
   @override

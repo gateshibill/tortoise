@@ -195,9 +195,15 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
             Container(
               //4.中间站位
               width: width,
-              height: 50,
+              height: 10,
               // color: Colors.black12,
             ),
+            Container(
+                height: 50,
+                child: Text(
+                  checkBreathTravelList.length<5?"您做的好，请点击开始继续！":"已经完成了５次训练，很棒！",
+                  style: Theme.of(context).textTheme.subtitle,
+                )),
             Container(
               //历史1
               width: width,
@@ -373,14 +379,12 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
         state = 2;
         command = '呼气';
         guideTip = '吸气...';
-
         breathButton();
         break;
       case 2:
         state = 3;
         command = '吸气';
         guideTip = '呼气...';
-
         breathButton();
         break;
       case 3:
@@ -394,7 +398,7 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
         break;
     }
     print("----------------------------放松=$command");
-    if (command.startsWith("放松")) {
+    if (command.startsWith("放松")||guideTip.startsWith("屏息")) {
       print(
           "----------------------------放松-------------------------------------------");
       setState(() {

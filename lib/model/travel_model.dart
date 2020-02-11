@@ -20,6 +20,7 @@ class TravelModel {
       model.list.add(f.copy());
     });
     model.dateTime=this.dateTime;
+    model.breathTime=this.breathTime;
     return model;
   }
 }

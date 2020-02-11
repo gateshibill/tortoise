@@ -46,12 +46,12 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
   @override
   void dispose() {
     // 释放资源
+    super.dispose();
     spentTime = 0;
     state = 0;
     commandText = "开始";
     animationController.dispose();
-    mediaController.dispose();
-    super.dispose();
+    //mediaController.dispose();
   }
 
   @override
@@ -240,7 +240,6 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
 
   void checkButton() {
     setState(() {
-      play();
       print("animationController:${animationController.isAnimating}");
       double now =
           animationController.duration.inSeconds * animationController.value;

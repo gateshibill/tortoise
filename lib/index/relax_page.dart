@@ -1,7 +1,7 @@
 import 'dart:math';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:example/common/data.dart';
-import 'package:example/index/spread_widget.dart';
+import 'package:example/pages/spread_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 

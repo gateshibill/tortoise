@@ -18,7 +18,7 @@ List <TravelModel> exerciseTravelList=[];
 String command = '播放';
 bool isPlay = false;
 IjkMediaController mediaController = IjkMediaController();
-
+IjkMediaController audioController = IjkMediaController();
 class Msg {
   static final SUCCESS = "0";
   String code;

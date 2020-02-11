@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './spread_widget.dart';
+import '../pages/spread_widget.dart';
 
 class AdPage extends StatefulWidget {
   AdPage({this.bg});

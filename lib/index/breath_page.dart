@@ -1,9 +1,12 @@
 import 'dart:math';
 import 'package:example/common/data.dart';
+import 'package:example/common/widget_common.dart';
 import 'package:example/model/breath_model.dart';
 import 'package:example/model/line_model.dart';
 import 'package:example/model/travel_model.dart';
+import 'package:example/utils/log_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 import 'package:sensors/sensors.dart';
 import '../common/config.dart';
 
@@ -16,7 +19,8 @@ int lastDateTime = new DateTime.now().millisecondsSinceEpoch;
 int currentTime;
 double lastDy;
 String command = '开始';
-int breathTime =0;//呼吸次数
+int breathTime = 0; //呼吸次数
+int strongBreathTime = 0; //强力呼吸次数
 
 double dx = 0;
 double dy = 0;
@@ -61,17 +65,20 @@ TravelModel currentTravelModel_t = new TravelModel();
 TravelModel currentTravelModel_r = new TravelModel();
 
 class BreathPage extends StatefulWidget {
-  bool isback=false;
-  BreathPage([isback=false]){
-    this.isback=isback;
+  bool isback = false;
+
+  BreathPage([isback = false]) {
+    this.isback = isback;
   }
+
   @override
   _BreathPageState createState() => _BreathPageState();
 }
 
-class _BreathPageState extends State<BreathPage>
-    with TickerProviderStateMixin {
+class _BreathPageState extends State<BreathPage> with TickerProviderStateMixin {
   _BreathPageState();
+
+  final String tag = "BreathPage";
 
   AnimationController animationController_x;
   AnimationController animationController_y;
@@ -84,7 +91,7 @@ class _BreathPageState extends State<BreathPage>
   double width = 500;
   double height = 100;
   final int time = 60;
-  String resultString="";
+  String resultString = "";
 
   @override
   Widget build(BuildContext context) {
@@ -137,6 +144,10 @@ class _BreathPageState extends State<BreathPage>
               height: 100,
               // color: Colors.black12,
               child: indicator(),
+            ),
+            Container(
+              width: width,
+              height: 20,
             ),
             //x方向
             Container(
@@ -345,29 +356,10 @@ class _BreathPageState extends State<BreathPage>
                 onPressed: () {
                   startButton();
                 }),
-//            CircleAvatar(
-//              radius: 60.0,
-//              // backgroundImage: AssetImage("assets/images/bg3.jpg"),
-//              backgroundColor: Colors.blueGrey,
-//              child: RaisedButton(
-//                  child: Text(command,
-//                    //style: Theme.of(context).textTheme.display1,
-//                      style: new TextStyle(
-//                        color: Colors.white,
-//                        fontSize: 20.0)
-//                      ),
-//                  color: Colors.transparent,
-//                  textColor: Colors.white,
-//                  elevation: 100,
-//                  shape: CircleBorder(),
-//                  onPressed: () {
-//                    startButton();
-//                  }),
-//            ),
             Container(
               //4.中间站位
               width: width,
-              height: 30,
+              height: 10,
               // color: Colors.black12,
             ),
             //分割线
@@ -388,9 +380,9 @@ class _BreathPageState extends State<BreathPage>
               height: 10,
               // color: Colors.black12,
             ),
-            //呼吸记录
+            //呼吸结果
             Container(
-                height: 40,
+                height: 30,
                 child: Text(
                   resultString,
                   style: Theme.of(context).textTheme.subtitle,
@@ -411,24 +403,41 @@ class _BreathPageState extends State<BreathPage>
             Container(
               //历史2
               width: width,
-              height: 60,
+              height: 50,
               //alignment: Alignment.bottomLeft,
               child: getItem(null, exerciseTravelList.length - 2),
             ),
             Container(
               //历史3
               width: width,
-              height: 60,
+              height: 50,
               //alignment: Alignment.bottomLeft,
               child: getItem(null, exerciseTravelList.length - 3),
             ),
+            !widget.isback?Container(
+              height: 50,
+            ):Container(
+                child: RaisedButton( //按钮
+                  child: Text('返回首页'),
+                  color: Colors.brown,
+                  textColor: Colors.white,
+                  elevation: 20,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  onPressed: () { //相应按钮点击事件
+                    // 通过MaterialPageRoute跳转逻辑 的具体执行
+                    Navigator.pop(context);
+                  },
+                )),
           ],
         ),
       ),
     );
   }
+
   Widget indicator() {
-    return new Text(checkBreathTip, //
+    return new Text(
+      checkBreathTip, //
       maxLines: 6, //最大行数
       overflow: TextOverflow.ellipsis, //超出显示省略号
       style: new TextStyle(
@@ -438,6 +447,7 @@ class _BreathPageState extends State<BreathPage>
       ),
     );
   }
+
   @override
   void initState() {
     super.initState();
@@ -454,7 +464,6 @@ class _BreathPageState extends State<BreathPage>
 
     animationController_r =
         AnimationController(vsync: this, duration: Duration(seconds: time));
-    acceleromete();
   }
 
   String get timerString {
@@ -462,7 +471,6 @@ class _BreathPageState extends State<BreathPage>
         animationController_z.duration * animationController_z.value;
     return '${duration.inMinutes}:${(60 - (duration.inSeconds % 60)).toString().padLeft(2, '0')}';
   }
-
 
   Widget history() {
     print("history() travelList.length=${exerciseTravelList.length}");
@@ -525,8 +533,10 @@ class _BreathPageState extends State<BreathPage>
         return;
       } else {
         command = "结束";
-        breathTime=0;
+        breathTime = 0;
+        strongBreathTime = 0;
         state = 1;
+        acceleromete();
         lastPoint_x = new Offset(0, 0);
         lastPoint_y = new Offset(0, 0);
         lastPoint_z = new Offset(0, 0);
@@ -549,7 +559,6 @@ class _BreathPageState extends State<BreathPage>
         startDateTime = new DateTime.now().millisecondsSinceEpoch;
 
         lastPoint_r = null;
-
         print("animationController:${animationController_z.isAnimating}");
         double now = animationController_z.duration.inSeconds *
             animationController_z.value;
@@ -592,33 +601,45 @@ class _BreathPageState extends State<BreathPage>
 
   void endButton() {
     print("endButton()");
-    setState(() {
-      command = "开始";
-      state = 0;
-      currentTravelModel_s.breathTime=breathTime;
-      exerciseTravelList.add(currentTravelModel_s.copy());
-      exerciseTravelList.add(currentTravelModel_z.copy());
-      exerciseTravelList.add(currentTravelModel_y.copy());
-      exerciseTravelList.add(currentTravelModel_x.copy());
-
-      exerciseTravelList.add(currentTravelModel_r.copy());
-      result(currentTravelModel_r.copy());
-    });
+    try {
+      setState(() {
+        command = "开始";
+        currentTravelModel_s.breathTime = breathTime;
+//      exerciseTravelList.add(currentTravelModel_s.copy());
+//      exerciseTravelList.add(currentTravelModel_z.copy());
+//      exerciseTravelList.add(currentTravelModel_y.copy());
+//      exerciseTravelList.add(currentTravelModel_x.copy());
+        exerciseTravelList.add(currentTravelModel_r.copy());
+        result(currentTravelModel_r.copy());
+      });
+    } catch (e) {
+      LogMyUtil.e(e);
+    }
+    state = 0;
   }
 
-void result(TravelModel model){
-    String result="一分钟呼吸次数$breathTime次";
-    if(model.breathTime>15){
-      result+="呼吸偏快";
-    }else if(model.breathTime>6){
-      result+="呼吸慢";
-    }else{
-      result+="呼吸良好！";
+  void result(TravelModel model) {
+    String result = "一分钟呼吸次数$breathTime次,";
+    LogMyUtil.e("result() $breathTime|${model.breathTime}");
+    print("result() $breathTime|${model.breathTime}");
+    if (model.breathTime > 15) {
+      result += "呼吸偏快";
+    } else if (model.breathTime < 6) {
+      result += "呼吸慢";
+    } else {
+      result += "呼吸正常";
     }
-    setState(() {
-      resultString=result;
-    });
-}
+    if (strongBreathTime / breathTime > 0.6) {
+      result += "，呼吸幅度有点大!";
+    }
+    try {
+      setState(() {
+        resultString = result;
+      });
+    } catch (e) {
+      LogMyUtil.e(e.toString());
+    }
+  }
 
   @override
   void dispose() {
@@ -626,7 +647,6 @@ void result(TravelModel model){
     endButton();
     animationController_z.dispose();
     super.dispose();
-
   }
 }
 
@@ -666,12 +686,17 @@ class TimerPainterLiner extends CustomPainter {
       return;
     }
 
-    print("travelModel.list= ${currentTravelModel_z.list.length}");
+    //print("travelModel.list= ${currentTravelModel_z.list.length}");
     currentTime = new DateTime.now().millisecondsSinceEpoch;
     double distance = (currentTime - startDateTime) / 1000 * 6;
+
+    print("distance=${distance}");
+    if (distance>359) {
+      playAudio("assets/audio/over.mp3");
+    }
     //double diff = (currentTime - lastDateTime) / 1000 * 5;
 
-    //print("diff= ${diff}|${state}");
+    // LogMyUtil.v("diff= ${point}|${state}");
     Offset currentPoint = new Offset(distance, point);
     switch (type) {
       case 1:
@@ -709,6 +734,10 @@ class TimerPainterLiner extends CustomPainter {
           canvas.drawLine(model.start, model.end, paint);
         }
         lastPoint_s = currentPoint;
+        //print("lastPoint_s.dy=${lastPoint_s.dy}");
+        if (lastPoint_s.dy > 35) {
+          ++strongBreathTime;
+        }
         break;
       case 5:
         currentLineModel_t =
@@ -719,7 +748,7 @@ class TimerPainterLiner extends CustomPainter {
         }
         lastPoint_t = currentPoint;
         break;
-      case 6://呼吸线
+      case 6: //呼吸线
 //        currentLineModel_t =
 //        new LineModel(start: lastPoint_t, end: currentPoint);
 //        currentTravelModel_t.addLineModel(lineModel);
@@ -740,11 +769,12 @@ class TimerPainterLiner extends CustomPainter {
 }
 
 void acceleromete() {
-  if(0==state){
+  if (0 == state) {
     return;
   }
   int i = 0;
   userAccelerometerEvents.listen((UserAccelerometerEvent event) {
+    // LogMyUtil.v(event);
     double max = 18;
     double min = 2;
     int p = 600;
@@ -785,71 +815,72 @@ void acceleromete() {
     double breakPoint = 6;
     int scale = 6;
     //if (0 == i++ % 2) {
-      if (0 == isbreath || 1 == isbreath) {
-        //取吸点
-        if (ds < -breakPoint) {
-          //取正最高点，直到遇到负时停止，
-          drpos = ds;
-          isbreath = 1;
-        } else if (ds >= breakPoint && 1 == isbreath) {
-          isbreath = 2; //取呼点
-        }
-      } else {
-        if (ds > breakPoint) {
-          drsplus = ds;
-          isbreath = 3;
-        } else if (3 == isbreath) {
-          //说明找到分界点了
-          isbreath = 0;
-          currentTime = new DateTime.now().millisecondsSinceEpoch;
-          double distance = (currentTime - startDateTime) / 1000 * 6;
-          Offset currentPoint = new Offset(distance, -16);
-          BreathModel currentBreathModel =
-              new BreathModel(dateTime: new DateTime.now(), type: 1);
-          currentBreathModel.x = distance;
-          double interval = 3.0 * scale;
-          if (null != lastBreathModel) {
-            interval = (new DateTime.now().millisecondsSinceEpoch -
-                    lastBreathModel.dateTime.millisecondsSinceEpoch) /
-                1000 *
-                scale;
-            if (interval <= 6 * scale) {
-              //默认3秒吸气时间
-              interval = interval / 2;
-            } else {
-              interval = 3.0 * scale;
-            }
-          }
-          //前面那个点需要完善
-          double currentPoint_x = distance - interval;
-          if (null != lastPoint_r) {
-            double lastPoint_x = lastBreathModel.x + interval;
-
-            Offset afterPoint = new Offset(lastPoint_x, 0);
-            LineModel beforeLineModel =
-                new LineModel(start: lastPoint_r, end: afterPoint);
-            currentTravelModel_r.addLineModel(beforeLineModel.copy());
-
-            if (currentPoint_x > lastPoint_x) {
-              //屏息线
-              LineModel levelLineModel = new LineModel(
-                  start: new Offset(lastPoint_x, 0),
-                  end: new Offset(currentPoint_x, 0));
-              currentTravelModel_r.addLineModel(levelLineModel);
-            }
-          }
-
-          Offset beforePoint = new Offset(currentPoint_x, -0);
-          currentLineModel_r =
-              new LineModel(start: beforePoint, end: currentPoint);
-          currentTravelModel_r.addLineModel(currentLineModel_r.copy());
-          lastPoint_r = currentPoint;
-          lastBreathModel = currentBreathModel;
-
-          ++breathTime;
-        }
+    if (0 == isbreath || 1 == isbreath) {
+      //取吸点
+      if (ds < -breakPoint) {
+        //取正最高点，直到遇到负时停止，
+        drpos = ds;
+        isbreath = 1;
+      } else if (ds >= breakPoint && 1 == isbreath) {
+        isbreath = 2; //取呼点
       }
- //   }
+    } else {
+      if (ds > breakPoint) {
+        drsplus = ds;
+        isbreath = 3;
+      } else if (3 == isbreath) {
+        //说明找到分界点了
+        isbreath = 0;
+        currentTime = new DateTime.now().millisecondsSinceEpoch;
+        double distance = (currentTime - startDateTime) / 1000 * 6;
+        Offset currentPoint = new Offset(distance, -16);
+        BreathModel currentBreathModel =
+            new BreathModel(dateTime: new DateTime.now(), type: 1);
+        currentBreathModel.x = distance;
+        double interval = 3.0 * scale;
+        if (null != lastBreathModel) {
+          interval = (new DateTime.now().millisecondsSinceEpoch -
+                  lastBreathModel.dateTime.millisecondsSinceEpoch) /
+              1000 *
+              scale;
+          if (interval <= 6 * scale) {
+            //默认3秒吸气时间
+            interval = interval / 2;
+          } else {
+            interval = 3.0 * scale;
+          }
+        }
+        //前面那个点需要完善
+        double currentPoint_x = distance - interval;
+        if (null != lastPoint_r) {
+          double lastPoint_x = lastBreathModel.x + interval;
+
+          Offset afterPoint = new Offset(lastPoint_x, 0);
+          LineModel beforeLineModel =
+              new LineModel(start: lastPoint_r, end: afterPoint);
+          currentTravelModel_r.addLineModel(beforeLineModel.copy());
+
+          if (currentPoint_x > lastPoint_x) {
+            //屏息线
+            LineModel levelLineModel = new LineModel(
+                start: new Offset(lastPoint_x, 0),
+                end: new Offset(currentPoint_x, 0));
+            currentTravelModel_r.addLineModel(levelLineModel);
+          }
+        }
+
+        Offset beforePoint = new Offset(currentPoint_x, -0);
+        currentLineModel_r =
+            new LineModel(start: beforePoint, end: currentPoint);
+        currentTravelModel_r.addLineModel(currentLineModel_r.copy());
+        lastPoint_r = currentPoint;
+        lastBreathModel = currentBreathModel;
+
+        ++breathTime;
+        ++currentTravelModel_r.breathTime;
+      }
+    }
+    //   }
   });
 }
 

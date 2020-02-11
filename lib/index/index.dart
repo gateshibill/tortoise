@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'breath_page.dart';
 import 'check_page.dart';
-import 'spread_page.dart';
+import '../pages/spread_page.dart';
 
 //void main() => runApp(MyApp());
 

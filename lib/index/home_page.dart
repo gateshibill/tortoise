@@ -5,11 +5,14 @@ import 'package:example/common/widget_common.dart';
 import 'package:example/index/check_page.dart';
 import 'package:example/index/exercise_page.dart';
 import 'package:example/index/relax_page.dart';
-import 'package:example/index/spread_widget.dart';
+import 'package:example/pages/spread_widget.dart';
 import 'package:example/model/breath_model.dart';
 import 'package:flutter/material.dart';
 import 'package:sensors/sensors.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+
+import 'breath_animation.dart';
+import 'breath_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -29,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   List<double> afterChangePointList = [];
   int i = 0;
   bool breath = false;
-  String command = "开始";
+  String command = "轻呼吸";
   static bool isShowTip = false;
 
   @override
@@ -69,55 +72,76 @@ class _HomePageState extends State<HomePage> {
                         width: 10,
                         height: 50,
                       ),
-                      Text(
-                          "晚上好 12:12",
+                      Text("晚上好 12:12",
                           style: new TextStyle(
                             color: Colors.white,
                             fontSize: 20.0,
                           )),
                       Container(
-                        width: 200,
+                        width: 120,
                         height: 50,
                       ),
-                      new CircleAvatar(
+                        RaisedButton(
+                            child: Icon(Icons.music_note),
+                            color: isPlay?Colors.blue:Colors.blueGrey,
+                            //textColor: Colors.white,
+                           // elevation: 10,
+                            shape: CircleBorder(),
+                            onPressed: () {
+                              setState(() {
+                                play();
+                              });
+                            }),
+                      Container(
+                        width: 1,
+                        height: 20,
+                      ),
+                      CircleAvatar(
                         radius: 15.0,
                         backgroundImage: AssetImage("assets/images/bg3.jpg"),
                       )
                     ])),
-//                Container(
-//                  //tips
-//                  width: width,
-//                  height: 80,
-//                  // color: Colors.black12,
-//                  child: Text(
-//                    sentenceList[Random().nextInt(sentenceList.length)].content,
-//                    style: new TextStyle(
-//                      color: Colors.white,
-//                      fontSize: 15.0,
-//                    ),
-//                  ),
-//                ),
-                Container(
-                //3.tips
-                width: width,
-                height:100,
-                // color: Colors.black12,
-                child: indicator(),
-                ),
                 Container(
                   //3.tips
                   width: width,
-                  height: 420,
+                  height: 100,
                   // color: Colors.black12,
-                  child: SpreadWidget(
+                  child: indicator(),
+                ),
+                BreathAnimation.isRun?Container(
+                  //3.tips
+                  width: width,
+                  height: 410,
+                  // color: Colors.black12,
+                  child: BreathAnimation(
                     radius: 0,
                     maxRadius: 350,
                   ),
+                ):Container(
+                  height: 410,
                 ),
+                RaisedButton(
+                    child: Text(command=BreathAnimation.isRun?"结束":"轻呼吸"),
+                    color: Colors.brown,
+                    textColor: Colors.white,
+                    elevation: 20,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    onPressed: () {
+                      setState(() {
+                        if(BreathAnimation.isRun){
+                         // command="轻呼吸";
+                          BreathAnimation.isRun=false;
+                        }else{
+                          //command="结束";
+                          BreathAnimation.isRun=true;
+                        }
+                      });
+                    }),
                 Container(
                   //5.站位
                   width: width,
-                  height: 30,
+                  height: 10,
                   // color: Colors.black12,
                   // child: Text('Container固定宽高'),
                 ),
@@ -137,7 +161,7 @@ class _HomePageState extends State<HomePage> {
                 Container(
                   //4.中间站位
                   width: width,
-                  height: 30,
+                  height: 20,
                   // color: Colors.black12,
                 ),
                 menuTap(),
@@ -160,19 +184,29 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    play();
   }
 
   @override
   void dispose() {
     // 释放资源
-    setState(() {
-      isShowTip = true;
-      print("isTip=true");
-    });
     super.dispose();
+    try {
+      setState(() {
+        isShowTip = true;
+        print("isTip=true");
+      });
+    }catch(e){
+
+    }
+    if(isPlay){
+      play();
+    }
   }
+
   Widget indicator() {
-    return new Text(breathTip, //
+    return new Text(
+      breathTip, //
       maxLines: 6, //最大行数
       overflow: TextOverflow.ellipsis, //超出显示省略号
       style: new TextStyle(
@@ -182,6 +216,7 @@ class _HomePageState extends State<HomePage> {
       ),
     );
   }
+
   void counter(double point) {
     double currentDiff = point - lastPoint;
   }
@@ -267,7 +302,7 @@ class _HomePageState extends State<HomePage> {
             child: GestureDetector(
               onTap: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return new RelaxPage(true);
+                  return new BreathPage(true);
                 }));
               },
               child: ClipRRect(
@@ -281,7 +316,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     child: Text(
-                      "放松入睡",
+                      "呼吸测试",
                       style: new TextStyle(
                         color: Colors.red,
                         fontSize: 15.0,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './spread_widget.dart';
+import 'spread_widget.dart';
 
 class SpreadPage extends StatefulWidget {
   @override
