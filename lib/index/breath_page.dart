@@ -682,9 +682,9 @@ class TimerPainterLiner extends CustomPainter {
       ..style = PaintingStyle.stroke;
     paint.color = color;
 
-    if (0 == state) {
-      return;
-    }
+//    if (0 == state) {
+//      return;
+//    }
 
     //print("travelModel.list= ${currentTravelModel_z.list.length}");
     currentTime = new DateTime.now().millisecondsSinceEpoch;
@@ -693,46 +693,52 @@ class TimerPainterLiner extends CustomPainter {
     print("distance=${distance}");
     if (distance>359) {
       playAudio("assets/audio/over.mp3");
+      for (LineModel model in travelModel.list) {
+        canvas.drawLine(model.start, model.end, paint);
+      }
+      state=0;
+      return;
     }
     //double diff = (currentTime - lastDateTime) / 1000 * 5;
 
     // LogMyUtil.v("diff= ${point}|${state}");
+
     Offset currentPoint = new Offset(distance, point);
     switch (type) {
       case 1:
         currentLineModel_x =
             new LineModel(start: lastPoint_x, end: currentPoint);
         currentTravelModel_x.addLineModel(lineModel);
-        for (LineModel model in travelModel.list) {
-          canvas.drawLine(model.start, model.end, paint);
-        }
+//        for (LineModel model in travelModel.list) {
+//          canvas.drawLine(model.start, model.end, paint);
+//        }
         lastPoint_x = currentPoint;
         break;
       case 2:
         currentLineModel_y =
             new LineModel(start: lastPoint_y, end: currentPoint);
         currentTravelModel_y.addLineModel(lineModel);
-        for (LineModel model in travelModel.list) {
-          canvas.drawLine(model.start, model.end, paint);
-        }
+//        for (LineModel model in travelModel.list) {
+//          canvas.drawLine(model.start, model.end, paint);
+//        }
         lastPoint_y = currentPoint;
         break;
       case 3:
         currentLineModel_z =
             new LineModel(start: lastPoint_z, end: currentPoint);
         currentTravelModel_z.addLineModel(lineModel);
-        for (LineModel model in travelModel.list) {
-          canvas.drawLine(model.start, model.end, paint);
-        }
+//        for (LineModel model in travelModel.list) {
+//          canvas.drawLine(model.start, model.end, paint);
+//        }
         lastPoint_z = currentPoint;
         break;
       case 4:
         currentLineModel_s =
             new LineModel(start: lastPoint_s, end: currentPoint);
         currentTravelModel_s.addLineModel(lineModel);
-        for (LineModel model in travelModel.list) {
-          canvas.drawLine(model.start, model.end, paint);
-        }
+//        for (LineModel model in travelModel.list) {
+//          canvas.drawLine(model.start, model.end, paint);
+//        }
         lastPoint_s = currentPoint;
         //print("lastPoint_s.dy=${lastPoint_s.dy}");
         if (lastPoint_s.dy > 35) {
@@ -743,20 +749,16 @@ class TimerPainterLiner extends CustomPainter {
         currentLineModel_t =
             new LineModel(start: lastPoint_t, end: currentPoint);
         currentTravelModel_t.addLineModel(lineModel);
-        for (LineModel model in travelModel.list) {
-          canvas.drawLine(model.start, model.end, paint);
-        }
+//        for (LineModel model in travelModel.list) {
+//          canvas.drawLine(model.start, model.end, paint);
+//        }
         lastPoint_t = currentPoint;
         break;
       case 6: //呼吸线
-//        currentLineModel_t =
-//        new LineModel(start: lastPoint_t, end: currentPoint);
-//        currentTravelModel_t.addLineModel(lineModel);
-        for (LineModel model in travelModel.list) {
-          canvas.drawLine(model.start, model.end, paint);
-        }
-        //lastPoint_t = currentPoint;
         break;
+    }
+    for (LineModel model in travelModel.list) {
+      canvas.drawLine(model.start, model.end, paint);
     }
   }
 
@@ -769,14 +771,14 @@ class TimerPainterLiner extends CustomPainter {
 }
 
 void acceleromete() {
-  if (0 == state) {
-    return;
-  }
   int i = 0;
   userAccelerometerEvents.listen((UserAccelerometerEvent event) {
     // LogMyUtil.v(event);
+    if(0==state){
+      return;
+    }
     double max = 18;
-    double min = 2;
+    double min = 3;
     int p = 600;
     dx = event.x * p;
     if (dx > max) {
@@ -876,8 +878,10 @@ void acceleromete() {
         lastPoint_r = currentPoint;
         lastBreathModel = currentBreathModel;
 
-        ++breathTime;
-        ++currentTravelModel_r.breathTime;
+        if(0!=state) {
+          ++breathTime;
+          ++currentTravelModel_r.breathTime;
+        }
       }
     }
     //   }

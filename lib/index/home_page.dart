@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   List<double> afterChangePointList = [];
   int i = 0;
   bool breath = false;
-  String command = "轻呼吸";
+  String command = "放松";
   static bool isShowTip = false;
 
   @override
@@ -121,7 +121,7 @@ class _HomePageState extends State<HomePage> {
                   height: 410,
                 ),
                 RaisedButton(
-                    child: Text(command=BreathAnimation.isRun?"结束":"轻呼吸"),
+                    child: Text(command=BreathAnimation.isRun?"结束":"放松"),
                     color: Colors.brown,
                     textColor: Colors.white,
                     elevation: 20,

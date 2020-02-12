@@ -200,8 +200,7 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
             ),
             Container(
                 height: 50,
-                child: Text(
-                  checkBreathTravelList.length<5?"您做的好，请点击开始继续！":"已经完成了５次训练，很棒！",
+                child: Text(getEncourageTips(),
                   style: Theme.of(context).textTheme.subtitle,
                 )),
             Container(
@@ -249,6 +248,21 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
         ),
       ),
     );
+  }
+
+  String getEncourageTips() {
+    String tips = "";
+    if (checkBreathTravelList.length < 5 &&
+        checkBreathTravelList.length > 0 &&
+        0 == state) {
+      tips = "您已经完成了${checkBreathTravelList.length}次练习，很棒，请点击开始继续！";
+    } else if (checkBreathTravelList.length >= 5) {
+      tips = "您已经完成了${checkBreathTravelList.length}次练习，太棒了，休息一下！";
+    } else if(0==checkBreathTravelList.length&&0==state){
+      tips = "您还未练习，请点击开始进行呼吸练习吧！";
+    }
+
+    return tips;
   }
 
   Widget guideContainer() {
@@ -403,8 +417,7 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
       });
     }
     if (guideTip.startsWith("屏息")) {
-      setState(() {
-      });
+      setState(() {});
     }
   }
 

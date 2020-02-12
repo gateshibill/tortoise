@@ -16,7 +16,7 @@ class BreathAnimation extends StatefulWidget {
   final int cycles;
   final Color spreadColor;
   final Duration duration;
-  static bool isRun=true;
+  static bool isRun=false;
 
   @override
   _BreathAnimationState createState() => _BreathAnimationState();
