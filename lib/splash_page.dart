@@ -76,7 +76,7 @@ class _SplashPage extends State<SplashPage> {
 
   void countDown() {
     //设置倒计时三秒后执行跳转方法
-    var duration = new Duration(seconds: 1);
+    var duration = new Duration(seconds: 2);
     new Future.delayed(duration, goToHomePage);
   }
 

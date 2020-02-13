@@ -256,7 +256,8 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
         checkBreathTravelList.length > 0 &&
         0 == state) {
       tips = "您已经完成了${checkBreathTravelList.length}次练习，很棒，请点击开始继续！";
-    } else if (checkBreathTravelList.length >= 5) {
+    } else if (checkBreathTravelList.length >= 5&&
+        0 == state) {
       tips = "您已经完成了${checkBreathTravelList.length}次练习，太棒了，休息一下！";
     } else if(0==checkBreathTravelList.length&&0==state){
       tips = "您还未练习，请点击开始进行呼吸练习吧！";
@@ -458,6 +459,7 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
   @override
   void dispose() {
     // 释放资源
+    endButton();
     animationController.dispose();
     super.dispose();
   }

@@ -691,7 +691,7 @@ class TimerPainterLiner extends CustomPainter {
     double distance = (currentTime - startDateTime) / 1000 * 6;
 
     print("distance=${distance}");
-    if (distance>359) {
+    if (distance>359&&0!=state) {
       playAudio("assets/audio/over.mp3");
       for (LineModel model in travelModel.list) {
         canvas.drawLine(model.start, model.end, paint);
@@ -700,7 +700,6 @@ class TimerPainterLiner extends CustomPainter {
       return;
     }
     //double diff = (currentTime - lastDateTime) / 1000 * 5;
-
     // LogMyUtil.v("diff= ${point}|${state}");
 
     Offset currentPoint = new Offset(distance, point);

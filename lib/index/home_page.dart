@@ -81,17 +81,17 @@ class _HomePageState extends State<HomePage> {
                         width: 120,
                         height: 50,
                       ),
-                        RaisedButton(
-                            child: Icon(Icons.music_note),
-                            color: isPlay?Colors.blue:Colors.blueGrey,
-                            //textColor: Colors.white,
-                           // elevation: 10,
-                            shape: CircleBorder(),
-                            onPressed: () {
-                              setState(() {
-                                play();
-                              });
-                            }),
+                      RaisedButton(
+                          child: Icon(Icons.music_note),
+                          color: isPlay ? Colors.blue : Colors.blueGrey,
+                          //textColor: Colors.white,
+                          // elevation: 10,
+                          shape: CircleBorder(),
+                          onPressed: () {
+                            setState(() {
+                              play();
+                            });
+                          }),
                       Container(
                         width: 1,
                         height: 20,
@@ -104,24 +104,29 @@ class _HomePageState extends State<HomePage> {
                 Container(
                   //3.tips
                   width: width,
-                  height: 100,
+                  height: 110,
                   // color: Colors.black12,
                   child: indicator(),
                 ),
-                BreathAnimation.isRun?Container(
-                  //3.tips
-                  width: width,
-                  height: 410,
-                  // color: Colors.black12,
-                  child: BreathAnimation(
-                    radius: 0,
-                    maxRadius: 350,
-                  ),
-                ):Container(
-                  height: 410,
+                BreathAnimation.isRun
+                    ? Container(
+                        //3.tips
+                        width: width,
+                        height: 400,
+                        // color: Colors.black12,
+                        child: BreathAnimation(
+                          radius: 0,
+                          maxRadius: 350,
+                        ),
+                      )
+                    : Container(
+                    width: width,
+                        height: 400,
+                        alignment: Alignment.center,
+                        child:steps(),
                 ),
                 RaisedButton(
-                    child: Text(command=BreathAnimation.isRun?"结束":"放松"),
+                    child: Text(command = BreathAnimation.isRun ? "结束" : "放松"),
                     color: Colors.brown,
                     textColor: Colors.white,
                     elevation: 20,
@@ -129,12 +134,18 @@ class _HomePageState extends State<HomePage> {
                         borderRadius: BorderRadius.circular(15)),
                     onPressed: () {
                       setState(() {
-                        if(BreathAnimation.isRun){
-                         // command="轻呼吸";
-                          BreathAnimation.isRun=false;
-                        }else{
+                        if (BreathAnimation.isRun) {
+                          // command="轻呼吸";
+                          BreathAnimation.isRun = false;
+                          if (isPlay) {
+                            play();
+                          }
+                        } else {
                           //command="结束";
-                          BreathAnimation.isRun=true;
+                          BreathAnimation.isRun = true;
+                          if (!isPlay) {
+                            play();
+                          }
                         }
                       });
                     }),
@@ -184,9 +195,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    if(!isPlay) {
-      play();
-    }
   }
 
   @override
@@ -198,10 +206,8 @@ class _HomePageState extends State<HomePage> {
         isShowTip = true;
         print("isTip=true");
       });
-    }catch(e){
-
-    }
-    if(isPlay){
+    } catch (e) {}
+    if (isPlay) {
       play();
     }
   }
@@ -210,6 +216,19 @@ class _HomePageState extends State<HomePage> {
     return new Text(
       breathTip, //
       maxLines: 6, //最大行数
+      overflow: TextOverflow.ellipsis, //超出显示省略号
+      style: new TextStyle(
+        color: Colors.cyanAccent,
+        fontSize: 20.0,
+        //  background: Paint()..color = Colors.white,
+      ),
+    );
+  }
+
+  Widget steps() {
+    return new Text(
+      stepTip, //
+      maxLines: 8, //最大行数
       overflow: TextOverflow.ellipsis, //超出显示省略号
       style: new TextStyle(
         color: Colors.cyanAccent,
