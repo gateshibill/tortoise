@@ -6,7 +6,6 @@ import 'package:example/model/line_model.dart';
 import 'package:example/model/travel_model.dart';
 import 'package:example/utils/log_util.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 import 'package:sensors/sensors.dart';
 import '../common/config.dart';
 
@@ -697,6 +696,11 @@ class TimerPainterLiner extends CustomPainter {
         canvas.drawLine(model.start, model.end, paint);
       }
       state=0;
+      return;
+    } else if(0==state){
+      for (LineModel model in travelModel.list) {
+        canvas.drawLine(model.start, model.end, paint);
+      }
       return;
     }
     //double diff = (currentTime - lastDateTime) / 1000 * 5;

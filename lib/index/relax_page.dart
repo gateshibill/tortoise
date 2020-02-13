@@ -169,16 +169,16 @@ class _RelaxPageState extends State<RelaxPage> {
     //print("startButton()|$url");
     int result = 0;
     setState(() {
-      if (!isPlay) {
-        isPlay = true;
-        command = "暂停";
-         mediaController.setAssetDataSource("assets/music/naturespath.mp3", autoPlay: true);
-        mediaController.play();
-      } else {
-        isPlay = false;
-        command = "播放";
-        mediaController.pause();
-      }
+//      if (!isPlay) {
+//        isPlay = true;
+//        command = "暂停";
+////         mediaController.setAssetDataSource("assets/music/naturespath.mp3", autoPlay: true);
+////        mediaController.play();
+//      } else {
+//        isPlay = false;
+//        command = "播放";
+//        mediaController.pause();
+//      }
     });
   }
 }

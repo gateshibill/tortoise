@@ -30,7 +30,7 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
   String get timerString {
     Duration duration =
         animationController.duration * animationController.value;
-    return '${duration.inMinutes}:${(duration.inSeconds % 60)
+    return '${duration.inMinutes}:${((60-duration.inSeconds) % 60)
         .toString()
         .padLeft(2, '0')}';
   }
@@ -379,7 +379,7 @@ class TimerPainter extends CustomPainter {
     paint.color = color;
     double progress = (1.0 - animation.value) * 2 * PI;
     canvas.drawArc(
-        new Offset(36, 36) & size * 0.8, PI * 1.5, progress, false, paint);
+        new Offset(33, 33) & size * 0.8, PI * 1.5, progress, false, paint);
   }
 
   @override

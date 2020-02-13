@@ -89,7 +89,11 @@ class _HomePageState extends State<HomePage> {
                           shape: CircleBorder(),
                           onPressed: () {
                             setState(() {
-                              play();
+                              if(isPlay){
+                                stop();
+                              }else {
+                                play();
+                              }
                             });
                           }),
                       Container(
@@ -138,7 +142,7 @@ class _HomePageState extends State<HomePage> {
                           // command="轻呼吸";
                           BreathAnimation.isRun = false;
                           if (isPlay) {
-                            play();
+                            stop();
                           }
                         } else {
                           //command="结束";
@@ -207,9 +211,6 @@ class _HomePageState extends State<HomePage> {
         print("isTip=true");
       });
     } catch (e) {}
-    if (isPlay) {
-      play();
-    }
   }
 
   Widget indicator() {

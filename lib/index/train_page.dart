@@ -438,15 +438,19 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
     if (0 == state) {
       return;
     }
-    setState(() {
-      state = 0;
-      command = '开始';
-      animationController.reset();
-      //LineModel model = TrainTravel.createLiner(state);
-      currentTravelModel.addLineModel(currentLineModel.copy());
-      checkBreathTravelList.add(currentTravelModel.copy());
-      print("endButton() setState");
-    });
+    try {
+      setState(() {
+        state = 0;
+        command = '开始';
+        animationController.reset();
+        //LineModel model = TrainTravel.createLiner(state);
+        currentTravelModel.addLineModel(currentLineModel.copy());
+        checkBreathTravelList.add(currentTravelModel.copy());
+        print("endButton() setState");
+      });
+    }catch(e){
+      print(e.toString());
+    }
   }
 
   void clearButton() {

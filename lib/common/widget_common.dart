@@ -6,6 +6,7 @@ import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_icons/flutter_icons.dart';
+import 'package:flutter_ijkplayer/flutter_ijkplayer.dart';
 import 'config.dart';
 import 'data.dart';
 
@@ -107,17 +108,18 @@ class TimerPainterLiner extends CustomPainter {
 
 void play() async {
   print("play()|$isPlay");
-  if (!isPlay) {
-    isPlay = true;
-    command = "暂停";
-    await mediaController.setAssetDataSource("assets/music/naturespath.mp3",
-        autoPlay: true);
-   // await mediaController.play();
-  } else {
-    isPlay = false;
-    command = "播放";
-    mediaController.reset();
-  }
+  isPlay = true;
+  command = "暂停";
+  mediaController = new IjkMediaController();
+  await mediaController.setAssetDataSource("assets/music/naturespath.mp3",
+      autoPlay: true);
+}
+
+void stop() {
+  print("stop()|$isPlay");
+  isPlay = false;
+  command = "播放";
+  mediaController.reset();
 }
 
 void playAudio(String url) async {
