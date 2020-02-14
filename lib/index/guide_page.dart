@@ -62,6 +62,11 @@ class _GuidePageState extends State<GuidePage> with TickerProviderStateMixin {
 //        title: Text('BOLT测试'),
 //      ),
       body: GestureDetector(
+//          onTap: () {
+//            setState(() {
+//              isShowTip = true;
+//            });
+//          },
           child: Container(
             padding: EdgeInsets.all(8.0),
             decoration: BoxDecoration(

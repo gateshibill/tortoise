@@ -6,6 +6,7 @@ import 'package:example/model/line_model.dart';
 import 'package:example/model/travel_model.dart';
 import 'package:example/utils/log_util.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:sensors/sensors.dart';
 import '../common/config.dart';
 
@@ -91,6 +92,11 @@ class _BreathPageState extends State<BreathPage> with TickerProviderStateMixin {
   double height = 100;
   final int time = 60;
   String resultString = "";
+  TextEditingController maxController;
+  TextEditingController minController;
+
+  String max;
+  String min;
 
   @override
   Widget build(BuildContext context) {
@@ -323,7 +329,7 @@ class _BreathPageState extends State<BreathPage> with TickerProviderStateMixin {
                         ),
                       ),
                       Align(
-                        alignment: FractionalOffset.bottomLeft,
+                        // alignment: FractionalOffset.bottomLeft,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -335,7 +341,7 @@ class _BreathPageState extends State<BreathPage> with TickerProviderStateMixin {
                                     timerString,
                                     style: Theme.of(context).textTheme.subtitle,
                                   );
-                                })
+                                }),
                           ],
                         ),
                       )
@@ -344,17 +350,66 @@ class _BreathPageState extends State<BreathPage> with TickerProviderStateMixin {
                 ),
               ),
             ),
+            Row(children: <Widget>[
+              Container(
+                width: 50,
+                  child:TextField(
+                inputFormatters: [
+                  WhitelistingTextInputFormatter.digitsOnly
+                ], //只允许输入数字
+                decoration: InputDecoration(
+                  hintText: 'max',
+                  hintStyle: TextStyle(
+                    fontSize: 12,
+                    color: Colors.grey[300],
+                  ),
+                ),
+                controller: this.minController,
+                onChanged: (value) {
+                  this.setState(() {
+                    this.minController.text = value;
+                  });
+                },
+              )),
+              Container(
+                width: 50,
+              ),
+              RaisedButton(
+                  child: Text(command),
+                  color: Colors.brown,
+                  textColor: Colors.white,
+                  elevation: 20,
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15)),
+                  onPressed: () {
+                    startButton();
+                  }),
+              Container(
+                width: 50,
+              ),
+//              Container(
+//                  width: 50,
+//                  child:TextField(
+//                    inputFormatters: [
+//                      WhitelistingTextInputFormatter.digitsOnly
+//                    ], //只允许输入数字
+//                    decoration: InputDecoration(
+//                      hintText: 'min',
+//                      hintStyle: TextStyle(
+//                        fontSize: 12,
+//                        color: Colors.grey[300],
+//                      ),
+//                    ),
+//                    controller: this.minController,
+//                    onChanged: (value) {
+//                      this.setState(() {
+//                        this.minController.text = value;
+//                      });
+//                    },
+//                  )),
+            ]),
             //屏息切换按钮
-            RaisedButton(
-                child: Text(command),
-                color: Colors.brown,
-                textColor: Colors.white,
-                elevation: 20,
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15)),
-                onPressed: () {
-                  startButton();
-                }),
+
             Container(
               //4.中间站位
               width: width,
@@ -413,21 +468,25 @@ class _BreathPageState extends State<BreathPage> with TickerProviderStateMixin {
               //alignment: Alignment.bottomLeft,
               child: getItem(null, exerciseTravelList.length - 3),
             ),
-            !widget.isback?Container(
-              height: 50,
-            ):Container(
-                child: RaisedButton( //按钮
-                  child: Text('返回首页'),
-                  color: Colors.brown,
-                  textColor: Colors.white,
-                  elevation: 20,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15)),
-                  onPressed: () { //相应按钮点击事件
-                    // 通过MaterialPageRoute跳转逻辑 的具体执行
-                    Navigator.pop(context);
-                  },
-                )),
+            !widget.isback
+                ? Container(
+                    height: 50,
+                  )
+                : Container(
+                    child: RaisedButton(
+                    //按钮
+                    child: Text('返回首页'),
+                    color: Colors.brown,
+                    textColor: Colors.white,
+                    elevation: 20,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15)),
+                    onPressed: () {
+                      //相应按钮点击事件
+                      // 通过MaterialPageRoute跳转逻辑 的具体执行
+                      Navigator.pop(context);
+                    },
+                  )),
           ],
         ),
       ),
@@ -603,7 +662,7 @@ class _BreathPageState extends State<BreathPage> with TickerProviderStateMixin {
     try {
       setState(() {
         command = "开始";
-        currentTravelModel_s.breathTime = breathTime;
+        currentTravelModel_r.breathTime = breathTime;
 //      exerciseTravelList.add(currentTravelModel_s.copy());
 //      exerciseTravelList.add(currentTravelModel_z.copy());
 //      exerciseTravelList.add(currentTravelModel_y.copy());
@@ -690,14 +749,14 @@ class TimerPainterLiner extends CustomPainter {
     double distance = (currentTime - startDateTime) / 1000 * 6;
 
     print("distance=${distance}");
-    if (distance>359&&0!=state) {
+    if (distance > 359 && 0 != state) {
       playAudio("assets/audio/over.mp3");
       for (LineModel model in travelModel.list) {
         canvas.drawLine(model.start, model.end, paint);
       }
-      state=0;
+      state = 0;
       return;
-    } else if(0==state){
+    } else if (0 == state) {
       for (LineModel model in travelModel.list) {
         canvas.drawLine(model.start, model.end, paint);
       }
@@ -744,7 +803,7 @@ class TimerPainterLiner extends CustomPainter {
 //        }
         lastPoint_s = currentPoint;
         //print("lastPoint_s.dy=${lastPoint_s.dy}");
-        if (lastPoint_s.dy > 35) {
+        if (lastPoint_s.dy > 50) {
           ++strongBreathTime;
         }
         break;
@@ -777,11 +836,14 @@ void acceleromete() {
   int i = 0;
   userAccelerometerEvents.listen((UserAccelerometerEvent event) {
     // LogMyUtil.v(event);
-    if(0==state){
+    if (0 == state) {
       return;
     }
-    double max = 18;
-    double min = 3;
+    double max = 50;
+    double min = 2;
+    double breakPoint = 10;
+    double breakPointDiff = 15;
+    int scale = 6;
     int p = 600;
     dx = event.x * p;
     if (dx > max) {
@@ -817,21 +879,21 @@ void acceleromete() {
       dt = 0;
     }
 
-    double breakPoint = 6;
-    int scale = 6;
+
     //if (0 == i++ % 2) {
     if (0 == isbreath || 1 == isbreath) {
       //取吸点
       if (ds < -breakPoint) {
         //取正最高点，直到遇到负时停止，
-        drpos = ds;
+        drsplus = ds;
         isbreath = 1;
       } else if (ds >= breakPoint && 1 == isbreath) {
         isbreath = 2; //取呼点
       }
     } else {
       if (ds > breakPoint) {
-        drsplus = ds;
+        drpos = ds;
+        if(drpos-drsplus>breakPointDiff)
         isbreath = 3;
       } else if (3 == isbreath) {
         //说明找到分界点了
@@ -881,7 +943,7 @@ void acceleromete() {
         lastPoint_r = currentPoint;
         lastBreathModel = currentBreathModel;
 
-        if(0!=state) {
+        if (0 != state) {
           ++breathTime;
           ++currentTravelModel_r.breathTime;
         }
