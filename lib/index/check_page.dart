@@ -247,9 +247,9 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
         animationController.stop();
         spentTime = lastTime - now;
         commandText = "开始";
-        state = 0;
-        animationController.reset();
+        state = 2;
       } else {
+        animationController.reset();
         animationController.reverse(
             from: animationController.value == 0.0
                 ? 1.0

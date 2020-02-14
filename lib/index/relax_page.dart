@@ -107,24 +107,6 @@ class _RelaxPageState extends State<RelaxPage> {
                 onPressed: () {
                   startButton();
                 }),
-//            CircleAvatar(
-//              radius: 40.0,
-//              // backgroundImage: AssetImage("assets/images/bg3.jpg"),
-//              backgroundColor: Colors.blueGrey,
-//              child: RaisedButton(
-//                  child: Text(command,
-//                      style: new TextStyle(
-//                        color: Colors.white,
-//                        fontSize: 20.0,
-//                      )),
-//                  color: Colors.transparent,
-//                  textColor: Colors.white,
-//                  elevation: 100,
-//                  shape: CircleBorder(),
-//                  onPressed: () {
-//                    startButton();
-//                  }),
-//            ),
             !widget.isback?              Container(
               height: 50,
             ):Container(
@@ -169,16 +151,16 @@ class _RelaxPageState extends State<RelaxPage> {
     //print("startButton()|$url");
     int result = 0;
     setState(() {
-//      if (!isPlay) {
-//        isPlay = true;
-//        command = "暂停";
-////         mediaController.setAssetDataSource("assets/music/naturespath.mp3", autoPlay: true);
-////        mediaController.play();
-//      } else {
-//        isPlay = false;
-//        command = "播放";
-//        mediaController.pause();
-//      }
+      if (!isPlay) {
+        isPlay = true;
+        command = "暂停";
+//         mediaController.setAssetDataSource("assets/music/naturespath.mp3", autoPlay: true);
+//        mediaController.play();
+      } else {
+        isPlay = false;
+        command = "播放";
+       // mediaController.pause();
+      }
     });
   }
 }

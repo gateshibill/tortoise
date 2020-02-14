@@ -536,7 +536,7 @@ class TimerPainterLiner extends CustomPainter {
       new Timer(new Duration(seconds: 0), () {
         endCallback();
       });
-    } else if (306 < distance) {
+    } else if (307 < distance) {
       print("306 distance state=$state");
       command = '放松';
       if (4 != state) {

@@ -1,3 +1,4 @@
+import 'package:example/index/guide_page.dart';
 import 'package:example/index/home_page.dart';
 import 'package:example/index/relax_page.dart';
 import 'package:example/index/exercise_page.dart';
@@ -42,18 +43,15 @@ class _MyHomePageState extends State<MyHomePage> {
       body: SafeArea(
         child: PageView(
           children: <Widget>[
+            GuidePage(),
             HomePage(),
             CheckPage(),
             TrainPage(),
             BreathPage(),
              RelaxPage(),
            ExercisePage()
-
-
-           // RelaxPage(bg: "assets/images/bg2.jpg"),
-            //AdPage(bg: 'assets/images/bg3.jpg'),
-            //DrawLinePage(),
           ],
+        controller:  PageController(initialPage: 1) ,
         ),
       ),
     );
