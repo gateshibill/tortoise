@@ -5,6 +5,7 @@ import 'package:example/common/widget_common.dart';
 import 'package:example/index/check_page.dart';
 import 'package:example/index/exercise_page.dart';
 import 'package:example/index/relax_page.dart';
+import 'package:example/index/user_page.dart';
 import 'package:example/pages/spread_widget.dart';
 import 'package:example/model/breath_model.dart';
 import 'package:flutter/material.dart';
@@ -72,13 +73,13 @@ class _HomePageState extends State<HomePage> {
                         width: 10,
                         height: 50,
                       ),
-                      Text("晚上好 12:12",
+                      Text("晚上好",
                           style: new TextStyle(
                             color: Colors.white,
                             fontSize: 20.0,
                           )),
                       Container(
-                        width: 120,
+                        width: 160,
                         height: 50,
                       ),
                       RaisedButton(
@@ -89,9 +90,9 @@ class _HomePageState extends State<HomePage> {
                           shape: CircleBorder(),
                           onPressed: () {
                             setState(() {
-                              if(isPlay){
+                              if (isPlay) {
                                 stop();
-                              }else {
+                              } else {
                                 play();
                               }
                             });
@@ -100,17 +101,27 @@ class _HomePageState extends State<HomePage> {
                         width: 1,
                         height: 20,
                       ),
-                      CircleAvatar(
-                        radius: 15.0,
-                        backgroundImage: AssetImage("assets/images/bg3.jpg"),
-                      )
+                      Container(
+                          child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (context) {
+                            return new UserPage(true);
+                          }));
+                        },
+                        child: CircleAvatar(
+                          radius: 18.0,
+                          backgroundImage:
+                              AssetImage("assets/images/tortoise.png"),
+                        ),
+                      )),
                     ])),
                 Container(
                   //3.tips
                   width: width,
                   height: 110,
                   // color: Colors.black12,
-                  child: indicator(),
+                  //  child: indicator(),
                 ),
                 BreathAnimation.isRun
                     ? Container(
@@ -119,17 +130,50 @@ class _HomePageState extends State<HomePage> {
                         height: 400,
                         // color: Colors.black12,
                         child: BreathAnimation(
-                          radius: 0,
+                          radius: 10,
                           maxRadius: 350,
+//                          child: Image.asset(
+//                            'assets/game3.jpg',
+//                            fit: BoxFit.cover,
+//                          ),
                         ),
                       )
                     : Container(
-                    width: width,
+                        width: width,
                         height: 400,
                         alignment: Alignment.center,
-                        child:steps(),
-                ),
-                RaisedButton(
+                         child:
+                        // steps(),
+                  RaisedButton(
+                      child: Text(command = BreathAnimation.isRun ? "结束" : "放松"),
+                      color: Colors.brown,
+                      textColor: Colors.white,
+                      elevation: 20,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15)),
+                      onPressed: () {
+                        setState(() {
+                          if (BreathAnimation.isRun) {
+                            // command="轻呼吸";
+                            BreathAnimation.isRun = false;
+                            if (isPlay) {
+                              stop();
+                            }
+                          } else {
+                            //command="结束";
+                            BreathAnimation.isRun = true;
+                            if (!isPlay) {
+                              play();
+                            }
+                          }
+                        });
+                      }),
+                      ),
+                !BreathAnimation.isRun?Container(
+                  height: 35,
+                ):Container(
+                  height: 35,
+                  child:RaisedButton(
                     child: Text(command = BreathAnimation.isRun ? "结束" : "放松"),
                     color: Colors.brown,
                     textColor: Colors.white,
@@ -152,7 +196,8 @@ class _HomePageState extends State<HomePage> {
                           }
                         }
                       });
-                    }),
+                    })
+                  ),
                 Container(
                   //5.站位
                   width: width,
@@ -229,7 +274,7 @@ class _HomePageState extends State<HomePage> {
   Widget steps() {
     return new Text(
       stepTip, //
-      maxLines: 8, //最大行数
+      maxLines: 10, //最大行数
       overflow: TextOverflow.ellipsis, //超出显示省略号
       style: new TextStyle(
         color: Colors.cyanAccent,

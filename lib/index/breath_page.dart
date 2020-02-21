@@ -63,6 +63,9 @@ TravelModel currentTravelModel_z = new TravelModel();
 TravelModel currentTravelModel_s = new TravelModel();
 TravelModel currentTravelModel_t = new TravelModel();
 TravelModel currentTravelModel_r = new TravelModel();
+//TravelModel currentTravelModel_op = new TravelModel();//去除噪点，优化后的
+
+List<Offset> optimalPoints= [];
 
 class BreathPage extends StatefulWidget {
   bool isback = false;
@@ -138,10 +141,10 @@ class _BreathPageState extends State<BreathPage> with TickerProviderStateMixin {
                     width: 200,
                     height: 50,
                   ),
-                  new CircleAvatar(
-                    radius: 15.0,
-                    backgroundImage: AssetImage("assets/images/bg3.jpg"),
-                  )
+//                  new CircleAvatar(
+//                    radius: 15.0,
+//                    backgroundImage: AssetImage("assets/images/bg3.jpg"),
+//                  )
                 ])),
             Container(
               //tips
@@ -594,6 +597,7 @@ class _BreathPageState extends State<BreathPage> with TickerProviderStateMixin {
         breathTime = 0;
         strongBreathTime = 0;
         state = 1;
+        optimalPoints.clear();
         acceleromete();
         lastPoint_x = new Offset(0, 0);
         lastPoint_y = new Offset(0, 0);
@@ -668,6 +672,9 @@ class _BreathPageState extends State<BreathPage> with TickerProviderStateMixin {
 //      exerciseTravelList.add(currentTravelModel_y.copy());
 //      exerciseTravelList.add(currentTravelModel_x.copy());
         exerciseTravelList.add(currentTravelModel_r.copy());
+
+        TravelModel optimalTravelModel= getOptimalTravelModel(optimalPoints);
+        exerciseTravelList.add(optimalTravelModel);
         result(currentTravelModel_r.copy());
       });
     } catch (e) {
@@ -748,7 +755,7 @@ class TimerPainterLiner extends CustomPainter {
     currentTime = new DateTime.now().millisecondsSinceEpoch;
     double distance = (currentTime - startDateTime) / 1000 * 6;
 
-    print("distance=${distance}");
+    //print("distance=${distance}");
     if (distance > 359 && 0 != state) {
       playAudio("assets/audio/over.mp3");
       for (LineModel model in travelModel.list) {
@@ -839,10 +846,10 @@ void acceleromete() {
     if (0 == state) {
       return;
     }
-    double max = 50;
+    double max = 40;
     double min = 2;
-    double breakPoint = 10;
-    double breakPointDiff = 15;
+    double breakPoint = 5;
+    double breakPointDiff = 10;
     int scale = 6;
     int p = 600;
     dx = event.x * p;
@@ -899,8 +906,10 @@ void acceleromete() {
         //说明找到分界点了
         isbreath = 0;
         currentTime = new DateTime.now().millisecondsSinceEpoch;
-        double distance = (currentTime - startDateTime) / 1000 * 6;
+        double distance = (currentTime - startDateTime) / 1000 * scale;
         Offset currentPoint = new Offset(distance, -16);
+        Offset currentPoint_o = new Offset(distance, drsplus);
+        optimalPoints.add(currentPoint_o);//后续优化的点
         BreathModel currentBreathModel =
             new BreathModel(dateTime: new DateTime.now(), type: 1);
         currentBreathModel.x = distance;
@@ -939,7 +948,9 @@ void acceleromete() {
         Offset beforePoint = new Offset(currentPoint_x, -0);
         currentLineModel_r =
             new LineModel(start: beforePoint, end: currentPoint);
+
         currentTravelModel_r.addLineModel(currentLineModel_r.copy());
+
         lastPoint_r = currentPoint;
         lastBreathModel = currentBreathModel;
 

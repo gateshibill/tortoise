@@ -92,7 +92,7 @@ class _GuidePageState extends State<GuidePage> with TickerProviderStateMixin {
                   ),
                   Text("",
                       style: new TextStyle(
-                        color: Colors.white,
+                        color: Colors.deepPurple,
                         fontSize: 20.0,
                       )),
                   Container(
@@ -101,72 +101,20 @@ class _GuidePageState extends State<GuidePage> with TickerProviderStateMixin {
                   ),
                 ])
             ),
-            Expanded(
-              child: Align(
-                alignment: FractionalOffset.center,
-                child: 0 == state
-                    ? indicator()
-                    : AspectRatio(
-                  aspectRatio: 1.0,
-                  child: Stack(
-                    children: <Widget>[
-                      Positioned.fill(
-                        child: AnimatedBuilder(
-                          animation: animationController,
-                          builder:
-                              (BuildContext context, Widget child) {
-                            return CustomPaint(
-                              painter: TimerPainter(
-                                  animation: animationController,
-                                  backgroundColor: Colors.white,
-                                  color:
-                                  Theme
-                                      .of(context)
-                                      .accentColor),
-                            );
-                          },
-                        ),
-                      ),
-                      Align(
-                        alignment: FractionalOffset.center,
-                        child: Column(
-                          mainAxisAlignment:
-                          MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment:
-                          CrossAxisAlignment.center,
-                          children: <Widget>[
-                            AnimatedBuilder(
-                                animation: animationController,
-                                builder: (_, Widget child) {
-                                  return Text(
-                                    timerString,
-                                    style: Theme
-                                        .of(context)
-                                        .textTheme
-                                        .display3,
-                                  );
-                                }),
-//                            Text(
-//                              " BOLT测试",
-//                            ),
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
+                Container(
+                  //3.tips
+                  width: 500,
+                  height: 100,
+                  // color: Colors.black12,
+                 // child: indicator(),
                 ),
-              ),
-            ),
-//            RaisedButton(
-//                child: Text(commandText),
-//                color: Colors.brown,
-//                textColor: Colors.white,
-//                elevation: 20,
-//                shape: RoundedRectangleBorder(
-//                    borderRadius: BorderRadius.circular(15)),
-//                onPressed: () {
-//                  checkButton();
-//                }),
+                Container(
+                  //3.tips
+                  width: 500,
+                  height: 200,
+                  // color: Colors.black12,
+                  child: indicator(),
+                ),
             Container(
                 margin: EdgeInsets.all(8.0),
                 child: new Container(
@@ -217,7 +165,7 @@ class _GuidePageState extends State<GuidePage> with TickerProviderStateMixin {
   }
 
   Widget indicator() {
-    return new Text("", //
+    return new Text(stepTip, //
       maxLines: 6, //最大行数
       overflow: TextOverflow.ellipsis, //超出显示省略号
       style: new TextStyle(

@@ -99,10 +99,10 @@ class _CheckPageState extends State<CheckPage> with TickerProviderStateMixin {
                     width: 200,
                     height: 50,
                   ),
-                  new CircleAvatar(
-                    radius: 15.0,
-                    backgroundImage: AssetImage("assets/images/bg12.jpg"),
-                  )
+//                  new CircleAvatar(
+//                    radius: 15.0,
+//                    backgroundImage: AssetImage("assets/images/bg12.jpg"),
+//                  )
                 ])
             ),
             Expanded(

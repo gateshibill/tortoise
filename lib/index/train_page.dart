@@ -77,10 +77,10 @@ class _TrainPageState extends State<TrainPage> with TickerProviderStateMixin {
                     width: 200,
                     height: 50,
                   ),
-                  new CircleAvatar(
-                    radius: 15.0,
-                    backgroundImage: AssetImage("assets/images/bg3.jpg"),
-                  )
+//                  new CircleAvatar(
+//                    radius: 15.0,
+//                    backgroundImage: AssetImage("assets/images/bg3.jpg"),
+//                  )
                 ])),
             Container(
               //tips

@@ -73,10 +73,10 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
                     width: 200,
                     height: 50,
                   ),
-                  new CircleAvatar(
-                    radius: 15.0,
-                    backgroundImage: AssetImage("assets/images/bg12.jpg"),
-                  )
+//                  new CircleAvatar(
+//                    radius: 15.0,
+//                    backgroundImage: AssetImage("assets/images/bg12.jpg"),
+//                  )
                 ])
             ),
             Container(
@@ -85,13 +85,6 @@ class _ExercisePageState extends State<ExercisePage> with TickerProviderStateMix
               height: 100,
               // color: Colors.black12,
               child: indicator(),
-//              Text(
-//                sentenceList[Random().nextInt(sentenceList.length)].content,
-//                style: new TextStyle(
-//                  color: Colors.white,
-//                  fontSize: 15.0,
-//                ),
-            //  ),
             ),
 //            Container(
 //              width: 200,

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:example/model/line_model.dart';
+import 'package:example/model/travel_model.dart';
 import 'package:flustars/flustars.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -169,4 +170,74 @@ Widget guide(bool isShowTip) {
 //              child: Icon(FontAwesome.hand_o_left)),
         ],
       ));
+}
+
+TravelModel getOptimalTravelModel(List<Offset> points) {
+  TravelModel travelModel = new TravelModel();
+  Offset lastPoint = null;
+  Offset startPont = new Offset(0, 0);
+  double sum = 0;
+  points.forEach((f) {
+    sum += f.dy;
+  });
+  double average = sum / points.length;
+  points.forEach((f) {
+    sum += f.dy;
+  });
+
+  //去噪点，小于平均值一半的为噪点
+  List<Offset> newPoints = [];
+  points.forEach((f) {
+    if (f.dy < average*0.6) {
+      newPoints.add(f);
+    }
+  });
+  print("getOptimalTravelModel() points=${points.length}|${newPoints.length}");
+  newPoints.forEach((f) {
+    if (null != lastPoint) {
+      if ((f.dx - lastPoint.dx) > 6 * 6) {
+        Offset afterPoint = new Offset(lastPoint.dx + 3 * 6, 0);
+        Offset beforePoint = new Offset(f.dx - 3 * 6, 0);
+
+        LineModel prevoiusLineModel =
+            new LineModel(start: lastPoint, end: afterPoint);
+        travelModel.addLineModel(prevoiusLineModel);
+
+        LineModel supplieLineModel =
+            new LineModel(start: afterPoint, end: beforePoint);
+        travelModel.addLineModel(supplieLineModel);
+
+        Offset currentPoint = new Offset(f.dx, -16);
+        LineModel currentLineModel =
+            new LineModel(start: beforePoint, end: currentPoint);
+        travelModel.addLineModel(currentLineModel);
+
+        lastPoint = new Offset(f.dx, -16);
+      } else {
+        double x = lastPoint.dx + (f.dx - lastPoint.dx) / 2;
+        Offset afterPoint = new Offset(x, 0);
+        Offset beforePoint = new Offset(x, 0);
+
+        LineModel prevoiusLineModel =
+            new LineModel(start: lastPoint, end: afterPoint);
+        travelModel.addLineModel(prevoiusLineModel);
+
+        Offset currentPoint = new Offset(f.dx, -16);
+        LineModel currentLineModel =
+            new LineModel(start: beforePoint, end: currentPoint);
+        travelModel.addLineModel(currentLineModel);
+
+        lastPoint = new Offset(f.dx, -16);
+      }
+    } else {
+      //第一个点
+      lastPoint = new Offset(f.dx, -16);
+    }
+
+//    LineModel lineModel =
+//    new LineModel(start: lastPoint, end: new Offset(f.d)f);
+//    travelModel.addLineModel(lineModel);
+  });
+
+  return travelModel;
 }
