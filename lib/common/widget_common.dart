@@ -111,8 +111,17 @@ void play() async {
   print("play()|$isPlay");
   isPlay = true;
   command = "暂停";
-  mediaController = new IjkMediaController();
+  //mediaController = new IjkMediaController();
   await mediaController.setAssetDataSource("assets/music/naturespath.mp3",
+      autoPlay: true);
+}
+void playNext() async {
+  print("play()|$isPlay");
+  isPlay = true;
+  command = "暂停";
+//  mediaController = new IjkMediaController();
+  currentMusicIndex=((musicList.length-1)==currentMusicIndex)?0: currentMusicIndex+1;
+  await mediaController.setAssetDataSource(musicList[currentMusicIndex],
       autoPlay: true);
 }
 
@@ -188,7 +197,7 @@ TravelModel getOptimalTravelModel(List<Offset> points) {
   //去噪点，小于平均值一半的为噪点
   List<Offset> newPoints = [];
   points.forEach((f) {
-    if (f.dy < average*0.6) {
+    if (f.dy > average*0.5) {
       newPoints.add(f);
     }
   });

@@ -892,23 +892,31 @@ void acceleromete() {
       //取吸点
       if (ds < -breakPoint) {
         //取正最高点，直到遇到负时停止，
-        drsplus = ds;
+        //drsplus = ds;
         isbreath = 1;
+        if(drsplus>ds){
+          drsplus=ds;//找到最高点
+        }
       } else if (ds >= breakPoint && 1 == isbreath) {
         isbreath = 2; //取呼点
       }
     } else {
       if (ds > breakPoint) {
-        drpos = ds;
-        if(drpos-drsplus>breakPointDiff)
+        //drpos = ds;
         isbreath = 3;
-      } else if (3 == isbreath) {
+        if(drpos-drsplus>breakPointDiff) {
+          if(drpos<ds){
+            drpos=ds;
+          }
+        }
+      } else if (ds<0&&3 == isbreath) {
         //说明找到分界点了
         isbreath = 0;
+
         currentTime = new DateTime.now().millisecondsSinceEpoch;
         double distance = (currentTime - startDateTime) / 1000 * scale;
         Offset currentPoint = new Offset(distance, -16);
-        Offset currentPoint_o = new Offset(distance, drsplus);
+        Offset currentPoint_o = new Offset(distance, drpos-drsplus);
         optimalPoints.add(currentPoint_o);//后续优化的点
         BreathModel currentBreathModel =
             new BreathModel(dateTime: new DateTime.now(), type: 1);
@@ -953,6 +961,8 @@ void acceleromete() {
 
         lastPoint_r = currentPoint;
         lastBreathModel = currentBreathModel;
+        drsplus=0;
+        drpos=0;
 
         if (0 != state) {
           ++breathTime;

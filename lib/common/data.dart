@@ -19,6 +19,9 @@ String command = '播放';
 bool isPlay = false;
 IjkMediaController mediaController = IjkMediaController();
 IjkMediaController audioController = IjkMediaController();
+List <String> musicList=["assets/music/naturespath.mp3","assets/music/seawave.mp3","assets/music/fish.mp3","assets/music/bg1.mp3"];
+int currentMusicIndex=0;
+
 class Msg {
   static final SUCCESS = "0";
   String code;

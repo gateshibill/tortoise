@@ -79,7 +79,7 @@ class _HomePageState extends State<HomePage> {
                             fontSize: 20.0,
                           )),
                       Container(
-                        width: 160,
+                        width: 50,
                         height: 50,
                       ),
                       RaisedButton(
@@ -95,6 +95,17 @@ class _HomePageState extends State<HomePage> {
                               } else {
                                 play();
                               }
+                            });
+                          }),
+                      RaisedButton(
+                          child: Icon(Icons.skip_next),
+                          color: isPlay ? Colors.blue : Colors.blueGrey,
+                          //textColor: Colors.white,
+                          // elevation: 10,
+                          shape: CircleBorder(),
+                          onPressed: () {
+                            setState(() {
+                                playNext();
                             });
                           }),
                       Container(
