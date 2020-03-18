@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:example/model/line_model.dart';
@@ -112,7 +113,9 @@ void play() async {
   isPlay = true;
   command = "暂停";
   //mediaController = new IjkMediaController();
-  await mediaController.setAssetDataSource("assets/music/naturespath.mp3",
+  currentMusicIndex=Random().nextInt(musicList.length);
+  print("play()|$isPlay|$currentMusicIndex");
+  await mediaController.setAssetDataSource(musicList[currentMusicIndex],
       autoPlay: true);
 }
 void playNext() async {
